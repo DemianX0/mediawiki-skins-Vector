@@ -1,8 +1,12 @@
 {{!
-  string html-navigation-heading heading for entire navigation that is
-    usually hidden to screen readers
-  string html-navigation-left-tabs that appears inside #left-navigation (namespaces and variants)
-  string html-navigation-right-tabs that appears inside #right-navigation (page actions and search)
+	string html-navigation-heading heading for entire navigation that is
+		usually hidden to screen readers
+	object data-namespace-tabs for VectorTabs.mustache template partial and
+	object data-variants for VectorMenu.mustache template partial
+		that appears inside #left-navigation (namespaces and variants).
+	object data-page-actions for VectorTabs.mustache template partial and
+	object data-page-actions-more for VectorMenu.mustache template partial
+		that appears inside #right-navigation (page actions and search).
 }}
 <div id="mw-navigation">
     <h2>{{{html-navigation-heading}}}</h2>
