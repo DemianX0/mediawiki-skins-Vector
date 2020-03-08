@@ -109,8 +109,7 @@ class VectorTemplate extends BaseTemplate {
 		//   It should be followed by the name of the hook in hyphenated lowercase.
 		//
 		// Conditionally used values must use null to indicate absence (not false or '').
-		$params = [
-			'html-headelement' => $this->get( 'headelement', '' ),
+		$contentData = [
 			'html-sitenotice' => $this->get( 'sitenotice', null ),
 			'html-indicators' => $this->getIndicators(),
 			'page-langcode' => $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode(),
@@ -142,9 +141,13 @@ class VectorTemplate extends BaseTemplate {
 
 			'html-printfooter' => $this->get( 'printfooter', null ),
 			'html-catlinks' => $this->get( 'catlinks', '' ),
-			'html-dataAfterContent' => $this->get( 'dataAfterContent', '' ),
 			// From MWDebug::getHTMLDebugLog (when $wgShowDebug is enabled)
 			'html-debuglog' => $this->get( 'debughtml', '' ),
+		];
+		$templateData = [
+			'html-headelement' => $this->get( 'headelement', '' ),
+			'data-content' => $contentData,
+			'html-dataAfterContent' => $this->get( 'dataAfterContent', '' ),
 			// From BaseTemplate::getTrail (handles bottom JavaScript)
 			'html-printtail' => $this->getTrail() . '</body></html>',
 			'data-footer' => [
@@ -172,7 +175,7 @@ class VectorTemplate extends BaseTemplate {
 		];
 
 		// Prepare and output the HTML response
-		echo $tp->processTemplate( 'Content', $params );
+		echo $tp->processTemplate( 'PageLayout', $templateData );
 	}
 
 	/**

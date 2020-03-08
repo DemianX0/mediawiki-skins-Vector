@@ -1,0 +1,31 @@
+{{!
+  string html-headelement a string of attribute HTML that begins with `<html> and ends with '</head>'
+    and contains `meta` tags and ResourceLoader internals.
+  object data-content for content template partial. see Content.mustache for documentation.
+  string html-dataAfterContent
+  object data-navigation for navigation template partial. see Navigation.mustache for documentation.
+  object data-footer for footer template partial. see Footer.mustache for documentation.
+  string html-printtail HTML to render at the end of the page contained necessary script tags for ResourceLoader
+    terminated with `</body></html>`.
+}}
+
+{{{html-headelement}}}
+
+<div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+
+{{#data-content}}
+{{>Content}}
+{{/data-content}}
+
+{{{html-dataAfterContent}}}
+
+{{#data-navigation}}
+{{>Navigation}}
+{{/data-navigation}}
+
+{{#data-footer}}
+{{>Footer}}
+{{/data-footer}}
+
+{{{html-printtail}}}
