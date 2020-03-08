@@ -1,6 +1,6 @@
 import mustache from 'mustache';
 import { htmluserlangattributes } from './utils';
-import skinTemplate from '!!raw-loader!../includes/templates/index.mustache';
+import skinTemplate from '!!raw-loader!../includes/templates/Content.mustache';
 import { placeholder } from './utils';
 
 import '../resources/skins.vector.styles/index.less';

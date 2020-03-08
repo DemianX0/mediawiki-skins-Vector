@@ -172,7 +172,7 @@ class VectorTemplate extends BaseTemplate {
 		];
 
 		// Prepare and output the HTML response
-		echo $tp->processTemplate( 'index', $params );
+		echo $tp->processTemplate( 'Content', $params );
 	}
 
 	/**
