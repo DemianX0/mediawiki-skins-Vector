@@ -7,6 +7,7 @@
 	<div id="p-logo" role="banner">
 		<a {{{html-logo-attributes}}}></a>
 	</div>
+	<div id="mw-panel-top"></div>  {{! For IE<=8 support:  #mw-panel-top + .portal  selector instead of  .portal:first-child  }}
 	{{#array-portals-first}}
 	{{>Portal}}
 	{{/array-portals-first}}
