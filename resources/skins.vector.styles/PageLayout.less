@@ -1,0 +1,28 @@
+@import '../../variables.less';
+@import 'mediawiki.mixins.less';
+
+// == Head ==
+
+#mw-page-base {
+	background-position: bottom left;
+	height: 5em;
+	.vertical-gradient( @background-color-base, @background-color-secondary, 50%, 100% );
+}
+
+#mw-head-base {
+	margin-top: -5em;
+	margin-left: 10em;
+	height: 5em;
+}
+
+// == Content ==
+
+.mw-body,
+#mw-data-after-content {
+	margin-left: 10em;
+}
+
+// == Hide empty portlets ==
+.emptyPortlet {
+	display: none;
+}
