@@ -12,23 +12,22 @@
 	}
 
 	/* Move the panel to the bottom and display it as in-line lists */
-	#mw-navigation {
-		#mw-panel {
-			display: table;
-			position: static;
-			table-layout: fixed;
+	// Added 'div' to selector to ensure higher specificity. FIXME: Not necessary if this css is guaranteed to be added to the DOM after 'skins.vector.styles'.
+	div#mw-panel {
+		display: table;
+		position: static;
+		table-layout: fixed;
+		width: 100%;
+		overflow: hidden;
+		font-size: 150%;
+
+		.portal {
+			display: block;
 			width: 100%;
-			overflow: hidden;
-			font-size: 150%;
+		}
 
-			.portal {
-				display: block;
-				width: 100%;
-			}
-
-			ul li {
-				list-style: none;
-			}
+		ul li {
+			list-style: none;
 		}
 	}
 
