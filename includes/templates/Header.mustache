@@ -1,8 +1,13 @@
 {{!
+	string html-logo-attributes for site logo. Must be used inside tag e.g. `class="logo" lang="en-gb"`
 	object data-personal-menu for PersonalMenu.mustache template partial. See documentation there.
 }}
 
 <div id="header">
+	<div id="p-logo" role="banner">
+		<a {{{html-logo-attributes}}}></a>
+	</div>
+
 	{{#data-personal-menu}}
 	{{>PersonalMenu}}
 	{{/data-personal-menu}}

@@ -39,3 +39,25 @@
 		margin-bottom: unset;
 	}
 }
+
+// == Logo layout ==
+
+#p-logo {
+	float: left;  // Fallback for old non-flex browsers.
+	margin-right: auto;  // Center-position element between #p-logo and #p-personal.
+}
+
+// == Logo image ==
+
+#p-logo a {
+	text-decoration: none;
+	vertical-align: middle;
+
+	// Image size
+	display: inline-block;
+	width: 60px;
+	height: 51px;
+	background-size: 60px auto;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}

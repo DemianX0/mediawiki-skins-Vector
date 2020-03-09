@@ -165,15 +165,14 @@ class VectorTemplate extends BaseTemplate {
 			],
 			'data-header' => [
 				'data-personal-menu' => $this->buildPersonalProps(),
-			],
-			'data-sidebar' => [
 				'html-logo-attributes' => Xml::expandAttributes(
 					Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) + [
 						'class' => 'mw-wiki-logo',
 						'href' => Skin::makeMainPageUrl(),
 					]
 				)
-			] + $this->buildSidebarProps( $this->get( 'sidebar', [] ) ),
+			],
+			'data-sidebar' => $this->buildSidebarProps( $this->get( 'sidebar', [] ) ),
 		];
 
 		// Prepare and output the HTML response
