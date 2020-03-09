@@ -2,9 +2,12 @@
 @import 'mediawiki.mixins.less';
 
 /* Hide, but keep accessible for screen-readers */
-#mw-navigation h2 {
-	position: absolute;
-	top: -9999px;
+.mw-jump-link:not( :focus ),
+.speech-only {
+	.mixin-screen-reader-text;
+	// TODO: Test if the mixin has the same result as the rules below.
+	// position: absolute;
+	// top: -9999px;
 }
 
 #mw-head {
