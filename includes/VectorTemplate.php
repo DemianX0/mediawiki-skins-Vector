@@ -165,9 +165,9 @@ class VectorTemplate extends BaseTemplate {
 			],
 			'data-header' => [
 				'data-personal-menu' => $this->buildPersonalProps(),
+				'html-logo-class' => 'mw-wiki-logo',
 				'html-logo-attributes' => Xml::expandAttributes(
 					Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) + [
-						'class' => 'mw-wiki-logo',
 						'href' => Skin::makeMainPageUrl(),
 					]
 				)

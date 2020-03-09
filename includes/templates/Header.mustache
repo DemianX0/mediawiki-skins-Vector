@@ -1,11 +1,15 @@
 {{!
 	string html-logo-attributes for site logo. Must be used inside tag e.g. `class="logo" lang="en-gb"`
+	string html-logo-class for site logo. Name of class that adds the logo as background.
 	object data-personal-menu for PersonalMenu.mustache template partial. See documentation there.
 }}
 
 <div id="header">
 	<div id="p-logo" role="banner">
-		<a {{{html-logo-attributes}}}></a>
+		<a {{{html-logo-attributes}}}>
+			<span class="logo-globe {{{html-logo-class}}}"></span>
+			<span class="logo-wordmark {{{html-logo-class}}}"></span>
+		</a>
 	</div>
 
 	{{#data-personal-menu}}

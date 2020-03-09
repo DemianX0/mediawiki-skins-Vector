@@ -51,13 +51,27 @@
 
 #p-logo a {
 	text-decoration: none;
-	vertical-align: middle;
+	white-space: nowrap;
+	flex-wrap: nowrap;
 
-	// Image size
-	display: inline-block;
-	width: 60px;
-	height: 51px;
-	background-size: 60px auto;
-	background-position: 0 0;
-	background-repeat: no-repeat;
+	> span {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.logo-globe {
+		width: 60px;
+		height: 51px;
+		background-size: 60px auto;
+		background-position: 0 0;
+		background-repeat: no-repeat;
+	}
+
+	.logo-wordmark {
+		height: 36px;
+		width: 120px;
+		background-size: 120px auto;
+		background-position: 0 -98px;
+		background-repeat: no-repeat;
+	}
 }
