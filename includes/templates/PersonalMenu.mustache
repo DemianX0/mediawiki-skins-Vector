@@ -8,7 +8,8 @@
 }}
 
 <div id="p-personal" role="navigation" {{#empty-portlet}}class="{{empty-portlet}}"{{/empty-portlet}} aria-labelledby="p-personal-label">
-	<h3 id="p-personal-label">{{msg-label}}</h3>
+	{{! #p-personal h3 is .hidden, not .speech-only: aria-labelledby causes screen readers to read it }}
+	<h3 id="p-personal-label" class="hidden"> {{msg-label}} </h3>
 	<ul {{{html-userlangattributes}}}>
 		{{{html-lang-selector}}}
 		{{{html-loggedin}}}
