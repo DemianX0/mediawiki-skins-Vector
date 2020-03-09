@@ -157,7 +157,6 @@ class VectorTemplate extends BaseTemplate {
 			],
 			'data-navigation' => [
 				'html-navigation-heading' => $this->getMsg( 'navigation-heading' ),
-				'data-personal-menu' => $this->buildPersonalProps(),
 				'data-namespace-tabs' => $this->buildNamespacesProps(),
 				'data-variants' => $this->buildVariantsProps(),
 				'data-page-actions' => $this->buildViewsProps(),
@@ -165,6 +164,7 @@ class VectorTemplate extends BaseTemplate {
 				'data-search-box' => $this->buildSearchProps(),
 			],
 			'data-header' => [
+				'data-personal-menu' => $this->buildPersonalProps(),
 			],
 			'data-sidebar' => [
 				'html-logo-attributes' => Xml::expandAttributes(

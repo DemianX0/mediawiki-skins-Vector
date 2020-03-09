@@ -1,5 +1,9 @@
 {{!
+	object data-personal-menu for PersonalMenu.mustache template partial. See documentation there.
 }}
 
 <div id="header">
+	{{#data-personal-menu}}
+	{{>PersonalMenu}}
+	{{/data-personal-menu}}
 </div>
