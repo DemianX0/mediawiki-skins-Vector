@@ -118,7 +118,7 @@
 // `.vectorTabs`: Outer start border (left in LTR) of tab row.
 // `.vectorTabs a`: Border between tabs and outer end (right in LTR) border.
 // `#mw-head .vectorMenu h3`: // Outer end (right in LTR) border of "Actions" menu.
-.vectorTabs,
+#right-navigation .vectorTabs,
 .vectorTabs a,
 #mw-head .vectorMenu h3 {
 	background-image: url( images/tab-separator.png );
@@ -126,6 +126,10 @@
 	background-repeat: no-repeat;
 	// Contain gradient to 1px × 100% size and draw from top to bottom-left or -right corner.
 	background-size: @border-width-base 100%;
+}
+
+#right-navigation .vectorTabs {
+	padding-left: @border-width-base;
 }
 
 // Invisible checkbox covering the dropdown menu handle
