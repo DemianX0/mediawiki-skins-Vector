@@ -36,6 +36,7 @@
 	position: relative;
 	// Placeholder margin for sidebar if #sidebar-hide-checkbox is unchecked.
 	margin-left: @width-sidebar + @margin-content;
+	.transition( margin-left @transition-duration-width-sidebar @transition-timing-function-width-sidebar );
 }
 
 @media ( max-width: 1400px ) {
@@ -73,6 +74,7 @@
 
 	// Moved in the viewport if #sidebar-hide-checkbox unchecked.
 	.transform( translateX( 0 ) );
+	.transition( transform @transition-duration-width-sidebar @transition-timing-function-width-sidebar );
 }
 
 #sidebar-hide-checkbox:checked {
