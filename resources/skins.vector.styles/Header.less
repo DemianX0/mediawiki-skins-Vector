@@ -10,3 +10,32 @@
 		align-items: center;  // Vertical centering of child elements (IE>=11).
 	}
 }
+
+// == Personal menu layout ==
+
+#p-personal {
+	// Fallback for non-flex browsers (IE<=7) and old browsers (IE<=11).
+	// https://caniuse.com/#feat=mdn-css_properties_display_flex
+	// https://caniuse.com/#feat=flexbox
+	float: right;  // Move to the right.
+	margin-left: auto;  // Move to the right with flexbox layout.
+
+	/* Vertical centering 8<=IE<=10 with flexbox model.
+	margin-top: auto;
+	margin-bottom: auto;
+	*/
+
+	margin-top: 0.33em;  // Approximate vertical centering.
+
+	/* Display on top of page tabs - bugs 37158, 48078 */
+	// TODO: Test if these bugs still apply. Presumably not.
+	// z-index: 100;
+}
+
+@supports ( display: flex ) {
+	// No @supports in IE<=11.
+	#p-personal {
+		margin-top: unset;
+		margin-bottom: unset;
+	}
+}
