@@ -26,9 +26,22 @@
 
 // == Content ==
 
-.mw-body,
-#mw-data-after-content {
-	margin-left: 10em;
+#mw-data-after-content,
+.content-margin {
+	max-width: @max-width-content;
+	margin: 0 auto;
+}
+
+@media ( max-width: 1400px ) {
+	#mw-data-after-content,
+	.content-margin {
+		margin-left: @width-sidebar + @margin-content;
+	}
+}
+
+#mw-head,
+#content {
+	.box-sizing( border-box );
 }
 
 // == Hide empty portlets ==
