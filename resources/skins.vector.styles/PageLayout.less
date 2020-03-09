@@ -3,18 +3,13 @@
 
 // == Head ==
 
-#mw-page-base {
+#mw-head-base {
 	background-position: bottom left;
+	.vertical-gradient( @background-color-base, @background-color-secondary, 50%, 100% );
+
 	// Can't add 70px + 2.5em: different units, em is dynamic.
 	height: @height-header;
 	padding-bottom: @height-tabs;
-	.vertical-gradient( @background-color-base, @background-color-secondary, 50%, 100% );
-}
-
-#mw-head-base {
-	margin-top: - @height-tabs;
-	margin-left: 10em;
-	height: @height-tabs;
 }
 
 // == Header ==
