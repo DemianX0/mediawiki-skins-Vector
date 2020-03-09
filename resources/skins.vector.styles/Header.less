@@ -1,0 +1,12 @@
+@import 'mediawiki.mixins.less';
+
+// == Header layout ==
+
+@supports ( display: flex ) {
+	// No @supports in IE<=11.
+	#header {
+		.flex-display();
+		// https://caniuse.com/#search=align-items
+		align-items: center;  // Vertical centering of child elements (IE>=11).
+	}
+}

@@ -3,6 +3,7 @@
     and contains `meta` tags and ResourceLoader internals.
   object data-content for content template partial. see Content.mustache for documentation.
   string html-dataAfterContent
+  object data-header for Header.mustache template partial. See documentation there.
   object data-navigation for navigation template partial. see Navigation.mustache for documentation.
   object data-sidebar for Sidebar.mustache template partial. See documentation there.
   object data-footer for footer template partial. see Footer.mustache for documentation.
@@ -20,6 +21,10 @@
 {{/data-content}}
 
 {{{html-dataAfterContent}}}
+
+{{#data-header}}
+{{>Header}}
+{{/data-header}}
 
 {{#data-navigation}}
 {{>Navigation}}

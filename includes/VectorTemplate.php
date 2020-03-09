@@ -164,6 +164,8 @@ class VectorTemplate extends BaseTemplate {
 				'data-page-actions-more' => $this->buildActionsProps(),
 				'data-search-box' => $this->buildSearchProps(),
 			],
+			'data-header' => [
+			],
 			'data-sidebar' => [
 				'html-logo-attributes' => Xml::expandAttributes(
 					Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) + [
