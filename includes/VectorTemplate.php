@@ -479,6 +479,17 @@ class VectorTemplate extends BaseTemplate {
 		$userMenu = '';
 
 		foreach ( $personalTools as $key => $item ) {
+			if ( $key === 'userpage' ) {
+				// TODO: Replace $username text with "User page", localized.
+				$item['class'] = isset( $item['class'] ) ? ( $item['class'] . ' ' ) : '';
+				$item['class'] .= 'oo-ui-popupWidget-head';
+			} elseif ( $key === 'mytalk' ) {
+				// TODO: Replace "Talk" text with "Talk page", localized.
+			} elseif ( $key === 'logout' ) {
+				$item['class'] = isset( $item['class'] ) ? ( $item['class'] . ' ' ) : '';
+				$item['class'] .= 'oo-ui-popupWidget-footer';
+			}
+
 			$userItem = $this->makeListItem( $key, $item );
 			if ( $key === 'uls' ) {
 				$props['html-lang-selector'] = $userItem;
