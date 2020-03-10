@@ -458,6 +458,7 @@ class VectorTemplate extends BaseTemplate {
 			'msg-label' => $this->getMsg( 'personaltools' )->text(),
 			'html-userlangattributes' => $this->get( 'userlangattributes', '' ),
 			'html-notloggedin' => '',
+			'html-tray-icons' => '',
 			'html-personal-tools' => '',
 			'html-lang-selector' => '',
 
@@ -465,23 +466,30 @@ class VectorTemplate extends BaseTemplate {
 
 		if ( !$this->getSkin()->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' ) ) {
 			$props['html-notloggedin'] =
-				Html::element( 'li',
-					[ 'id' => 'pt-anonuserpage' ],
-					$this->getMsg( 'notloggedin' )->text()
+				Html::rawElement( 'li',
+					[ 'id' => 'pt-userpage' ],
+					Html::element( 'span',
+						[ 'id' => 'pt-anonuserpage' ],
+						$this->getMsg( 'notloggedin' )->text()
+					)
 				);
 		}
 
+		$userTray = '';
 		$userMenu = '';
 
 		foreach ( $personalTools as $key => $item ) {
 			$userItem = $this->makeListItem( $key, $item );
 			if ( $key === 'uls' ) {
 				$props['html-lang-selector'] = $userItem;
+			} elseif ( substr( $key, 0, 14 ) === 'notifications-' ) {
+				$userTray .= $userItem;
 			} else {
 				$userMenu .= $userItem;
 			}
 		}
 
+		$props['html-tray-icons'] = $userTray;
 		$props['html-personal-tools'] = $userMenu;
 		return $props;
 	}

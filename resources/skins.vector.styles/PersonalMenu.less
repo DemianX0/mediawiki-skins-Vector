@@ -1,49 +1,100 @@
 @import '../../variables.less';
 @import 'mediawiki.mixins.less';
 
-#p-personal {
-	margin-right: 0.75em;  // Margin to right edge.
+// == Personal menu tray ==
+
+#p-personal-tray {
+	font-size: @font-size-nav-personal;
+	line-height: @line-height-nav-personal;
+	white-space: nowrap;
 
 	ul {
 		list-style: none none;
 		margin: 0;
 	}
 
-	li {
-		float: left;
+	// Only the tray icons, not the submenuitems on dropdowns.
+	> ul > li {
+		position: relative;  // Context for the drodowns.
+		float: left;  // Line up blocks.
 		margin-left: 0.75em;
 		// `padding-top` instead of `margin-top` necessary for
 		// anonymous user icon position below
 		padding-top: 0.5em;
-		font-size: @font-size-nav-personal;
-		line-height: @line-height-nav-personal;
-		white-space: nowrap;
+
+		> *:focus,
+		> *:active {
+			// From:  #pt-notifications-alert .mw-echo-notifications-badge:focus, #pt-notifications-notice .mw-echo-notifications-badge:focus
+			.box-shadow( ~'0 0 0 1px #fff, 0 0 0 3px #36c' );
+		}
+	}
+
+	#pt-notifications-alert .mw-echo-notifications-badge,
+	#pt-notifications-notice .mw-echo-notifications-badge {
+		top: unset;  // Fix positioning of  #pt-notifications-alert .mw-echo-notifications-badge:focus, #pt-notifications-notice .mw-echo-notifications-badge:focus
 	}
 }
 
-/* Icon for registered user names & anonymous message */
-#pt-anonuserpage,
-#pt-userpage a {
+// == Personal menu ==
+
+#p-personal ul {
+	position: absolute;
+	top: @margin-top-dropdown;
+	right: -2.5em;  // Ad-hoc right edge
+	padding: @padding-dropdown;
+	// border-radius: 2px;
+
+	// Display on top of page tabs - bugs 37158, 48078
+	z-index: 1;
+
+	li {
+		margin: 0.5em 0;
+	}
+
+	// Background and shadow similar to Sidebar (.mw-panel).
+	.vertical-gradient( @background-color-base, @background-color-secondary, 0%, 10% );
+	.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+}
+
+// Show anonymous "Not logged in" text in gray
+#pt-anonuserpage {
+	color: #54595d;
+}
+
+// == Personal menu icon ==
+
+.mw-ui-icon {
+	position: relative;
+	display: block;
+	width: @height-icon;
+	height: @height-icon;
+	margin: 0 2px;
+	border-radius: 2px;
+
+	// Speech only: text is audible with screen readers, but not visible on screen.
+	text-indent: -9999px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#pt-userpage,
+.mw-ui-icon-wikimedia-userAvatar-base20 {
 	// SVG support using a transparent gradient to guarantee cross-browser
 	// compatibility (browsers able to understand gradient syntax support also SVG)
 	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
-	background-position: @background-position-nav-personal-icon;
 	background-repeat: no-repeat;
+}
+
+#pt-userpage {
+	background-position: @background-position-nav-personal-icon;
 	background-size: @background-size-nav-personal-icon @background-size-nav-personal-icon;
 	// Same as `#p-personal li` above
 	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
 	padding-left: 16px !important; // stylelint-disable-line declaration-no-important
 }
 
-#pt-userpage {
-	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+// == User page / log-in ==
 
-	a {
-		display: inline-block;
-	}
-}
-
-/* Show anonymous "Not logged in" text in gray */
-#pt-anonuserpage {
-	color: #54595d;
+#pt-userpage a {
+	display: inline-block;
 }

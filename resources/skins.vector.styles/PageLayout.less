@@ -84,9 +84,18 @@
 	}
 }
 
-// == Hide empty portlets ==
+// == Utility classes ==
+
+// Hide empty portlets
 .emptyPortlet,
 .hidden {
+	display: none;
+}
+
+// Css only popup toggle
+.toggle-checkbox:checked ~ .toggle-target {
+	// Inverted: hidden when checked to allow display: flex or others.
+	// Not using :not(:checked) for IE<=8 browser compatibility:  https://caniuse.com/#feat=mdn-css_selectors_not
 	display: none;
 }
 

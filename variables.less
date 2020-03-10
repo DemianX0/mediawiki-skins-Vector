@@ -38,6 +38,9 @@
 
 @height-header: 70px;
 @height-tabs: 2.5em;
+@height-icon: 20px;
+@margin-top-dropdown: 30px;
+@padding-dropdown: 1em 1.5em;
 @width-sidebar: 10em;
 @margin-content: 1em;
 @max-width-content: 960px;
@@ -58,10 +61,11 @@
 @font-size-nav-main-body: unit( 12 / @font-size-browser, em );
 @margin-left-nav-main-body: 0.5em;
 
-// Navigation: Personal tools
-@background-position-nav-personal-icon: left ( 4 / @font-size-browser / @font-size-nav-personal );
-@background-size-nav-personal-icon: 14 / @font-size-browser / @font-size-nav-personal;
-@font-size-nav-personal: 0.75em;
+// Personal tray and menu
+@background-position-nav-personal-icon: left ( 4 / @font-size-browser / @font-size-header );
+@background-size-nav-personal-icon: 14 / @font-size-browser / @font-size-header;
+// @font-size-nav-personal: @font-size-search-input;  // Make the same font-size as Search on the same row.
+@font-size-nav-personal: unset; // Inherit @font-size-header.
 // Using `unit()` without second parameter to achieve a unitless output for `line-height`.
 @line-height-nav-personal: unit( 14 / @font-size-browser / @font-size-nav-personal ); // Equals `1.667`.
 

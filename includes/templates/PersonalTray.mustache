@@ -1,0 +1,17 @@
+{{!
+	string|null empty-portlet
+	string msg-label
+	string|null html-userlangattributes
+	string|null html-tray-icons
+}}
+
+<div id="p-personal-tray" role="navigation" aria-labelledby="p-personal-tray-label">
+	<h3 id="p-personal-tray-label" class="speech-only"> {{msg-label}} </h3>
+	<ul role="menubar" {{{html-userlangattributes}}}>
+
+		{{{html-lang-selector}}}
+		{{{html-tray-icons}}}
+		{{>PersonalMenu}}
+
+	</ul>
+</div>

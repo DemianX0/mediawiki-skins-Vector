@@ -11,14 +11,15 @@
 	}
 }
 
-// == Personal menu layout ==
+// == Personal menu tray layout ==
 
-#p-personal {
+#p-personal-tray {
 	// Fallback for non-flex browsers (IE<=7) and old browsers (IE<=11).
 	// https://caniuse.com/#feat=mdn-css_properties_display_flex
 	// https://caniuse.com/#feat=flexbox
 	float: right;  // Move to the right.
 	margin-left: auto;  // Move to the right with flexbox layout.
+	margin-right: 0.75em;
 
 	/* Vertical centering 8<=IE<=10 with flexbox model.
 	margin-top: auto;
@@ -34,9 +35,15 @@
 
 @supports ( display: flex ) {
 	// No @supports in IE<=11.
-	#p-personal {
+	#p-personal-tray {
 		margin-top: unset;
 		margin-bottom: unset;
+	}
+}
+
+@media screen and ( min-width: 982px ) {
+	#p-personal-tray {
+		margin-right: 1em;  // Up from 0.75em
 	}
 }
 

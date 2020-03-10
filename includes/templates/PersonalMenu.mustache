@@ -1,18 +1,24 @@
 {{!
+	Personal menu icon and drop-down
+
 	string|null empty-portlet
 	string msg-label
-	string|null html-userlangattributes
-	string|null html-lang-selector
 	string|null html-loggedin
 	string|null html-personal-tools
 }}
 
-<div id="p-personal" role="navigation" {{#empty-portlet}}class="{{empty-portlet}}"{{/empty-portlet}} aria-labelledby="p-personal-label">
-	{{! #p-personal h3 is .hidden, not .speech-only: aria-labelledby causes screen readers to read it }}
-	<h3 id="p-personal-label" class="hidden"> {{msg-label}} </h3>
-	<ul {{{html-userlangattributes}}}>
-		{{{html-lang-selector}}}
+<li id="p-personal" {{#empty-portlet}} class="{{empty-portlet}}" {{/empty-portlet}} aria-labelledby="p-personal-label">
+	<label id="p-personal-label" for="p-personal-checkbox" class="mw-ui-icon mw-ui-icon-wikimedia-userAvatar-base20"> 
+		{{! TODO: Need  aria-expanded="false" ? That requires JS to update. }}
+		<span class="speech-only"> {{msg-label}} </span>
+	</label>
+
+	<input id="p-personal-checkbox" type="checkbox" class="toggle-checkbox hidden" checked>
+	{{! Can't move the <input> element inside the <label>: the CSS-only show-hide rules depend on <input> being on this level. }}
+
+	<ul class="toggle-target oo-ui-popupWidget" role="menu" aria-label="submenu" aria-hidden="true">
+		{{! TODO: add  role="menuitem"  to the <a> elements }}
 		{{{html-notloggedin}}}
 		{{{html-personal-tools}}}
 	</ul>
-</div>
+</li>
