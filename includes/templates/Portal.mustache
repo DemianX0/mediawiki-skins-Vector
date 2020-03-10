@@ -9,14 +9,16 @@ Each portal has the following composition:
 	string|null html-after-portal
 	string|null html-hook-vector-after-toolbox is deprecated and used by the toolbox portal.
 }}
-<div class="portal" role="navigation" id="{{portal-id}}" {{{html-tooltip}}} aria-labelledby="{{msg-label-id}}">
+<div class="portal" id="{{portal-id}}" {{{html-tooltip}}} aria-labelledby="{{msg-label-id}}">
 	<h3 {{{html-userlangattributes}}} id="{{msg-label-id}}">
 		{{msg-label}}
 	</h3>
+	{{! FIXME: '.body'? }}
 	<div class="body">
 		{{{html-portal-content}}}
 		{{{html-after-portal}}}
 	</div>
 </div>
+
 {{! Note: html-hook-vector-after-toolbox is deprecated. }}
 {{{html-hook-vector-after-toolbox}}}
