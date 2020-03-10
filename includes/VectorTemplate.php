@@ -457,14 +457,14 @@ class VectorTemplate extends BaseTemplate {
 			'empty-portlet' => ( count( $this->get( 'personal_urls', [] ) ) == 0 ) ? 'emptyPortlet' : '',
 			'msg-label' => $this->getMsg( 'personaltools' )->text(),
 			'html-userlangattributes' => $this->get( 'userlangattributes', '' ),
-			'html-loggedin' => '',
+			'html-notloggedin' => '',
 			'html-personal-tools' => '',
 			'html-lang-selector' => '',
 
 		];
 
 		if ( !$this->getSkin()->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' ) ) {
-			$props['html-loggedin'] =
+			$props['html-notloggedin'] =
 				Html::element( 'li',
 					[ 'id' => 'pt-anonuserpage' ],
 					$this->getMsg( 'notloggedin' )->text()
