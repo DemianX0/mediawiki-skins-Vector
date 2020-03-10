@@ -471,15 +471,18 @@ class VectorTemplate extends BaseTemplate {
 				);
 		}
 
-		if ( array_key_exists( 'uls', $personalTools ) ) {
-			$props['html-lang-selector'] = $this->makeListItem( 'uls', $personalTools[ 'uls' ] );
-			unset( $personalTools[ 'uls' ] );
-		}
+		$userMenu = '';
 
 		foreach ( $personalTools as $key => $item ) {
-			$props['html-personal-tools'] .= $this->makeListItem( $key, $item );
+			$userItem = $this->makeListItem( $key, $item );
+			if ( $key === 'uls' ) {
+				$props['html-lang-selector'] = $userItem;
+			} else {
+				$userMenu .= $userItem;
+			}
 		}
 
+		$props['html-personal-tools'] = $userMenu;
 		return $props;
 	}
 
