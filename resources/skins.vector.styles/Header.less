@@ -18,7 +18,7 @@
 	// https://caniuse.com/#feat=mdn-css_properties_display_flex
 	// https://caniuse.com/#feat=flexbox
 	float: right;  // Move to the right.
-	margin-left: auto;  // Move to the right with flexbox layout.
+	margin-left: 0;  // There's margin-left: 0.75em on the icons.
 	margin-right: 0.75em;
 
 	/* Vertical centering 8<=IE<=10 with flexbox model.
@@ -43,6 +43,7 @@
 
 @media screen and ( min-width: 982px ) {
 	#p-personal-tray {
+		margin-left: 1em;
 		margin-right: 1em;  // Up from 0.75em
 	}
 }

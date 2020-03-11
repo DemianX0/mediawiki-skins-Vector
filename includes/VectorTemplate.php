@@ -161,9 +161,9 @@ class VectorTemplate extends BaseTemplate {
 				'data-variants' => $this->buildVariantsProps(),
 				'data-page-actions' => $this->buildViewsProps(),
 				'data-page-actions-more' => $this->buildActionsProps(),
-				'data-search-box' => $this->buildSearchProps(),
 			],
 			'data-header' => [
+				'data-search-box' => $this->buildSearchProps(),
 				'data-personal-menu' => $this->buildPersonalProps(),
 				'html-logo-class' => 'mw-wiki-logo',
 				'html-logo-attributes' => Xml::expandAttributes(
