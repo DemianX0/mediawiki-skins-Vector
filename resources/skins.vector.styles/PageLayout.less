@@ -77,6 +77,17 @@
 	.transition( transform @transition-duration-width-sidebar @transition-timing-function-width-sidebar );
 }
 
+// Echo popup styling similar to Personal menu.
+div.oo-ui-popupWidget-popup {
+	.vertical-gradient( @background-color-base, @background-color-secondary, 0%, 10% );
+	.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+	border: unset;
+}
+
+div.mw-echo-ui-placeholderItemWidget {
+	background-color: unset;
+}
+
 #sidebar-hide-checkbox:checked {
 	~ #mw-panel {
 		// Moved out to the left if #sidebar-hide-checkbox is checked.
