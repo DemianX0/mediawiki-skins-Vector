@@ -67,14 +67,20 @@
 // @font-size-nav-personal: @font-size-search-input;  // Make the same font-size as Search on the same row.
 @font-size-nav-personal: unset; // Inherit @font-size-header.
 // Using `unit()` without second parameter to achieve a unitless output for `line-height`.
-@line-height-nav-personal: unit( 14 / @font-size-browser / @font-size-nav-personal ); // Equals `1.667`.
+@line-height-nav-personal: unit( 14 / @font-size-browser / @font-size-header ); // Equals `1.667`.
+
+// Universal Language Selector
+// @font-size-language-selector: @font-size-search-input;  // Make the same font-size as Search on the same row.
+@font-size-language-selector: unset; // Inherit @font-size-header.
 
 // Tabs
 @font-size-tabs: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
 
 // Search
-@width-search-button: 24 / @font-size-browser / @font-size-search-input;
-@font-size-search-input: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
+@width-search-button: 24 / @font-size-browser / @font-size-header;
+// @font-size-search-input: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
+@font-size-search-input: unset; // Inherit @font-size-header.
+@font-size-header: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
 
 // Footer
 // FIXME: Currently calculates at 11.2px, which is worth nothing and unreadable for a big

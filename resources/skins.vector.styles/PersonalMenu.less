@@ -13,14 +13,17 @@
 		margin: 0;
 	}
 
+	> ul {
+		display: flex;
+		align-items: center;
+		// Non-flex browsers (IE<=7) will position the icons 3px higher. No functionality lost.
+	}
+
 	// Only the tray icons, not the submenuitems on dropdowns.
 	> ul > li {
 		position: relative;  // Context for the drodowns.
 		float: left;  // Line up blocks.
 		margin-left: 0.75em;
-		// `padding-top` instead of `margin-top` necessary for
-		// anonymous user icon position below
-		padding-top: 0.5em;
 
 		> *:focus,
 		> *:active {

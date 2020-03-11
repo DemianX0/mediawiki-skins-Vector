@@ -1,6 +1,11 @@
+@import '../../variables.less';
 @import 'mediawiki.mixins.less';
 
 // == Header layout ==
+
+#header {
+	font-size: @font-size-header;
+}
 
 @supports ( display: flex ) {
 	// No @supports in IE<=11.
@@ -46,6 +51,25 @@
 		margin-left: 1em;
 		margin-right: 1em;  // Up from 0.75em
 	}
+}
+
+// == Universal Language Selector ==
+
+#pt-uls .uls-trigger {
+	font-size: @font-size-language-selector;
+	padding: 0.4em;
+	// Override the !important rule inherited from core.
+	padding-top: 0.4em !important;  // stylelint-disable-line declaration-no-important
+
+	// Style as a button
+	.box-sizing( border-box );
+	border: @border-width-base @border-style-base @colorGray10;
+	border-radius: @borderRadius;
+}
+
+.uls-menu {
+	right: 1em !important;  // stylelint-disable-line declaration-no-important
+	left: unset !important;  // stylelint-disable-line declaration-no-important
 }
 
 // == Logo layout ==
