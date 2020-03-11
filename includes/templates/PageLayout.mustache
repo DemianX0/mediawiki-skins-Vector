@@ -13,28 +13,32 @@
 
 {{{html-headelement}}}
 
-<div id="mw-head-base" class="noprint content-margin"></div>
+<div class="main">
+	<div id="mw-head-base" class="noprint content-margin"></div>
 
-{{#data-content}}
-{{>Content}}
-{{/data-content}}
+	{{#data-content}}
+	{{>Content}}
+	{{/data-content}}
 
-{{{html-dataAfterContent}}}
+	{{{html-dataAfterContent}}}
+
+	{{#data-navigation}}
+	{{>Navigation}}
+	{{/data-navigation}}
+</div>  {{! .main }}
 
 {{#data-header}}
 {{>Header}}
 {{/data-header}}
 
-{{#data-navigation}}
-{{>Navigation}}
-{{/data-navigation}}
-
 {{#data-sidebar}}
 {{>Sidebar}}
 {{/data-sidebar}}
 
-{{#data-footer}}
-{{>Footer}}
-{{/data-footer}}
+<div class="main">
+	{{#data-footer}}
+	{{>Footer}}
+	{{/data-footer}}
+</div>  {{! .main }}
 
 {{{html-printtail}}}
