@@ -1,8 +1,10 @@
 // Layout rules divide the page into sections and how VectorComponents should be arranged in the skin.
 // The rules here should only define the layout, not color or typography.
+// CSS is ordered in terms of visual position from the top of the article.
 
 @import '../../variables.less';
 @import 'mediawiki.mixins.less';
+@import 'mediawiki.mixins.flex-align.less';
 
 // Modern layout variables
 @height-tabs: 2.5em; // Keep in sync with .vector-menu-tabs height.
@@ -13,13 +15,11 @@
 @padding-horizontal-header: @margin-end-portal +
 	@padding-left-sidebar +
 	( @margin-start-nav-main-body / @font-size-nav-main-heading );
-@padding-vertical-header: 0.125em;
-@margin-top-header: 0.625em;
-@margin-bottom-header: 0.3125em;
-@height-logo-icon: 3.125em; // Logo sizes per specification in T245190.
-@height-header: @height-logo-icon +
-	@margin-top-header + @margin-bottom-header +
-	2 * @padding-vertical-header;
+@padding-top-header: 0.625em;
+@padding-bottom-header: 0.3125em;
+@height-logo-icon: 3.125em;
+@height-header--inner: 3.375em; // Logo sizes per specification in T245190.
+@height-header: @height-header--inner + @padding-top-header + @padding-bottom-header;
 @width-grid-column-one: 11em;
 
 body {
@@ -62,22 +62,65 @@ body {
 	top: 0;
 	left: 0;
 	right: 0;
-	// A height is set to account for projects where no icon is set.
-	height: @height-logo-icon;
-	margin: @margin-top-header 0 @margin-bottom-header;
-	padding: @padding-vertical-header @padding-horizontal-header;
+	// A `min-height` is set to account for projects where no icon is set.
+	min-height: @height-header--inner;
+	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
 	// Vertical centering of header elements (IE>=11), requires flex.
-	// Non-flex fallback for IE<=9: float rule on the child elements.
 	.flex-display();
-	// https://caniuse.com/#search=align-items
-	align-items: center;
+	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
+	.mixin-clearfix(); // Close float flow.
+	.align-items( center ); // Supports: IE11.
 	z-index: @z-index-header;
+}
+
+/* Sidebar button */
+#mw-sidebar-button,
+.mw-logo {
+	// Non-flex fallback for IE<=9.
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/* Personal menu */
+#p-personal {
+	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
+	margin-left: auto; // Right justify the container.
+	padding-left: 1em;
+
+	ul {
+		text-align: right; // Right align the second row.
+
+		> li {
+			// Restore left align. Right align conflicts with hiding speech-only text on notification icons.
+			text-align: left;
+		}
+
+		li {
+			// Higher specificity to override inherited rule.
+			// FIXME: avoid using padding to position PersonalMenu items.
+			padding-top: 0; // Unset `padding-top: 0.5em;` inherited from legacy.
+		}
+	}
+
+	li {
+		display: inline-block;
+		// Reset `margin-bottom` from general `li` element.
+		margin-bottom: 0;
+	}
+
+	#pt-notifications-alert,
+	#pt-notifications-notice {
+		.mw-echo-notifications-badge {
+			// Adjust `top: -5px;` rule inherited from legacy and Echo.
+			top: -2px; // Eyeballed magic number.
+		}
+	}
 }
 
 /* Main column */
 .mw-body,
 #mw-data-after-content,
-#left-navigation,
+.mw-article-toolbar-container,
 .mw-footer {
 	margin-left: @width-grid-column-one;
 }
@@ -100,54 +143,29 @@ body {
 }
 
 /* Tabs */
-#mw-head {
+// #mw-head,
+.mw-article-toolbar-container {
 	position: absolute;
-	top: 0;
+	top: @height-header;  // Below the header.
+	left: 0;
 	right: 0;
-	width: 100%;
 }
 
-/* Navigation Containers */
 #left-navigation {
 	float: left;
-	margin-top: @height-header;
-	/* When right nav would overlap left nav, it's placed below it
-	(normal CSS floats behavior). This rule ensures that no empty space
-	is shown between them due to right nav's margin-top. Page layout
-	is still broken, but at least the nav overlaps only the page title
-	instead of half the content. */
-	margin-bottom: -@height-header;
 }
 
 #right-navigation {
 	float: right;
-	margin-top: @height-header;
 }
 
-#p-personal {
-	position: absolute;
-	top: @top-personal-tools;
-	right: 0.75em;
-	z-index: @z-index-personal;
-
-	ul {
-		// Keep from spilling out into the first column
-		// For completeness this should also include the width of the logo.
-		// As a result it is possible for the personal tools to overlap the logo.
-		padding-left: @width-grid-column-one;
-	}
-
-	li {
-		display: inline-block;
-	}
-}
-
+/* Sidebar */
 #mw-panel {
 	position: absolute;
 	// The sidebar is absolutely positioned inside the header which applies a top
 	// margin so we need to subtract this top margin in order to get the correct
 	// sidebar position.
-	top: @height-header - @margin-top-header;
+	top: @height-header;
 	left: 0;
 	width: @width-grid-column-one;
 	.box-sizing( border-box );
@@ -156,6 +174,7 @@ body {
 	z-index: @z-index-sidebar;
 }
 
+/* Footer */
 .mw-footer {
 	margin-top: 0;
 }
