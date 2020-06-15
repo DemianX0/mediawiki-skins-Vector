@@ -65,6 +65,17 @@
 @font-size-root--px: 16px; // Assumed browser default of `16px`
 @font-size-content--px: 14px;
 @font-size-content: unit( @font-size-content--px / @font-size-root--px, em ); // 14/16 = 0.875em
+// T182320: Historically the source editor's font-size was
+// set to 13px (92.86% of 14px) for all font families.
+@font-size-content--monospace--px: 13px;
+@font-size-content--monospace--rem: unit( @font-size-content--monospace--px / @font-size-root--px, rem );
+@font-size-content--monospace--relative: unit( @font-size-content--monospace--px / @font-size-content--px * 100, % );
+// Alternatives:
+//@font-size-content--monospace: unit( @font-size-content--monospace--px / @font-size-content--px, em );
+//@font-size-content--monospace: @font-size-content--monospace--rem;
+//@font-size-content--monospace: 90%;
+
+// Font sizes relative to content
 @font-size-heading-1: 1.8em;
 @font-size-heading-2: 1.7em;
 @font-size-heading-3: 1.4em;

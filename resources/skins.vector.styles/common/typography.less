@@ -187,3 +187,19 @@ pre,
 		padding-right: 13px;
 	}
 }
+
+.mw-font-sans, // New shorthand.
+.mw-editfont-sans-serif,
+.mw-font-serif, // New shorthand.
+.mw-editfont-serif {
+	font-size: inherit; // Override UA's textarea style (13.3px in Chrome).
+}
+
+.mw-font-mono, // New shorthand.
+.mw-editfont-monospace {
+	&,
+	&.oo-ui-textInputWidget > .oo-ui-inputWidget-input {
+		font-size: @font-size-content--monospace--relative; // Relative to content font-size.
+		font-size: var( --font-size-mono--relative, @font-size-content--monospace--relative );
+	}
+}
