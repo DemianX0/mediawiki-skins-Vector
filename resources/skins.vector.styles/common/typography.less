@@ -128,6 +128,10 @@ pre,
 	}
 }
 
+.toctogglecheckbox:focus + .toctitle .toctogglelabel {
+	&:extend( :focus ); // Add the selector to the `:focus` rule in normalize.less
+}
+
 // External links
 .mw-parser-output {
 	.external {
