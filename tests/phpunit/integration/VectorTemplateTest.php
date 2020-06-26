@@ -131,19 +131,19 @@ class VectorTemplateTest extends MediaWikiIntegrationTestCase {
 			'is-dropdown' => false,
 			'html-tooltip' => '',
 			'html-after-portal' => '',
-			'class' => 'vector-menu-empty emptyPortlet vector-menu vector-menu-tabs vectorTabs',
+			'class' => 'menu-actions vector-menu vector-menu-tabs vectorTabs vector-menu-empty emptyPortlet',
 		] );
 
 		$variants = $props['data-variants'];
 		$actions = $props['data-page-actions-more'];
 		$this->assertSame( $namespaces['class'],
-			'vector-menu-empty emptyPortlet vector-menu vector-menu-tabs vectorTabs' );
+			'menu-namespaces vector-menu vector-menu-tabs vectorTabs vector-menu-empty emptyPortlet' );
 		$this->assertSame( $variants['class'],
-			'vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu' );
+			'menu-variants vector-menu vector-menu-dropdown vectorMenu vector-menu-empty emptyPortlet' );
 		$this->assertSame( $actions['class'],
-			'vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu' );
+			'menu-more vector-menu vector-menu-dropdown vectorMenu vector-menu-empty emptyPortlet' );
 		$this->assertSame( $props['data-personal-menu']['class'],
-			'vector-menu-empty emptyPortlet vector-menu' );
+			'menu-personal vector-menu vector-menu-empty emptyPortlet' );
 	}
 
 }
