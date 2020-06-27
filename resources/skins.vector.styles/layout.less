@@ -15,7 +15,6 @@
 	( @margin-start-portal-body / @font-size-nav-main-heading );
 @padding-top-header: 0.625em;
 @padding-bottom-header: 0.3125em;
-@height-logo-icon: 3.125em;
 @height-header--inner: 3.375em; // Logo sizes per specification in T245190.
 @height-header--wide: @height-header--inner + @padding-top-header + @padding-bottom-header; // 4.3125em
 // Space for personal menu row.
@@ -29,6 +28,9 @@
 @max-width-header--micro: unit( 600px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
 @margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 @margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
+
+// Font sizes
+@font-size-logo--px: @font-size-root--px;
 
 // Sidebar width
 @padding-left-sidebar: 0.5em;
@@ -100,8 +102,6 @@ body {
 	top: 0;
 	left: 0;
 	right: 0;
-	// A `min-height` is set to account for projects where no icon is set.
-	min-height: @height-header--inner;
 	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
 	// Vertical centering of header elements (IE>=11), requires flex.
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
