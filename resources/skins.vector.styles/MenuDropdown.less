@@ -1,5 +1,6 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
+@import 'mediawiki.mixins.focus.less';
 
 /* Variants and Actions */
 .vector-menu-dropdown {
@@ -155,8 +156,6 @@
 	}
 
 	&:focus + .vector-menu__button {
-		// Simulate browser focus ring
-		outline: dotted 1px; // Firefox style
-		outline: auto -webkit-focus-ring-color; // Webkit style
+		.mixin-focus-outline();
 	}
 }
