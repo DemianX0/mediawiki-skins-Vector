@@ -16,8 +16,8 @@ body {
 	padding: 0;
 }
 
-// Support Blink based browsers.
-// They use `outline` for focus styles, we're only amending the color here, see T245887.
+// Normalize focus outline color, see T245887.
 :focus {
+	// We're only amending the color here.
 	outline-color: @outline-color-base--focus;
 }
