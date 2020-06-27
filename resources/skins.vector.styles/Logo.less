@@ -1,41 +1,45 @@
 @import '../../variables.less';
-@import 'mediawiki.mixins.less';
 
 .mw-logo {
-	.flex-display();
-	// If icon is not configured, ensure that the logo still takes up available
-	// space allocated by layout.
-	height: 100%;
-	// Center vertically.
-	align-items: center;
+	white-space: nowrap;
+
+	&:focus,
+	&:hover {
+		// Text underline rule on `a:focus, a:hover` causes minor graphical glitch without flex layout.
+		text-decoration: none;
+	}
+}
+
+.mw-logo-icon,
+.mw-logo-container {
+	display: inline-block; // All basic browsers support: https://caniuse.com/#feat=inline-block
+	vertical-align: middle; // Inline block can be vertically aligned.
+	// The two children `div`s lay out as a column.
 }
 
 .mw-logo-icon {
-	// For browsers which do not support flexbox we float left.
-	// This will be ignored in flexbox browsers.
-	float: left;
-	margin-right: 10px;
-}
-
-.mw-logo-container {
-	// For browsers which do not support flexbox we float left.
-	// This will be ignored in flexbox browsers.
-	// The two children `div`s will lay out in a row.
-	float: left;
+	// Stretch icon expecting 50x50px image
+	height: unit( 50px / @font-size-logo--px, em );
+	width: auto; // Overwrite html attribute to resize proportionally.
+	margin: unit( 2px / @font-size-logo--px, em ) 0;
+	margin-right: unit( 10px / @font-size-logo--px, em );
 }
 
 // Note for 3rd parties where no wgLogos['wordmark'] is defined
 // the site title is not clipped. We may need to revisit this later
 // for projects with long site titles.
-.mw-logo-wordmark {
+.mw-logo-wordmark,
+.mw-logo-tagline {
 	display: block;
+	width: auto;
+}
+
+.mw-logo-wordmark {
 	margin: 0 auto;
-	font-size: 1.4em;
+	font-size: unit( 22.4px / @font-size-logo--px, em );
 }
 
 .mw-logo-tagline {
-	// For browsers which do not support flexbox.
-	display: block;
 	margin: 5px auto 0;
-	font-size: 0.7em;
+	font-size: unit( 11.2px / @font-size-logo--px, em );
 }
