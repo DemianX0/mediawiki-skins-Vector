@@ -1,0 +1,31 @@
+// FIXME: move to core when stabilized.
+
+// Simulate browser focus ring
+.mixin-focus-outline() {
+	// Use with `&:extend( .mw-focus-outline );` rule
+	// in `...:focus { }` or `...:focus ... { }` selectors to avoid duplication.
+	//
+	// Browsers have different focus `outline`:
+	// WebKit: `outline: auto -webkit-focus-ring-color;`
+	//   - `auto` applies a border-radius to the outline
+	//   - `solid` outline would be square
+	//   - Chrome>=83 switched to black `-webkit-focus-ring-color`.
+	// Firefox: `outline: dotted 1px currentColor;`
+	//   - `dotted` outline is square
+	//   - `currentcolor is text color of the element, usually link,
+	//     which is slightly different from the WMUI focus color #36c.
+	// IE: no focus outline.
+
+	// Firefox style. Without the color it would reset to `outline-color: currentColor`.
+	// IE applies this rule as well.
+	outline: dotted 1px @outline-color-base--focus;
+
+	// WebKit style. This is only valid in WebKit because of the prefixed color,
+	// thus Firefox won't apply `auto` style (solid 1px with border-radius) instead of `dotted 1px`.
+	// Consequently the below `outline-color` rule cannot be merged into the WebKit rule.
+	outline: auto -webkit-focus-ring-color;
+
+	// All browsers: normalize focus ring color.
+	// Overrides WebKit `outline-color: -webkit-focus-ring-color`.
+	outline-color: @outline-color-base--focus;
+}
