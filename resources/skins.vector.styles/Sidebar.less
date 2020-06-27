@@ -49,10 +49,7 @@
 	}
 
 	&:focus {
-		// Next three rules from OOUI, frameless, icon-only button widget.
-		outline: 0;
-		border-color: @color-primary;
-		.box-shadow( inset 0 0 0 1px @color-primary );
+		&:extend( .vector-menu-checkbox:focus + h3 ); // Add the selector to the already existing rule.
 	}
 }
 
