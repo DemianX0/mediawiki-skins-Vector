@@ -59,6 +59,11 @@
 			],
 			"styles": [ "resources/skins.vector.styles/skin.less" ]
 		},
+		"skins.vector.styles.tests": {
+			"features": [],
+			"class": "ResourceLoaderSkinModule",
+			"styles": [ "tests/phpunit/less/flex/align-items.less" ]
+		},
 		"skins.vector.icons": {
 			"class": "ResourceLoaderImageModule",
 			"selector": "{name}",
