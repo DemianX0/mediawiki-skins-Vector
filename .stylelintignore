@@ -2,4 +2,5 @@
 /docs/
 /node_modules/
 /skinStyles/jquery.ui/
+/tests/phpunit/less/
 /vendor/
