@@ -1,0 +1,105 @@
+.test-align-items normal {
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-align-items: normal;
+  align-items: normal;
+}
+.test-align-items stretch {
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+}
+.test-align-items center {
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.test-align-items start {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: start;
+  align-items: start;
+}
+.test-align-items end {
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  -ms-flex-align: end;
+  -webkit-align-items: end;
+  align-items: end;
+}
+.test-align-items flex-start {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+.test-align-items flex-end {
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  -ms-flex-align: end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+.test-align-items self-start {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: self-start;
+  align-items: self-start;
+}
+.test-align-items self-end {
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  -ms-flex-align: end;
+  -webkit-align-items: self-end;
+  align-items: self-end;
+}
+.test-align-items space-between {
+  -webkit-box-align: justify;
+  -moz-box-align: justify;
+  -ms-flex-align: justify;
+  -webkit-align-items: space-between;
+  align-items: space-between;
+}
+.test-align-items space-around {
+  -webkit-box-align: justify;
+  -moz-box-align: justify;
+  -ms-flex-align: justify;
+  -webkit-align-items: space-around;
+  align-items: space-around;
+}
+.test-align-items space-evenly {
+  -webkit-box-align: justify;
+  -moz-box-align: justify;
+  -ms-flex-align: justify;
+  -webkit-align-items: space-evenly;
+  align-items: space-evenly;
+}
+.test-align-items baseline {
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: baseline;
+  align-items: baseline;
+}
+.test-align-items first baseline {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: first baseline;
+  align-items: first baseline;
+}
+.test-align-items last baseline {
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  -ms-flex-align: end;
+  -webkit-align-items: last baseline;
+  align-items: last baseline;
+}
