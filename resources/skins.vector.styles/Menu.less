@@ -29,11 +29,8 @@
 	}
 
 	li {
+		// FIXME: Only effective on Personal menu, not portals and dropdowns.
 		margin-left: 0.75em;
-		// `padding-top` instead of `margin-top` necessary for
-		// anonymous user icon position below
-		padding-top: 0.5em;
-		line-height: @line-height-nav-personal;
 	}
 }
 
@@ -43,17 +40,13 @@
 	// SVG support using a transparent gradient to guarantee cross-browser
 	// compatibility (browsers able to understand gradient syntax support also SVG)
 	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
-	background-position: @background-position-nav-personal-icon;
 	background-repeat: no-repeat;
 	background-size: @background-size-nav-personal-icon @background-size-nav-personal-icon;
-	// Same as `#p-personal li` above
-	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
-	padding-left: 16px !important; // stylelint-disable-line declaration-no-important
+	background-position: left 0;
+	padding-left: unit( 1 / @font-size-nav-personal, em ); // 1.33333333em
 }
 
 #pt-userpage {
-	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
-
 	a {
 		display: inline-block;
 	}

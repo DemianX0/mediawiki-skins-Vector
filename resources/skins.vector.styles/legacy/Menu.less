@@ -1,0 +1,26 @@
+@import '../Menu.less';
+@import '../../../variables.less';
+
+/* Personal */
+.vector-menu,
+/* FIXME: Remove p-personal selector when cache has cleared. */
+#p-personal {
+	li {
+		// `padding-top` instead of `margin-top` necessary for
+		// anonymous user icon position below
+		padding-top: 0.5em;
+		line-height: @line-height-nav-personal;
+	}
+}
+
+/* Icon for registered user names & anonymous message */
+#pt-anonuserpage,
+#pt-userpage a {
+	background-position: @background-position-nav-personal-icon;
+	// Same as `#p-personal li` above, see T207075.
+	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
+}
+
+#pt-userpage {
+	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+}
