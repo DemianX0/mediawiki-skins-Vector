@@ -163,6 +163,7 @@ class VectorTemplate extends BaseTemplate {
 			'data-footer' => $this->getFooterData(),
 			'html-navigation-heading' => $this->msg( 'navigation-heading' ),
 			'data-search-box' => $this->buildSearchProps(),
+			'is-layout-new-search' => $this->getConfig()->get( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH ),
 
 			// Header
 			'data-logos' => ResourceLoaderSkinModule::getAvailableLogos( $this->getConfig() ),
@@ -536,7 +537,7 @@ class VectorTemplate extends BaseTemplate {
 				'go',
 				[ 'id' => 'searchButton', 'class' => 'searchButton' ]
 			),
-			'html-input' => $this->makeSearchInput( [ 'id' => 'searchInput' ] ),
+			'html-input' => $this->makeSearchInput( [ 'id' => 'searchInput', 'class' => 'mw-search-input' ] ),
 			'msg-search' => $this->msg( 'search' ),
 			'page-title' => SpecialPage::getTitleFor( 'Search' )->getPrefixedDBkey(),
 		];
