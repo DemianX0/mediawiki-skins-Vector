@@ -12,14 +12,27 @@
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
 @padding-left-sidebar: 0.5em;
-@padding-horizontal-header: @margin-end-portal +
-	@padding-left-sidebar +
-	( @margin-start-nav-main-body / @font-size-nav-main-heading );
+@padding-horizontal-header: @margin-end-portal + @padding-left-sidebar +
+	( @margin-start-portal-body / @font-size-nav-main-heading );
 @padding-top-header: 0.625em;
 @padding-bottom-header: 0.3125em;
 @height-logo-icon: 3.125em;
 @height-header--inner: 3.375em; // Logo sizes per specification in T245190.
-@height-header: @height-header--inner + @padding-top-header + @padding-bottom-header;
+@height-header--wide: @height-header--inner + @padding-top-header + @padding-bottom-header; // 4.3125em
+// Space for personal menu row.
+@height-header-row: 2em;
+@height-header--medium: @height-header--inner + 2 * @padding-top-header + @height-header-row; // 6.625em
+// Space for SearchBox + personal menu row + menu items optionally wrapping.
+@height-header--narrow: @height-header--medium + @height-header-row + 0.5em; // 9.125em
+@height-header--micro: @height-header--narrow + @height-header-row; // 11.125em
+@max-width-header--medium: unit( 1100px / @font-size-root--px, em ); // 2 rows in header: logo + usermenu, search + uls.
+@max-width-header--narrow: unit( 850px / @font-size-root--px, em ); // 3 rows in header: logo, uls + usermenu, search.
+@max-width-header--micro: unit( 600px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
+@margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
+@margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
+
+// Sidebar width
+@padding-left-sidebar: 0.5em;
 @width-grid-column-one: 11em;
 
 body {
@@ -53,7 +66,21 @@ body {
 /* Space for header above content */
 .mw-header-placeholder {
 	// Reserve space for the absolute positioned header and tabs.
-	height: @height-header + @height-tabs;
+	height: @height-header--wide;
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			height: @height-header--medium; // Space for personal menu row.
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			height: @height-header--narrow; // Space for SearchBox + personal menu row.
+		}
+
+		@media ( max-width: @max-width-header--micro ) {
+			height: @height-header--micro; // Space for +1 row.
+		}
+	}
 }
 
 /* Header layout */
@@ -70,7 +97,15 @@ body {
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
 	.mixin-clearfix(); // Close float flow.
 	.align-items( center ); // Supports: IE11.
+	.justify-content( center ); // Medium: Searchbox and ULS nicely centered.
 	z-index: @z-index-header;
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			.flex-wrap();
+			padding-bottom: @padding-top-header;
+		}
+	}
 }
 
 /* Sidebar button */
@@ -81,8 +116,16 @@ body {
 	vertical-align: middle;
 }
 
+/* Logo */
+.mw-logo {
+	@media ( max-width: @max-width-header--narrow ) {
+		.flex-size( 1, 1, 75% ); // Grow to full width, but don't wrap after sidebar button.
+	}
+}
+
 /* Searchbox */
-#p-search {
+body:not( .skin-vector-new-search ) #p-search {
+	// :not support: IE9+
 	float: left;
 	margin: 0.5em 0.5em 0 0.5em;
 	min-width: 5em;
@@ -93,11 +136,55 @@ body {
 	max-width: 20em;
 }
 
+/* SearchBox in header */
+.skin-vector-new-search .mw-search {
+	padding: 0 @margin-horizontal-search;
+	margin-left: auto; // Horizontal centering on wide viewport.
+
+	// Take up as much space as possible and shrink if necessary.
+	.flex-size( 1, 1 );
+	min-width: unit( 200px / @font-size-root--px, em );  // Flex min size.
+	max-width: unit( 580px / @font-size-root--px, em );  // Flex max size.
+
+	@media ( max-width: @max-width-header--medium ) {
+		.flex-size( 1, 1, 65% ); // Break into 2nd rows, share width with ULS or grow full-width.
+		.flex-order( 2 );
+		// .justify-content( space-between );
+		min-width: unit( 100px / @font-size-root--px, em ); // Don't wrap into 3 rows at <725px.
+		padding: 0;
+		margin-left: 0;
+		margin-top: @margin-vertical-search;
+	}
+
+	@media ( max-width: @max-width-header--narrow ) {
+		.flex-size( 1, 1, 90% ); // Grow to full width.
+		width: 100%; // Fallback if flex-basis not supported.
+	}
+
+	> form {
+		// The form element should use all the space.
+		width: 100%;
+	}
+}
+
+// The input element
+.mw-search-input {
+	// Unset UserAgent's font-family for consistent sizing with the rest of the header.
+	// UserAgents set a platform-specific font for <input> elements that might differ from the body font.
+	font-family: inherit;
+}
+
 /* Personal menu */
 #p-personal {
 	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
+
+	@media ( max-width: @max-width-header--narrow ) {
+		.flex-size( 1, 1, 90% ); // Grow to full width.
+		.flex-order( 1 );
+		margin-top: @margin-vertical-search;
+	}
 
 	ul {
 		text-align: right; // Right align the second row.
@@ -118,6 +205,14 @@ body {
 		display: inline-block;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
+	}
+
+	.skin-vector-new-search & {
+		padding-left: 0;
+
+		li {
+			margin-left: 0.75em;
+		}
 	}
 
 	#pt-notifications-alert,
@@ -143,6 +238,11 @@ body {
 	z-index: @z-index-indicators;
 }
 
+.mw-workspace-container > .mw-content-container {
+	// Space for tabs.
+	padding-top: @height-tabs;
+}
+
 .mw-body-content {
 	position: relative;
 	z-index: @z-index-base;
@@ -154,11 +254,39 @@ body {
 	top: -9999px;
 }
 
-/* Tabs */
-// #mw-head,
-.mw-article-toolbar-container {
+/* Sidebar and Tabs */
+.mw-article-toolbar-container,
+.mw-sidebar {
 	position: absolute;
-	top: @height-header;  // Below the header.
+	top: @height-header--wide;  // Below the header.
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			top: @height-header--medium;
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			top: @height-header--narrow;
+		}
+
+		@media ( max-width: @max-width-header--micro ) {
+			top: @height-header--micro;
+		}
+	}
+}
+
+/* Sidebar */
+.mw-sidebar {
+	z-index: @z-index-sidebar;
+	.box-sizing( border-box );
+	margin-top: @margin-top-sidebar;
+	padding-left: @padding-left-sidebar;
+	width: @width-grid-column-one;
+	left: 0;
+}
+
+/* Tabs */
+.mw-article-toolbar-container {
 	left: 0;
 	right: 0;
 }
@@ -169,18 +297,6 @@ body {
 
 #right-navigation {
 	float: right;
-}
-
-/* Sidebar */
-#mw-panel {
-	position: absolute;
-	top: @height-header;
-	left: 0;
-	width: @width-grid-column-one;
-	.box-sizing( border-box );
-	margin-top: @margin-top-sidebar;
-	padding-left: @padding-left-sidebar;
-	z-index: @z-index-sidebar;
 }
 
 /* Footer */
