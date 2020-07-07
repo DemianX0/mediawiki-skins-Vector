@@ -154,13 +154,24 @@ body:not( .skin-vector-new-search ) #p-search {
 	font-family: inherit;
 }
 
+/* Universal Language Selector */
+#pt-uls .uls-trigger {
+	// Unset the !important rule inherited from core to align vertically with menu items.
+	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+}
+
 /* Personal menu */
 #p-personal {
 	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
+	// Baseline alignment between Searchbox and Personal menu.
+	padding-top: unit( 3px / @font-size-browser, em );
 
 	ul {
+		.flex-display();
+		.flex-wrap();
+		.justify-content( flex-end ); // Right justify the children: IE>=11
 		text-align: right; // Right align the second row.
 
 		> li {
@@ -179,6 +190,7 @@ body:not( .skin-vector-new-search ) #p-search {
 		display: inline-block;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
+		line-height: 1.5em; // User icon alignment depends on this. Related: T207075.
 	}
 
 	.skin-vector-new-search & {
@@ -197,9 +209,12 @@ body:not( .skin-vector-new-search ) #p-search {
 
 	#pt-notifications-alert,
 	#pt-notifications-notice {
+		margin-right: 0;
+
 		.mw-echo-notifications-badge {
 			// Adjust `top: -5px;` rule inherited from legacy and Echo.
 			top: -2px; // Eyeballed magic number.
+			margin: 0; // Unset inherited `margin: 0 2px;`.
 		}
 	}
 }
