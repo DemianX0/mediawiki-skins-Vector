@@ -229,6 +229,29 @@ body:not( .skin-vector-new-search ) #simpleSearch {
 	}
 }
 
+/* Icon for registered user names & anonymous message */
+#pt-anonuserpage:before,
+#pt-userpage a:before {
+	content: '';
+	display: inline-block;
+	@size-icon: @background-size-nav-personal-icon;
+	width: @size-icon; // Equals `1.16666667em`.
+	height: @size-icon;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	// SVG support using a transparent gradient to guarantee cross-browser
+	// compatibility (browsers able to understand gradient syntax support also SVG)
+	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
+
+	// Move down as much as the border width in the SVG.
+	// There's a 1px (in 20px full height) transparent border
+	// inside the SVG that would misalign the icon and the text.
+	margin-bottom: -@size-icon / 20; // -0.05833333em.
+
+	// Margin between the button icon and text: 2 / 16 / (12/16) = 0.16666667em.
+	margin-right: unit( 2 / @font-size-browser / @font-size-nav-main-heading, em );
+}
+
 /* Main column */
 .mw-body,
 #mw-data-after-content,

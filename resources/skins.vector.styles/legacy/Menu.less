@@ -16,9 +16,15 @@
 /* Icon for registered user names & anonymous message */
 #pt-anonuserpage,
 #pt-userpage a {
+	// SVG support using a transparent gradient to guarantee cross-browser
+	// compatibility (browsers able to understand gradient syntax support also SVG)
+	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
 	background-position: @background-position-nav-personal-icon;
+	background-repeat: no-repeat;
+	background-size: @background-size-nav-personal-icon @background-size-nav-personal-icon;
 	// Same as `#p-personal li` above, see T207075.
 	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
+	padding-left: unit( 1 / @font-size-nav-personal, em ); // 1.33333333em
 }
 
 #pt-userpage {
