@@ -19,7 +19,16 @@
 @padding-bottom-header: 0.3125em;
 @height-logo-icon: 3.125em;
 @height-header--inner: 3.375em; // Logo sizes per specification in T245190.
-@height-header: @height-header--inner + @padding-top-header + @padding-bottom-header;
+@height-header--wide: @height-header--inner +
+	@padding-top-header + @padding-bottom-header;
+@height-header--medium: @height-header--wide + @height-tabs; // Space for personal menu row.
+@height-header--narrow: @height-header--medium + @height-tabs + 0.5em; // Space for SearchBox + personal menu row + that wrapping.
+@max-width-header--medium: 1100px; // 2 rows in header: logo + search, usermenu.
+@max-width-header--narrow: 600px; // 3 rows in header: logo, search, usermenu.
+@margin-vertical-nav-personal--medium: unit( 8px / @font-size-browser, em ); // 8/16 = 0.5em
+
+// Sidebar width
+@padding-left-sidebar: 0.5em;
 @width-grid-column-one: 11em;
 
 body {
@@ -53,7 +62,17 @@ body {
 /* Space for header above content */
 .mw-header-placeholder {
 	// Reserve space for the absolute positioned header and tabs.
-	height: @height-header + @height-tabs;
+	height: @height-tabs + @height-header--wide;
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			height: @height-tabs + @height-header--medium; // Space for personal menu row.
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			height: @height-tabs + @height-header--narrow; // Space for SearchBox + personal menu row.
+		}
+	}
 }
 
 /* Header layout */
@@ -71,6 +90,12 @@ body {
 	.mixin-clearfix(); // Close float flow.
 	.align-items( center ); // Supports: IE11.
 	z-index: @z-index-header;
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			.flex-wrap();
+		}
+	}
 }
 
 /* Sidebar button */
@@ -82,7 +107,8 @@ body {
 }
 
 /* Searchbox */
-#p-search {
+body:not( .skin-vector-new-search ) #p-search {
+	// :not support: IE9+
 	float: left;
 	margin: 0.5em 0.5em 0 0.5em;
 	min-width: 5em;
@@ -91,6 +117,41 @@ body {
 	// Support: Modern browsers, responsive width.
 	width: 20vw;
 	max-width: 20em;
+}
+
+/* SearchBox in header */
+.skin-vector-new-search .mw-search {
+	.flex-grow( 1 );  // Take up as much space as possible.
+	min-width: 350px;  // Flex min size.
+	max-width: 580px;  // Flex max size.
+	padding: 0 40px;
+	margin: auto 0;  // Vertical centering with flex. Fallback for align-items: center; on parent.
+	//page-break-after: always; /* CSS 2.1 syntax */
+	//break-after: always; /* New syntax */
+
+	@media ( max-width: @max-width-header--medium ) {
+		min-width: 100px; // Don't wrap into 3 rows at <725px.
+		padding-right: 0;
+		margin-left: auto; // Right justify.
+	}
+
+	@media ( max-width: @max-width-header--narrow ) {
+		width: 100%;
+		padding-left: 0;
+		margin-top: @margin-vertical-nav-personal--medium;
+	}
+}
+
+// The form element
+.skin-vector-new-search .mw-search-inner {
+	width: 100%;
+}
+
+// The input element
+.mw-search-input {
+	// Unset UserAgent's font-family for consistent sizing with the rest of the header.
+	// UserAgents set a platform-specific font for <input> elements that might differ from the body font.
+	font-family: inherit;
 }
 
 /* Personal menu */
@@ -118,6 +179,20 @@ body {
 		display: inline-block;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
+	}
+
+	.skin-vector-new-search & {
+		padding-left: 0;
+
+		@media ( max-width: @max-width-header--medium ) {
+			width: 100%; // Break into second row on medium width screen.
+			margin: @margin-vertical-nav-personal--medium 0;
+			float: none;
+		}
+
+		li {
+			margin-left: 0.75em;
+		}
 	}
 
 	#pt-notifications-alert,
@@ -158,9 +233,19 @@ body {
 // #mw-head,
 .mw-article-toolbar-container {
 	position: absolute;
-	top: @height-header;  // Below the header.
 	left: 0;
 	right: 0;
+	top: @height-header--wide;  // Below the header.
+
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			top: @height-header--medium;
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			top: @height-header--narrow;
+		}
+	}
 }
 
 #left-navigation {
@@ -177,13 +262,23 @@ body {
 	// The sidebar is absolutely positioned inside the header which applies a top
 	// margin so we need to subtract this top margin in order to get the correct
 	// sidebar position.
-	top: @height-header;
-	left: 0;
-	width: @width-grid-column-one;
+	z-index: @z-index-sidebar;
 	.box-sizing( border-box );
 	margin-top: @margin-top-sidebar;
 	padding-left: @padding-left-sidebar;
-	z-index: @z-index-sidebar;
+	width: @width-grid-column-one;
+	left: 0;
+	top: @height-header--wide;
+}
+
+.skin-vector-new-search #mw-panel {
+	@media ( max-width: @max-width-header--medium ) {
+		top: @height-header--medium;
+	}
+
+	@media ( max-width: @max-width-header--narrow ) {
+		top: @height-header--narrow;
+	}
 }
 
 /* Footer */
