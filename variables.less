@@ -110,6 +110,8 @@
 @font-size-nav-personal: 0.75em;
 // Using `unit()` without second parameter to achieve a unitless output for `line-height`.
 @line-height-nav-personal: unit( 14 / @font-size-browser / @font-size-nav-personal ); // Equals `1.667`.
+@height-personal-icon--px: 20px;
+@height-personal-icon: unit( @height-personal-icon--px / @font-size-browser / @font-size-nav-personal, em );
 
 // Tabs
 @font-size-tabs: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
@@ -117,12 +119,13 @@
 // Search
 @width-search-button: 24 / @font-size-browser / @font-size-search-input;
 @font-size-search-input: unit( 13 / @font-size-browser, em ); // Equals `0.8125em`.
+@font-size-language-selector: @font-size-search-input;
 
 // Z-indices
 // See skinStyles/jquery.ui/jquery.ui.datepicker.css.
 // @z-index-ui-datepicker-cover: -1;
 @z-index-base: 0;
-@z-index-header: 1;
+@z-index-header: 3; // @z-index-menu + 1
 @z-index-sidebar: 1;
 @z-index-menu-checkbox: 1;
 @z-index-search-button: 1;

@@ -1,8 +1,6 @@
 @import '../Menu.less';
 @import '../../../variables.less';
 
-/* Personal */
-.vector-menu,
 /* FIXME: Remove p-personal selector when cache has cleared. */
 #p-personal {
 	li {
@@ -10,7 +8,9 @@
 		// anonymous user icon position below
 		padding-top: 0.5em;
 		line-height: @line-height-nav-personal;
-	}
+		font-size: @font-size-nav-personal;
+		margin-left: 0.75em;
+ 	}
 }
 
 /* Icon for registered user names & anonymous message */
@@ -29,4 +29,13 @@
 
 #pt-userpage {
 	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+
+	a {
+		display: inline-block;
+	}
+}
+
+/* Show anonymous "Not logged in" text in gray */
+#pt-anonuserpage {
+	color: #54595d;
 }

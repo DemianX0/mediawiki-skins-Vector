@@ -1,0 +1,33 @@
+@import '../../variables.less';
+@import 'mediawiki.mixins.less';
+
+#p-usermenu-label {
+	margin-bottom: 0;
+}
+
+/* User menu icon */
+#p-usermenu-label:before {
+	content: '';
+	display: inline-block;
+	width: @height-personal-icon;
+	height: @height-personal-icon;
+	margin-bottom: -2%; // 1px / 20px height.
+	//border-radius: 2px;
+	//cursor: pointer;
+
+	// SVG support using a transparent gradient to guarantee cross-browser
+	// compatibility (browsers able to understand gradient syntax support also SVG)
+	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+/* User page / log-in */
+#pt-userpage a {
+	display: inline-block;
+}
+
+// Show anonymous "Not logged in" text in gray
+#pt-anonuserpage {
+	color: #54595d;
+}

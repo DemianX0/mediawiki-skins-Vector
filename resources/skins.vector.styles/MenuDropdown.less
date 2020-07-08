@@ -84,6 +84,7 @@
 		text-align: left;
 		line-height: 1em;
 
+		> span,
 		a {
 			color: @color-link;
 			display: block;
@@ -148,6 +149,7 @@
 		display: block;
 	}
 
+	&:checked + label h3:after,
 	&:checked + h3:after {
 		transform: scaleY( -1 );
 	}

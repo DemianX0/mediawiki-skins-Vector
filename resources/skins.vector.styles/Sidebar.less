@@ -70,8 +70,8 @@
 .vector-animations-ready {
 	// Enable transition on all widths by default.
 	.mw-sidebar {
-		@timing: @transition-duration-base ease-out;
-		.transition( transform @timing, opacity @timing, visibility @timing; );
+		@timing: 2 * @transition-duration-base ease-out;
+		.transition( all @timing );
 	}
 
 	// Enable sidebar button transitions.
