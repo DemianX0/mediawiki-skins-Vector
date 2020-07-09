@@ -1,17 +1,34 @@
-interface CheckboxHack {
-	updateAriaExpanded(checkbox: HTMLInputElement, button: HTMLElement): void;
-	bindUpdateAriaExpandedOnInput(checkbox: HTMLInputElement, button: HTMLElement): CheckboxHackListeners;
-	bindToggleOnClick(checkbox: HTMLInputElement, button: HTMLElement): CheckboxHackListeners;
-	bindToggleOnSpaceEnter(checkbox:HTMLInputElement, button:HTMLElement): CheckboxHackListeners;
-	bindDismissOnClickOutside(window: Window, checkbox: HTMLInputElement, button: HTMLElement, target: Node): CheckboxHackListeners;
-	bindDismissOnFocusLoss(window: Window, checkbox: HTMLInputElement, button: HTMLElement, target: Node): CheckboxHackListeners;
-	bind(window: Window, checkbox: HTMLInputElement, button: HTMLElement, target: Node): CheckboxHackListeners;
-	unbind(window: Window, checkbox: HTMLInputElement, button: HTMLElement, listeners: CheckboxHackListeners): void;
+declare class CheckboxHack {
+	constructor( window: Window, checkbox: HTMLInputElement, button: HTMLElement, options?: CheckboxHackOptions );
+	window   : Window;
+	checkbox : HTMLInputElement;
+	button   : HTMLElement;
+	options  : CheckboxHackOptions;
+	unbind() : void;
 }
 
+interface CheckboxHackOptions {
+	noClickHandler?          : boolean;
+	noKeyHandler?            : boolean;
+	noDismissOnClickOutside? : boolean;
+	noDismissOnFocusLoss?    : boolean;
+	autoHideElement?         : Node;
+	onChange?                : onChangeCallback;
+}
+
+//declare type onChangeCallback = ( this: CheckboxHack, event?: Event ) => void;
+
+interface onChangeCallback {
+	( this: CheckboxHack, event?: Event ) : void;
+}
+
+declare type ListenerType = EventListener | EventListenerObject;
+
 interface CheckboxHackListeners {
-	onUpdateAriaExpandedOnInput?: EventListenerOrEventListenerObject;
-	onToggleOnClick?: EventListenerOrEventListenerObject;
-	onDismissOnClickOutside?: EventListenerOrEventListenerObject;
-	onDismissOnFocusLoss?: EventListenerOrEventListenerObject;
+	onStateChange?           : ListenerType;
+	onButtonClick?           : ListenerType;
+	onKeydownSpaceEnter?     : ListenerType;
+	onKeyupSpaceEnter?       : ListenerType;
+	onDismissOnClickOutside? : ListenerType;
+	onDismissOnFocusLoss?    : ListenerType;
 }
