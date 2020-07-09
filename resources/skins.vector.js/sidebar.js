@@ -15,31 +15,14 @@
 /** @interface CheckboxHack */
 /** @interface MwApi */
 
-/** @type {CheckboxHack} */ var checkboxHack =
-require( /** @type {string} */( 'mediawiki.page.ready' ) ).checkboxHack;
+/** @type {CheckboxHack} */ var CheckboxHack =
+require( /** @type {string} */( 'mediawiki.page.ready' ) ).CheckboxHack;
 var SIDEBAR_BUTTON_ID = 'mw-sidebar-button',
 	SIDEBAR_CHECKBOX_ID = 'mw-sidebar-checkbox',
 	SIDEBAR_PREFERENCE_NAME = 'VectorSidebarVisible';
 
 var debounce = require( /** @type {string} */ ( 'mediawiki.util' ) ).debounce;
 /** @type {MwApi} */ var api;
-
-/**
- * Improve the interactivity of the sidebar panel by binding optional checkbox hack enhancements
- * for focus and `aria-expanded`. Also, flip the icon image on click.
- *
- * @param {HTMLElement|null} checkbox
- * @param {HTMLElement|null} button
- * @return {void}
- */
-function initCheckboxHack( checkbox, button ) {
-	if ( checkbox instanceof HTMLInputElement && button ) {
-		checkboxHack.bindToggleOnClick( checkbox, button );
-		checkboxHack.bindUpdateAriaExpandedOnInput( checkbox, button );
-		checkboxHack.updateAriaExpanded( checkbox, button );
-		checkboxHack.bindToggleOnSpaceEnter( checkbox, button );
-	}
-}
 
 /**
  * Execute a debounced API request to save the sidebar user preference.
@@ -65,7 +48,7 @@ function saveSidebarState( checkbox ) {
  */
 function bindSidebarClickEvent( checkbox, button ) {
 	if ( checkbox instanceof HTMLInputElement && button ) {
-		checkbox.addEventListener( 'input', saveSidebarState( checkbox ) );
+		button.addEventListener( 'click', saveSidebarState( checkbox ) );
 	}
 }
 
@@ -73,12 +56,16 @@ function bindSidebarClickEvent( checkbox, button ) {
  * Initialize all JavaScript sidebar enhancements.
  *
  * @param {Window} window
+ * @return {void}
  */
 function init( window ) {
 	var checkbox = window.document.getElementById( SIDEBAR_CHECKBOX_ID ),
 		button = window.document.getElementById( SIDEBAR_BUTTON_ID );
 
-	initCheckboxHack( checkbox, button );
+	if ( checkbox instanceof HTMLInputElement && button ) {
+		// eslint-disable-next-line no-unused-vars
+		checkboxHack = new CheckboxHack( window, checkbox, button, {} );
+	}
 	if ( mw.config.get( 'wgUserName' ) && !mw.config.get( 'wgVectorDisableSidebarPersistence' ) ) {
 		bindSidebarClickEvent( checkbox, button );
 	}
