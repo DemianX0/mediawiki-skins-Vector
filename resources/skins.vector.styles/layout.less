@@ -87,12 +87,12 @@ body {
 }
 
 .mw-header {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	max-width: 100vw;
-	.box-sizing( border-box );
+	// .box-sizing( border-box );
 	// A `min-height` is set to account for projects where no icon is set.
 	min-height: @height-header--inner;
 	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
@@ -101,6 +101,12 @@ body {
 	.mixin-clearfix(); // Close float flow.
 	.justify-content( space-between );
 	z-index: @z-index-header;
+
+	// Not layout.
+	@box-shadow-blur-size-header: 10px;
+	@box-shadow-color-header: #f0f0f0;
+	background-color: @background-color-base;
+	.box-shadow( 0 @box-shadow-blur-size-header @box-shadow-blur-size-header -@box-shadow-blur-size-header @box-shadow-color-header );
 
 	.skin-vector-new-search & {
 		@media ( max-width: @max-width-header--medium ) {
@@ -331,6 +337,7 @@ body:not( .skin-vector-new-search ) #simpleSearch {
 	margin-top: @margin-top-sidebar;
 	padding-left: @padding-left-sidebar;
 	width: @width-grid-column-one;
+	// left: @size-sidebar-button - @padding-left-sidebar - @margin-start-portal;
 	left: 0;
 	top: @height-header--wide;
 }
