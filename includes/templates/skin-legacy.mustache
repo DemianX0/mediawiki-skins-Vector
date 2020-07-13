@@ -42,9 +42,11 @@
 	{{#html-sitenotice}}
 		<div id="siteNotice" class="mw-body-content">{{{html-sitenotice}}}</div>
 	{{/html-sitenotice}}
-	{{>Indicators}}
-	<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
-	{{{html-prebodyhtml}}}
+	<div class="mw-body__title">
+		<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
+		{{>Indicators}}
+	</div>
+ 	{{{html-prebodyhtml}}}
 	<div id="bodyContent" class="mw-body-content">
 		{{#page-isarticle}}<div id="siteSub" class="noprint">{{msg-tagline}}</div>{{/page-isarticle}}
 		<div id="contentSub"{{{html-userlangattributes}}}>{{{html-subtitle}}}</div>

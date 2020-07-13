@@ -1,14 +1,38 @@
 @import '../../variables.less';
+@import 'mediawiki.mixins.less';
+
+.mw-body__title {
+	.flex-display();
+	align-items: flex-end;
+	// Keep border in sync with:  core/resources/src/mediawiki.skinning/elements.css / h1-h6
+	border-bottom: 1px solid #a2a9b1;
+
+	@media ( max-width: 720px ) {
+		.flex-wrap();
+	}
+}
 
 // FIXME: Is specific `.mw-body` even needed? Does `.mw-indicators` exist outside?
 .mw-body {
 	.mw-indicators {
+		float: right; // Fallback for non-flex browsers.
 		font-size: @font-size-base;
 		line-height: @line-height-base;
 		position: relative;
+		.flex-display();
+		.flex-wrap();
+		justify-content: flex-end;
+		align-items: baseline;
 	}
 
 	.mw-indicator {
 		display: inline-block;
+		white-space: nowrap;
+	}
+
+	h1.firstHeading {
+		margin: 0;
+		border: unset;
+		flex-grow: 1;
 	}
 }
