@@ -37,8 +37,10 @@
 <div id="content" class="mw-body" role="main">
 	<a id="top"></a>
 	<div id="siteNotice" class="mw-body-content">{{{html-site-notice}}}</div>
-	{{>Indicators}}
-	<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
+	<div class="mw-body__title">
+		<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
+		{{>Indicators}}
+	</div>
 	<div id="bodyContent" class="mw-body-content">
 		{{#page-isarticle}}<div id="siteSub" class="noprint">{{msg-tagline}}</div>{{/page-isarticle}}
 		<div id="contentSub"{{{html-user-language-attributes}}}>{{{html-subtitle}}}</div>
