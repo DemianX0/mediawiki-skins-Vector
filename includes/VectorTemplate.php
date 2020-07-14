@@ -581,6 +581,12 @@ class VectorTemplate extends BaseTemplate {
 			}
 		}
 
+		// No dropdown if only a single item in it.
+		if ( $userMenuTools && count( $userMenuTools ) <= 1 ) {
+			$personalTools += $userMenuTools;
+			$userMenuTools = null;
+		}
+
 		$personalMenuData = $this->getMenuData(
 			'personal',
 			$personalTools,
