@@ -529,6 +529,8 @@ class VectorTemplate extends BaseTemplate {
 		return $props;
 	}
 
+	const TEXTWRAPPER = [ 'text-wrapper' => [ 'tag' => 'span', 'attributes' => [ 'class' => 'speech-only-hidden' ] ] ];
+
 	/**
 	 * @return array
 	 */
@@ -568,12 +570,14 @@ class VectorTemplate extends BaseTemplate {
 			$item = wfRemoveItem( $userMenuTools, 'notifications-alert' );
 			if ( $item ) {
 				$personalTools[] = $item;
-				$toolHtml .= $skin->makeListItem( 'notifications-alert', $item );
+				$html = $skin->makeListItem( 'notifications-alert', $item, self::TEXTWRAPPER );
+				$toolHtml .= str_replace( 'oo-ui-icon-', 'mw-ui-icon mw-ui-icon-', $html );
 			}
 			$item = wfRemoveItem( $userMenuTools, 'notifications-notice' );
 			if ( $item ) {
 				$personalTools[] = $item;
-				$toolHtml .= $skin->makeListItem( 'notifications-notice', $item );
+				$html = $skin->makeListItem( 'notifications-notice', $item, self::TEXTWRAPPER );
+				$toolHtml .= str_replace( 'oo-ui-icon-', 'mw-ui-icon mw-ui-icon-', $html );
 			}
 		}
 
