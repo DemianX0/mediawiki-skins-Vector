@@ -579,6 +579,13 @@ class VectorTemplate extends BaseTemplate {
 				$html = $skin->makeListItem( 'notifications-notice', $item, self::TEXTWRAPPER );
 				$toolHtml .= str_replace( 'oo-ui-icon-', 'mw-ui-icon mw-ui-icon-', $html );
 			}
+
+			$item = wfRemoveItem( $userMenuTools, 'watchlist' );
+			if ( $item ) {
+				$personalTools[] = $item;
+				$item['links'][0]['class'][] = 'mw-ui-icon mw-ui-icon-history';
+				$toolHtml .= $skin->makeListItem( 'watchlist', $item, self::TEXTWRAPPER );
+			}
 		}
 
 		// No dropdown if only a single item in it.
