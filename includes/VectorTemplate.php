@@ -488,15 +488,16 @@ class VectorTemplate extends BaseTemplate {
 
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
-			if (
-				$key !== 'watch' && $key !== 'unwatch' &&
-				isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
+			$itemOptions = null;
+			if ( $key === 'watch' || $key === 'unwatch' ) {
+				$itemOptions = $options + self::TEXTWRAPPER;
+			} elseif ( isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
 				if ( !isset( $item['class'] ) ) {
 					$item['class'] = '';
 				}
 				$item['class'] = rtrim( 'collapsible ' . $item['class'], ' ' );
 			}
-			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $options );
+			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $itemOptions ?? $options );
 
 			// Check the class of the item for a `selected` class and if so, propagate the items
 			// label to the main label.

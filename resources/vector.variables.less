@@ -109,18 +109,19 @@
 @margin-start-portal-body: @margin-start-nav-main-body;
 
 // Navigation: Personal tools
-@background-size-nav-personal-icon: unit( 14px / @font-size-nav-personal--px, em ); // 14/12 = 1.16666667em
 @top-personal-tools: 6px;
 @font-size-nav-personal--px: 12px;
 @font-size-nav-personal: unit( @font-size-nav-personal--px / @font-size-root--px, em ); // 12/16 = 0.75em
 // Using `unit()` without second parameter to achieve a unitless output for `line-height`.
-@line-height-nav-personal: unit( @background-size-nav-personal-icon ); // 1.16666667
+@line-height-nav-personal: unit( 14px / @font-size-nav-personal--px ); // 14/12 = 1.16666667
+@background-size-nav-personal-icon: unit( @line-height-nav-personal, em ); // 1.16666667em
 @height-personal-icon--px: 20px;
 @height-personal-icon: unit( @height-personal-icon--px / @font-size-nav-personal--px, em ); // 20/12 = 1.66666667em
 
 // Tabs
 @font-size-tabs--px: 13px;
 @font-size-tabs: unit( @font-size-tabs--px / @font-size-root--px, em ); // 13/16 = 0.8125em
+@line-height-tabs: unit( 14px / @font-size-tabs--px ); // 14/13 = 1.07692308
 
 // Search
 @width-search-button: unit( 24px / @font-size-search-input--px, em ); // 24/13 = 1.84615384em

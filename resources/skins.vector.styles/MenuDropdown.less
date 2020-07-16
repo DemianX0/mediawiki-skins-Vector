@@ -8,30 +8,31 @@
 	float: left;
 	cursor: pointer;
 	position: relative;
-	line-height: 1.125em;
 
 	h3 {
 		color: @color-base--subtle;
 		position: relative;
-		display: block;
+		display: inline-block;
 		.box-sizing( border-box );
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
 		padding-left: 8px;
 		padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
-		font-size: @font-size-tabs;
+		margin: 0;
+		font-size: inherit;
 		font-weight: normal;
 
 		&:after {
 			content: '';
 			.background-image-svg( 'images/arrow-down.svg', 'images/arrow-down.png' );
-			background-position: 100% 50%;
+			background-position: 50% 50%;
 			background-repeat: no-repeat;
+			background-size: 100%;
 			position: absolute;
-			top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
-			right: 8px;
+			top: 0;
+			right: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			bottom: 0;
-			width: unit( 16px / @font-size-tabs--px, em ); // 16/13 = 1.23076923em
+			width: 1em;
 			// Modify the color of the image from the default #202122 to approx. #404244 to match the text.
 			opacity: 0.84;
 		}
@@ -47,14 +48,14 @@
 	}
 
 	// The menu itself.
-	.vector-menu-content-list {
+	ul {
 		background-color: @background-color-base;
 		list-style: none none;
 		// Match the width of the dropdown "heading" (the tab)
 		min-width: 100%;
 		position: absolute;
-		top: 2.5em;
-		left: -@border-width-base;
+		top: 100%; // Move down with tab height.
+		margin-top: -3px; // Remove the gap between button and menu.
 		border: @border-width-base @border-style-base @border-color-base;
 		border-top-width: 0;
 		padding: 0;
@@ -128,7 +129,7 @@
 			padding: 0.625em;
 			white-space: nowrap;
 			cursor: pointer;
-			font-size: @font-size-tabs;
+			//font-size: @font-size-tabs;
 		}
 	}
 
@@ -139,16 +140,34 @@
 	}
 }
 
+#mw-head .vector-menu-dropdown {
+	font-size: @font-size-tabs;
+	line-height: @line-height-tabs;
+
+	ul {
+		margin-left: -@border-width-base;
+	}
+}
+
 #mw-head .vector-menu-dropdown h3 {
-	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
+	// Tab layout duplicated from `.vector-menu-tabs li a` without `color: @color-link;`
+	// Tab separator: Border between tabs and outer right border.
 	background-position: right bottom;
-	float: left;
-	height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
-	margin: 0 -@border-width-base 0 0;
-	// `padding-right` >= `1px` effectively moves the "background border" outside of the element to
-	// act like a real border. It is necessary for `.vector-menu-dropdown .vector-menu-content-list` dropdown to align well.
-	// 0.5em equals `8px` at computed `font-size` of `14px` as visually harmonically with
-	// `padding-left` in `.vector-menu-dropdown h3 a`
+	.box-sizing( border-box );
+	//float: left;
+	//display: block;
+	display: inline-block;
+	height: unit( 30px / @font-size-tabs--px, em ); // 30/13 = 2.30769231em
+	// height = 10px margin-top + 2 * 8px padding + 14px line-height
+	position: relative;
+	margin-top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
+	padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
+	//padding-top: 1.25em;
+	cursor: pointer;
+
+	// Additional rules
+	margin-right: -@border-width-base;
+	// Space for tiny arrow
 	padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
 }
 
@@ -166,9 +185,9 @@
 	background-size: @border-width-base 100%;
 }
 
-// Invisible checkbox covering the dropdown menu handle
 .vector-menu-checkbox {
 	// Hide the checkbox, the button captures pointer events.
+	display: none;
 	display: none;
  	position: absolute;
 }

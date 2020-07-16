@@ -7,6 +7,7 @@
 // FIXME: remove #p-personal after 2 weeks of deployment.
 #p-personal,
 .menu-personal {
+	font-size: @font-size-nav-personal; // NOTE: Moved up from legacy `#personal li`.
 	line-height: @line-height-nav-personal;
 	white-space: nowrap;
 
@@ -28,7 +29,6 @@
 		white-space: nowrap;
 		// IE<=10 will position the icons 3px higher. No functionality lost.
 		justify-content: flex-end;  // Move Notifications, PersonalMenu to the right.
-		font-size: @font-size-nav-personal; // NOTE: Moved up from legacy `#personal li`.
 	}
 
 	// Only the tray icons, not the submenuitems on dropdowns.
@@ -56,7 +56,6 @@
 	.vector-menu-dropdown {
 		// Selector must be more specific than .vector-menu-dropdown to override some rules.
 		ul {
-			top: unit( ( @height-personal-icon--px + 9px ) / @font-size-nav-personal--px, em ); // 29/12 = 2.41666667em
 			left: auto; // `initial` with compatibility.
 			right: 0;
 			border-top-width: 1px;
@@ -83,8 +82,8 @@
 			// Down arrow next to icon.
 			&:after {
 				// display: none;
+				top: unit( 8px / @font-size-nav-personal--px, em ); // 8/12 = 0.66666667em
 				right: unit( 6px / @font-size-nav-personal--px, em ); // 6/12 = 0.5em
-				top: 4px;
 			}
 		}
 	}
