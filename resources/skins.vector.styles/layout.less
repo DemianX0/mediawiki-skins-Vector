@@ -25,8 +25,8 @@
 @max-width-header--medium: 900px; // 2 rows in header: logo + usermenu, search + uls.
 @max-width-header--narrow: 450px; // 3 rows in header: logo, uls + usermenu, search.
 @margin-horizontal-search: 40px;
-@margin-vertical-nav-personal--medium: unit( 8px / @font-size-browser, em );
-@font-size-logo--px: @font-size-browser;
+@margin-vertical-nav-personal--medium: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
+@font-size-logo--px: @font-size-root--px;
 
 // Sidebar width
 @padding-left-sidebar: 0.5em;
@@ -231,7 +231,7 @@ body:not( .skin-vector-new-search ) #simpleSearch {
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
 	// Baseline alignment between Searchbox and Personal menu.
-	//padding-top: unit( 3px / @font-size-browser, em );
+	//padding-top: unit( 3px / @font-size-root--px, em ); // 3/16 = 0.1875em
 	float: right; // Non-flex fallback for IE<=9. Float does no vertical centering.
 	//.flex-grow( 1 ); // Grow to the right edge.
 
