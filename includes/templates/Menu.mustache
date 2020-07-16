@@ -6,9 +6,9 @@
 <{{tag}} id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
 	 {{{html-user-language-attributes}}}>
 	{{#is-dropdown}}
-	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="{{label-id}}" />
+	<input type="checkbox" class="vector-menu-checkbox" aria-labelledby="{{label-id}}" tabindex="-1"/>
 	{{/is-dropdown}}
-	<h3 id="{{label-id}}">
+	<h3 id="{{label-id}}" {{#is-dropdown}}class="vector-menu-button" tabindex="0"{{/is-dropdown}}>
 		<span>{{label}}</span>
 	</h3>
 	{{! `body` class for backwards compatibility but let editors know not to use

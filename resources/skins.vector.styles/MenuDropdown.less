@@ -62,20 +62,57 @@
 		text-align: left;
 		opacity: 0;
 		visibility: hidden;
-		.transition( opacity 100ms );
+		transform: translateY( -1em ); // Slide-in effect.
+		@timing: 1.5 * @transition-duration-base;
+		.transition( all @timing );
 		z-index: @z-index-menu;
 	}
 
-	&:hover .vector-menu-content-list {
+	.mixin-visible() {
 		opacity: 1;
 		visibility: visible;
+		transform: translateY( 0 );
+	}
+
+	.mixin-visible( false ) {
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY( -1em );
+	}
+
+	&:hover .vector-menu-content-list {
+		.mixin-visible();
+	}
+
+	.vector-menu-content-list:focus-within {
+		// No IE support for :focus-within.
+		// Keep the menu open if not checked, but a menu item is focused.
+		.mixin-visible();
 	}
 
 	// This is in a separate block, so that browsers supporting :hover but not :checked still apply the rule above
 	// Support: IE8
-	.vector-menu-checkbox:checked ~ .vector-menu-content .vector-menu-content-list {
-		opacity: 1;
-		visibility: visible;
+	.vector-menu-checkbox:checked {
+		& ~ .vector-menu-content .vector-menu-content-list {
+			// Open menu IFF the menu button is focused and ENTER is pressed (-> checked).
+			.mixin-visible();
+		}
+
+		& ~ h3:after {
+			transform: scaleY( -1 );
+		}
+	}
+
+	&:not( :focus-within ):not( :hover ) .vector-menu-checkbox:checked {
+		// Hide the menu if the focus is outside the menu even if the checkbox is checked.
+		// No IE support.
+		& ~ .vector-menu-content .vector-menu-content-list {
+			.mixin-visible( false );
+		}
+
+		& ~ h3:after {
+			transform: scaleY( 1 );
+		}
 	}
 
 	li {
@@ -131,30 +168,7 @@
 
 // Invisible checkbox covering the dropdown menu handle
 .vector-menu-checkbox {
-	cursor: pointer;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: @z-index-menu-checkbox;
-	opacity: 0;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	// Hide the checkbox completely in browsers that don't support :checked
+	// Hide the checkbox, the button captures pointer events.
 	display: none;
-
-	:not( :checked ) > & {
-		// When the browser supports :checked, display it
-		display: block;
-	}
-
-	&:checked + label h3:after,
-	&:checked + h3:after {
-		transform: scaleY( -1 );
-	}
-
-	&:focus + h3 {
-		.mixin-focus-outline();
-	}
+ 	position: absolute;
 }
