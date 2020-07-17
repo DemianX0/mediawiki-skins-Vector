@@ -1,0 +1,23 @@
+@import '../../variables.less';
+
+/* Personal menu */
+#p-personal {
+	li {
+		display: inline-block; // Line up menu items.
+		vertical-align: middle;
+		// Compensate for `padding-top: 0.5em;` inherited from legacy.
+		// FIXME: Clean up layout in a follow-up.
+		margin-top: -0.5em;
+		// Reset `margin-bottom` from general `li` element.
+		margin-bottom: 0;
+	}
+
+	/* Echo notification icons */
+	#pt-notifications-alert,
+	#pt-notifications-notice {
+		.mw-echo-notifications-badge {
+			// Adjust `top: -5px;` rule inherited from legacy and Echo.
+			top: -2px; // Eyeballed magic number.
+		}
+	}
+}
