@@ -25,6 +25,22 @@
 use Vector\Constants;
 
 /**
+ * Remove and return an array item / object property.
+ *
+ * @param array &$array the array/object
+ * @param string $key the key to remove
+ * @return mixed the removed item / property value
+ */
+function wfRemoveItem( &$array, $key ) {
+	if ( isset( $array[$key] ) ) {
+		$item = $array[$key];
+		unset( $array[$key] );
+		return $item;
+	}
+	return null;
+}
+
+/**
  * QuickTemplate subclass for Vector
  * @ingroup Skins
  * @deprecated Since 1.35, duplicate class locally if its functionality is needed.
@@ -52,6 +68,8 @@ class VectorTemplate extends BaseTemplate {
 	private const MENU_CLASSES = [
 		// User tools
 		'personal' => 'menu-personal',
+		// User dropdown menu
+		'usermenu' => 'menu-user',
 		// Left side: Page, Discuss.
 		'namespaces' => 'menu-namespaces',
 		// Left side: dropdown.
@@ -452,6 +470,7 @@ class VectorTemplate extends BaseTemplate {
 		// These inconsitencies are captured in MENU_LABEL_KEYS
 		$msgObj = $skin->msg( self::MENU_LABEL_KEYS[ $label ] ?? $label );
 		$props = [
+			'tag' => 'nav',
 			'id' => "p-$label",
 			'label-id' => "p-{$label}-label",
 			// If no message exists fallback to plain text (T252727)
@@ -511,44 +530,89 @@ class VectorTemplate extends BaseTemplate {
 	private function getMenuProps() : array {
 		// @phan-suppress-next-line PhanUndeclaredMethod
 		$contentNavigation = $this->getSkin()->getMenuProps();
-		$personalTools = $this->getPersonalTools();
 		$skin = $this->getSkin();
 
-		// For logged out users Vector shows a "Not logged in message"
+		// If logged out users can edit then Vector shows a "Not logged in" menu item.
 		// This should be upstreamed to core, with instructions for how to hide it for skins
 		// that do not want it.
-		// For now we create a dedicated list item to avoid having to sync the API internals
-		// of makeListItem.
-		if ( !$skin->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' ) ) {
-			$loggedIn =
-				Html::element( 'li',
-					[ 'id' => 'pt-anonuserpage' ],
-					$skin->msg( 'notloggedin' )->text()
-				);
-		} else {
-			$loggedIn = '';
+		$showNotLoggedIn = !$skin->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' );
+
+		$langSelector = '';
+		$toolHtml = null;
+		$personalTools = $this->getPersonalTools();
+		$userMenuTools = null;
+
+		if ( !$this->isLegacy ) {
+			$toolHtml = '';
+			$userMenuTools = $personalTools;
+			$personalTools = [];
+
+			if ( $userMenuTools['userpage'] ?? null ) {
+				$userMenuTools['userpage']['links'][0]['text'] = $skin->msg( 'nstab-user' )->text();
+			}
+
+			if ( $userMenuTools['mytalk'] ?? null ) {
+				$userMenuTools['mytalk']['links'][0]['text'] .= ' ' . strtolower( $skin->msg( 'mypage' )->text() );
+			}
+
+			$item = wfRemoveItem( $userMenuTools, 'uls' );
+			if ( $item ) {
+				$langSelector = $skin->makeListItem( 'uls', $item, [ 'tag' => 'div' ] );
+			}
+
+			$item = wfRemoveItem( $userMenuTools, 'notifications-alert' );
+			if ( $item ) {
+				$personalTools[] = $item;
+				$toolHtml .= $skin->makeListItem( 'notifications-alert', $item );
+			}
+			$item = wfRemoveItem( $userMenuTools, 'notifications-notice' );
+			if ( $item ) {
+				$personalTools[] = $item;
+				$toolHtml .= $skin->makeListItem( 'notifications-notice', $item );
+			}
 		}
 
-		// This code doesn't belong here, it belongs in the UniversalLanguageSelector
-		// It is here to workaround the fact that it wants to be the first item in the personal menus.
-		if ( array_key_exists( 'uls', $personalTools ) ) {
-			$uls = $skin->makeListItem( 'uls', $personalTools[ 'uls' ] );
-			unset( $personalTools[ 'uls' ] );
-		} else {
-			$uls = '';
+		// No dropdown if only a single item in it.
+		if ( $userMenuTools && count( $userMenuTools ) <= 1 ) {
+			$personalTools += $userMenuTools;
+			$userMenuTools = null;
 		}
 
-		$ptools = $this->getMenuData(
+		$personalMenuData = $this->getMenuData(
 			'personal',
 			$personalTools,
 			self::MENU_TYPE_DEFAULT
 		);
+		$userMenuData = $personalMenuData;
 
-		// Append additional link items if present.
-		$ptools['html-items'] = $uls . $loggedIn . $ptools['html-items'];
+		if ( $userMenuTools ) {
+			// Modern layout.
+			$userMenuData = $this->getMenuData(
+				'usermenu',
+				$userMenuTools,
+				self::MENU_TYPE_DROPDOWN
+			);
+			$userMenuData['tag'] = 'li';
+			$userMenuData['label'] = $skin->getUser()->isLoggedIn()
+				? $skin->username
+				: $skin->msg( 'notloggedin' )->text();
+		} elseif ( $showNotLoggedIn ) {
+			// Legacy layout, logged-out, editing enabled.
+			// For now we create a dedicated list item to avoid having to sync the API internals
+			// of makeListItem.
+			$notloggedin = Html::rawElement( 'li', [], Html::element( 'span',
+				[ 'id' => 'pt-anonuserpage' ],
+				$skin->msg( 'notloggedin' )->text()
+			) );
+
+			// Prepend "Not logged in".
+			$userMenuData['html-items'] = $notloggedin . $userMenuData['html-items'];
+		}
 
 		return [
-			'data-personal-menu' => $ptools,
+			'html-lang-selector' => $langSelector,
+			'html-personal-tools' => $toolHtml,
+			'data-personal-menu' => $userMenuData,
 			'data-namespace-tabs' => $this->getMenuData(
 				'namespaces',
 				$contentNavigation[ 'namespaces' ] ?? [],

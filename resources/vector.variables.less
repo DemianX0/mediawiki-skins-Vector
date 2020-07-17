@@ -123,12 +123,13 @@
 @width-search-button: unit( 24px / @font-size-search-input--px, em ); // 24/13 = 1.84615384em
 @font-size-search-input--px: @font-size-tabs--px;
 @font-size-search-input: unit( @font-size-search-input--px / @font-size-root--px, em ); // 13/16 = 0.8125em
+@font-size-language-selector: @font-size-search-input;
 
 // Z-indices
 // See skinStyles/jquery.ui/jquery.ui.datepicker.css.
 // @z-index-ui-datepicker-cover: -1;
 @z-index-base: 0;
-@z-index-header: 1;
+@z-index-header: 3; // @z-index-menu + 1
 @z-index-sidebar: 1;
 @z-index-menu-checkbox: 1;
 @z-index-search-button: 1;

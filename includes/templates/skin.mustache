@@ -80,22 +80,29 @@
 </div> {{! END mw-workspace-container }}
 
 <header class="mw-header">
-	<label
-		id="mw-sidebar-button"
-		class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
-		for="mw-sidebar-checkbox"
-		role="button"
-		aria-controls="mw-panel"
-		data-event-name="ui.sidebar"
-		tabindex="0">
-		{{msg-vector-action-toggle-sidebar}}
-	</label>
-	<div class="mw-workspace-container mw-sidebar-container">
-		{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
+	<div class="mw-header-left">
+		<label
+			id="mw-sidebar-button"
+			class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
+			for="mw-sidebar-checkbox"
+			role="button"
+			aria-controls="mw-panel"
+			data-event-name="ui.sidebar"
+			tabindex="0">
+			{{msg-vector-action-toggle-sidebar}}
+		</label>
+		<div class="mw-workspace-container mw-sidebar-container">
+			{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
+		</div>
+		{{>Logo}}
 	</div>
-	{{>Logo}}
-	{{#is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}
-	{{#data-personal-menu}}{{>Menu}}{{/data-personal-menu}}
+	{{#is-layout-new-search}} 
+	<div class="mw-header-middle">
+		{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
+		{{{html-lang-selector}}}
+	</div>
+	{{/is-layout-new-search}}
+	{{> MenuPersonal}}
 </header>
 
 <div id="mw-navigation">

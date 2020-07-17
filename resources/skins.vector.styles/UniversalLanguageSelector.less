@@ -1,0 +1,41 @@
+@import '../vector.variables.less';
+
+/* Universal Language Selector */
+.skin-vector-new-search #pt-uls {
+	font-size: @font-size-language-selector; // 13/16 = 0.8125em
+
+	.uls-trigger {
+		// Style as a button
+		.box-sizing( border-box );
+		padding: 0.4em;
+		border: @border-width-base @border-style-base @colorGray10;
+		border-radius: @borderRadius;
+
+		// No need to increase specificity: these rules are loaded after the ULS stylesheet.
+		&:before {
+			padding-top: 0;
+			background-position-y: center;
+		}
+	}
+}
+
+.uls-menu:not(.language-settings-dialog) {
+	right: 0 !important;  // stylelint-disable-line declaration-no-important
+	left: 0 !important;  // stylelint-disable-line declaration-no-important
+	margin: 0 auto;
+
+	&.uls-medium,
+	&.uls-wide {
+		min-width: auto;
+		width: 95%;
+
+		@media ( min-width: ( 715px / 0.95 ) ) {
+			min-width: 715px;
+			width: 45%;
+		}
+	}
+
+	&.grid .row {
+		min-width: auto;
+	}
+}

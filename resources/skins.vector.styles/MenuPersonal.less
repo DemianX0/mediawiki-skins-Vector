@@ -1,24 +1,103 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
 
-/* User page link icon */
-#pt-anonuserpage:before,
-#pt-userpage a:before {
-	content: '';
-	display: inline-block;
-	width: @size-personal-icon; // Equals `1.16666667em`.
-	height: @size-personal-icon;
-	// SVG support using a transparent gradient to guarantee cross-browser
-	// compatibility (browsers able to understand gradient syntax support also SVG)
-	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
-	background-repeat: no-repeat;
-	background-size: 100%;
+@background-color-menu: #fcfcfc;
 
-	// Move down as much as the border width in the SVG.
-	// There's a 1px (in 20px full height) transparent border
-	// inside the SVG that would misalign the icon and the text.
-	margin-bottom: -@size-personal-icon / 20; // -0.05833333em.
+/* Personal menu */
+// FIXME: remove #p-personal after 2 weeks of deployment.
+#p-personal,
+.menu-personal {
+	font-size: @font-size-nav-personal; // NOTE: Moved up from legacy `#personal li`.
+	line-height: @line-height-nav-personal;
+	white-space: nowrap;
 
-	// Margin between the button icon and text: 2/12 = 0.16666667em
-	margin-right: unit( 2px / @font-size-nav-personal--px, em );
+	h3 {
+		padding-top: 0;
+		padding-bottom: 0;
+		padding-left: 0;
+	}
+
+	> ul {
+		.flex-display();
+		//.flex-wrap( nowrap );
+		.align-items( center );
+		white-space: nowrap;
+		// IE<=10 will position the icons 3px higher. No functionality lost.
+		justify-content: flex-end;  // Move Notifications, PersonalMenu to the right.
+	}
+
+	// Only the tray icons, not the submenuitems on dropdowns.
+	> ul > li {
+		position: relative;  // Context for the dropdowns.
+		display: inline-block;  // Line up blocks.
+		margin-bottom: 0;
+		margin-left: 0.75em;
+	}
+
+	.vector-menu-dropdown {
+		// Selector must be more specific than .vector-menu-dropdown to override some rules.
+		ul {
+			top: unit( ( @height-personal-icon--px + 9px ) / @font-size-nav-personal--px, em ); // 29/12 = 2.41666667em
+			left: auto; // `initial` with compatibility.
+			right: 0;
+			border-top-width: 1px;
+			border-radius: 2px;
+			// background-color: @background-color-menu;
+			.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+		}
+
+		li span,
+		li a {
+			font-size: inherit;
+		}
+
+		> h3 {
+			padding: 0.3em 0.3em 0 0.2em;
+			border: @border-width-base @border-style-base @colorGray10;
+			border-radius: 2px;
+			font-size: inherit;
+			vertical-align: middle;
+			cursor: pointer;
+			// Space for down arrow.
+			padding-right: unit( 24px / @font-size-nav-personal--px, em ); // 24/12 = 2em
+
+			// Down arrow next to icon.
+			&:after {
+				// display: none;
+				right: unit( 6px / @font-size-nav-personal--px, em ); // 6/12 = 0.5em
+				top: 4px;
+			}
+		}
+	}
+
+	/* Echo icons */
+	#pt-notifications-alert,
+	#pt-notifications-notice {
+		margin-right: 0;
+
+		.mw-echo-notifications-badge {
+			// Adjust `top: -5px;` rule inherited from legacy and Echo.
+			top: 0; // Fix positioning of #pt-notifications-alert .mw-echo-notifications-badge:focus, #pt-notifications-notice .mw-echo-notifications-badge:focus
+			margin: 0; // Unset inherited `margin: 0 2px;`.
+			// Override with precedence.
+			width: @height-personal-icon;
+			height: @height-personal-icon;
+			
+			&:focus {
+				box-shadow: none;
+				.mixin-focus-outline();
+			}
+		}
+	}
+}
+
+// Echo popup styling similar to Personal menu.
+div.oo-ui-popupWidget-popup {
+	.vertical-gradient( @background-color-base, @background-color-secondary, 0%, 10% );
+	.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+	border: 0;
+}
+
+div.mw-echo-ui-placeholderItemWidget {
+	background-color: transparent;
 }
