@@ -24,8 +24,8 @@
 @height-header--narrow: @height-header--medium + @height-tabs + 0.5em; // Space for SearchBox + personal menu row + that wrapping.
 @max-width-header--medium: 1100px; // 2 rows in header: logo + search, usermenu.
 @max-width-header--narrow: 600px; // 3 rows in header: logo, search, usermenu.
-@margin-vertical-nav-personal--medium: unit( 8px / @font-size-browser, em ); // 8/16 = 0.5em
-@font-size-logo--px: @font-size-browser;
+@margin-vertical-nav-personal--medium: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
+@font-size-logo--px: @font-size-root--px;
 
 // Sidebar width
 @padding-left-sidebar: 0.5em;
@@ -166,7 +166,7 @@ body:not( .skin-vector-new-search ) #p-search {
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
 	// Baseline alignment between Searchbox and Personal menu.
-	padding-top: unit( 3px / @font-size-browser, em );
+	padding-top: unit( 3px / @font-size-root--px, em ); // 3/16 = 0.1875em
 
 	ul {
 		.flex-display();
