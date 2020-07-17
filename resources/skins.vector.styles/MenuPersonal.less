@@ -38,6 +38,8 @@
 			height: @size-personal-menu-icon;
 			background-repeat: no-repeat;
 			background-size: 100%;
+			display: inline-block; // Override inherited `display: block;`;
+			text-indent: 0; // Unset inherited `text-indent: -9999px;`.
 			
 			&:focus {
 				box-shadow: none;

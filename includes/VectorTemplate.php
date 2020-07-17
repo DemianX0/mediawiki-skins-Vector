@@ -577,6 +577,16 @@ class VectorTemplate extends BaseTemplate {
 			if ( $personalTools['mytalk'] ?? null ) {
 				$personalTools['mytalk']['links'][0]['text'] .= ' ' . strtolower( $skin->msg( 'mypage' )->text() );
 			}
+			if ( $personalTools['notifications-alert'] ?? null ) {
+				$classNames = $personalTools['notifications-alert']['links'][0]['class'];
+				$personalTools['notifications-alert']['links'][0]['class'] = str_replace( 'oo-ui-icon-', 'mw-ui-icon mw-ui-icon-', $classNames );
+				$personalTools['notifications-alert']['text-wrapper'] = true;
+			}
+			if ( $personalTools['notifications-notice'] ?? null ) {
+				$classNames = $personalTools['notifications-notice']['links'][0]['class'];
+				$personalTools['notifications-notice']['links'][0]['class'] = str_replace( 'oo-ui-icon-', 'mw-ui-icon mw-ui-icon-', $classNames );
+				$personalTools['notifications-notice']['text-wrapper'] = true;
+			}
 
 			$toolKeys = [
 				'uls' => true,
