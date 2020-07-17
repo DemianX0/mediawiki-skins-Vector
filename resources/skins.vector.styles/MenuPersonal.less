@@ -1,4 +1,5 @@
 @import '../../variables.less';
+@import 'mediawiki.mixins.less';
 
 /* Personal menu */
 #p-personal {
@@ -32,13 +33,23 @@
 }
 
 /* User page link icon */
-#pt-anonuserpage,
-#pt-userpage a {
+#pt-anonuserpage:before,
+#pt-userpage a:before {
+	content: '';
+	display: inline-block;
+	width: @size-personal-icon; // Equals `1.16666667em`.
+	height: @size-personal-icon;
 	// SVG support using a transparent gradient to guarantee cross-browser
 	// compatibility (browsers able to understand gradient syntax support also SVG)
 	background-image: url( images/user-avatar.svg );
-	background-position: left 0;
 	background-repeat: no-repeat;
-	background-size: @size-personal-icon @size-personal-icon;
-	padding-left: unit( 1 / @font-size-nav-personal, em ); // 1.33333333em
+	background-size: 100%;
+
+	// Move down as much as the border width in the SVG.
+	// There's a 1px (in 20px full height) transparent border
+	// inside the SVG that would misalign the icon and the text.
+	margin-bottom: -@size-personal-icon / 20; // -0.05833333em.
+
+	// Margin between the button icon and text: 2 / 16 / (12/16) = 0.16666667em.
+	margin-right: unit( 2px / @font-size-browser / @font-size-nav-main-heading, em );
 }
