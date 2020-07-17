@@ -64,7 +64,7 @@
 	// instead to avoid hidden rendering.
 	visibility: hidden;
 	opacity: 0;
-	.transform( translateX( -100% ) );
+	.transform( translateX( -50% ) );
 }
 
 // Disable transitions on page load. No-JS users will unfortunately miss out. A similar pattern is
@@ -73,8 +73,8 @@
 .vector-animations-ready {
 	// Enable transition on all widths by default.
 	.mw-sidebar {
-		@timing: @transition-duration-base ease-out;
-		.transition( transform @timing, opacity @timing, visibility @timing; );
+		@duration: 2 * @transition-duration-base ease-out;
+		.transition( all @duration );
 	}
 
 	// Enable sidebar button transitions.
