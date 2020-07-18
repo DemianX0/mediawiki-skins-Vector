@@ -10,10 +10,11 @@
 	position: relative;
 	//line-height: 1.125em;
 
-	h3 {
+	// FIXME: overqualified selector.
+	// The structure of this file is a mess to retain git history and avoid massive manual merges.
+	.vector-menu__button {
 		color: @color-base--subtle;
 		position: relative;
-		display: block;
 		.box-sizing( border-box );
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
@@ -103,7 +104,7 @@
 	}
 }
 
-#mw-head .vector-menu-dropdown h3 {
+#mw-head .vector-menu-dropdown .vector-menu__button {
 	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
 	background-position: right bottom;
 	float: left;
@@ -112,17 +113,17 @@
 	// `padding-right` >= `1px` effectively moves the "background border" outside of the element to
 	// act like a real border. It is necessary for `.vector-menu-dropdown .vector-menu-content-list` dropdown to align well.
 	// 0.5em equals `8px` at computed `font-size` of `14px` as visually harmonically with
-	// `padding-left` in `.vector-menu-dropdown h3 a`
+	// `padding-left` in `.vector-menu-dropdown .vector-menu__button a`
 	padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
 }
 
 // Tab Separators
 // `.vectorTabs`: Outer start border (left in LTR) of tab row.
 // `.vectorTabs a`: Border between tabs and outer end (right in LTR) border.
-// `#mw-head .vector-menu-dropdown h3`: // Outer end (right in LTR) border of "Actions" menu.
+// `#mw-head .vector-menu-dropdown .vector-menu__button`: // Outer end (right in LTR) border of "Actions" menu.
 .vector-menu-tabs,
 .vector-menu-tabs a,
-#mw-head .vector-menu-dropdown h3 {
+#mw-head .vector-menu-dropdown .vector-menu__button {
 	background-image: url( images/tab-separator.png );
 	background-image: linear-gradient( to bottom, rgba( 167, 215, 249, 0 ) 0, @border-color-content 100% );
 	background-repeat: no-repeat;
@@ -150,11 +151,11 @@
 		display: block;
 	}
 
-	&:checked + h3:after {
+	&:checked + .vector-menu__button:after {
 		transform: scaleY( -1 );
 	}
 
-	&:focus + h3 {
+	&:focus + .vector-menu__button {
 		.mixin-focus-outline();
 	}
 }

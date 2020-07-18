@@ -10,12 +10,6 @@
 	line-height: @line-height-nav-personal;
 	white-space: nowrap;
 
-	h3 {
-		padding-top: 0;
-		padding-bottom: 0;
-		padding-left: 0;
-	}
-
 	> ul {
 		.flex-display();
 		//.flex-wrap( nowrap );
@@ -69,7 +63,7 @@
 
 	/* Any menu icons */
 	// FIXME: add class `.mw-ui-icon` to HTML
-	.menu-user > h3:before,
+	.menu-user > .vector-menu__button:before,
 	.mw-ui-icon:before {
 		width: @size-personal-menu-icon;
 		height: @size-personal-menu-icon;
@@ -81,7 +75,7 @@
 	}
 
 	/* User menu dropdown icon */
-	.menu-user > h3:before {
+	.menu-user > .vector-menu__button:before {
 		// SVG support using a transparent gradient to guarantee cross-browser
 		// compatibility (browsers able to understand gradient syntax support also SVG)
 		.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
@@ -91,7 +85,7 @@
 	/* Any dropdown menu */
 	.vector-menu-dropdown {
 		// Menu button
-		> h3 {
+		> .vector-menu__button {
 			padding: 0.3em 0.2em 0.2em 0.2em;
 			margin-bottom: 0;
 			border: @border-width-base @border-style-base @colorGray10;

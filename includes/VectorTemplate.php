@@ -77,6 +77,14 @@ class VectorTemplate extends BaseTemplate {
 		self::MENU_TYPE_DEFAULT => 'vector-menu',
 	];
 
+	/** @var Map of menu type => label class */
+	private const LABEL_CLASSES = [
+		self::MENU_TYPE_DROPDOWN => 'vector-menu__button',
+		self::MENU_TYPE_TABS => 'vector-menu__label',
+		self::MENU_TYPE_PORTAL => 'vector-menu__heading',
+		self::MENU_TYPE_DEFAULT => 'vector-menu__label',
+	];
+
 	/** @var A list of classes to apply the list element and override the default behavior. */
 	private const LIST_CLASSES = [
 		// `.menu` is on the portal for historic reasons.
@@ -458,6 +466,7 @@ class VectorTemplate extends BaseTemplate {
 			'tag' => 'nav',
 			'id' => "p-$label",
 			'label-id' => "p-{$label}-label",
+			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
 			'list-classes' => self::LIST_CLASSES[$type] ?? 'vector-menu-content-list',
