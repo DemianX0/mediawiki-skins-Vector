@@ -152,12 +152,28 @@ class VectorTemplate extends BaseTemplate {
 		$out = $skin->getOutput();
 		$title = $out->getTitle();
 
+		$rawSidebarInitScript = null;
+		$disablePersistance = $this->getConfig()->get( Constants::CONFIG_KEY_DISABLE_SIDEBAR_PERSISTENCE );
+		$sidebarStateClientSide = true || !$skin->getUser()->isLoggedIn();
+
+		if ( !$disablePersistance && $sidebarStateClientSide ) {
+			$rawSidebarInitScript = file_get_contents( __DIR__ . '/../resources/skins.vector.js/sidebar-init.js' );
+			$debug = $out->getRequest()->getRawVal( 'debug' ) === 'true';
+			if ( !$debug ) {
+				$rawSidebarInitScript = ResourceLoader::filter(
+					'minify-js', $rawSidebarInitScript, [ 'cache' => true ]
+				);
+			}
+			$rawSidebarInitScript = "<script>\n" . $rawSidebarInitScript . "\n</script>\n";
+		}
+
 		// Naming conventions for Mustache parameters.
 		//
 		// Value type (first segment):
 		// - Prefix "is" or "has" for boolean values.
 		// - Prefix "msg-" for interface message text.
 		// - Prefix "html-" for raw HTML.
+		// - Prefix "raw-" for raw inlined content (JS, CSS).
 		// - Prefix "data-" for an array of template parameters that should be passed directly
 		//   to a template partial.
 		// - Prefix "array-" for lists of any values.
@@ -201,6 +217,7 @@ class VectorTemplate extends BaseTemplate {
 			'msg-sitesubtitle' => $skin->msg( 'sitesubtitle' )->text(),
 			'main-page-href' => $mainPageHref,
 
+			'raw-sidebar-init-script' => $rawSidebarInitScript,
 			'data-sidebar' => $this->buildSidebar(),
 			'sidebar-visible' => $this->isSidebarVisible(),
 			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
