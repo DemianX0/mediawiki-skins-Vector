@@ -11,64 +11,84 @@
  *
  */
 
+/** @interface MwApi */
 /** @interface MwApiConstructor */
 /** @interface CheckboxHack */
-/** @interface MwApi */
 
-/** @type {CheckboxHack} */ var CheckboxHack =
-require( /** @type {string} */( 'mediawiki.page.ready' ) ).CheckboxHack;
+/** @type {CheckboxHack} */
+var CheckboxHack = require( /** @type {string} */ ( 'mediawiki.page.ready' ) ).CheckboxHack;
 var SIDEBAR_BUTTON_ID = 'mw-sidebar-button',
 	SIDEBAR_CHECKBOX_ID = 'mw-sidebar-checkbox',
 	SIDEBAR_PREFERENCE_NAME = 'VectorSidebarVisible';
-
 var debounce = require( /** @type {string} */ ( 'mediawiki.util' ) ).debounce;
+/** @type {CheckboxHack} */ var checkboxHack;
 /** @type {MwApi} */ var api;
 
 /**
  * Execute a debounced API request to save the sidebar user preference.
  * The request is meant to fire 1000 milliseconds after the last click on
- * the sidebar button.
+ * the sidebar button. Use debounce().
  *
- * @param {HTMLInputElement} checkbox
- * @return {any}
+ * @this CheckboxHack
+ * @return {void}
  */
-function saveSidebarState( checkbox ) {
-	return debounce( 1000, function () {
-		api = api || new mw.Api();
-		api.saveOption( SIDEBAR_PREFERENCE_NAME, checkbox.checked ? 1 : 0 );
-	} );
+function saveSidebarPreference() {
+	api = api || new mw.Api();
+	api.saveOption( SIDEBAR_PREFERENCE_NAME, this.checkbox.checked ? 1 : 0 );
 }
 
 /**
- * Bind the event handler that saves the sidebar state to the click event
- * on the sidebar button.
+ * Save sidebar state to localStorage, if available, ignore otherwise.
  *
- * @param {HTMLElement|null} checkbox
- * @param {HTMLElement|null} button
+ * @this CheckboxHack
+ * @return {void}
  */
-function bindSidebarClickEvent( checkbox, button ) {
-	if ( checkbox instanceof HTMLInputElement && button ) {
-		button.addEventListener( 'click', saveSidebarState( checkbox ) );
+function saveSidebarLocalState() {
+	var sidebarOpen = this.checkbox.checked ? '1' : '0';
+	try {
+		localStorage.setItem( 'vector-sidebar-open', sidebarOpen );
+	} catch ( e ) {
 	}
 }
 
 /**
  * Initialize all JavaScript sidebar enhancements.
+ * Improve the interactivity of the sidebar panel by binding optional checkbox hack enhancements
+ * for focus and `aria-expanded`. Also, flip the icon image on click.
  *
- * @param {Window} window
- * @return {void}
+ * @param {any} window
+ * @return {CheckboxHack}
  */
 function init( window ) {
 	var checkbox = window.document.getElementById( SIDEBAR_CHECKBOX_ID ),
 		button = window.document.getElementById( SIDEBAR_BUTTON_ID );
+	var saveSidebarState, saveSidebarServerState;
+	if ( !mw.config.get( 'wgVectorDisableSidebarPersistence' ) ) {
+		saveSidebarState = saveSidebarLocalState; // Logged out.
+		if ( false && mw.config.get( 'wgUserName' ) ) {
+			// Logged in.
+			// Set the API request to fire after 1 second of inactivity
+			// after an initial click. Guards agains overloading the API.
+			saveSidebarServerState = debounce( 1000, saveSidebarPreference );
+			saveSidebarState = function () {
+				saveSidebarLocalState();
+				saveSidebarServerState();
+			};
+		}
+	}
 
 	if ( checkbox instanceof HTMLInputElement && button ) {
-		// eslint-disable-next-line no-unused-vars
-		checkboxHack = new CheckboxHack( window, checkbox, button, {} );
+		checkboxHack = new CheckboxHack( window, checkbox, button, saveSidebarState );
+
+		// This code is delay-loaded. If the user toggled
+		// the sidebar by now, its state should be saved.
+		if ( saveSidebarState
+			&& window.mwSidebarInitialState !== undefined
+			&& window.mwSidebarInitialState !== checkbox.checked ) {
+			saveSidebarState.call( checkboxHack );
+		}
 	}
-	if ( mw.config.get( 'wgUserName' ) && !mw.config.get( 'wgVectorDisableSidebarPersistence' ) ) {
-		bindSidebarClickEvent( checkbox, button );
-	}
+	return checkboxHack; // Silence unused-var warnings.
 }
 
 module.exports = {
