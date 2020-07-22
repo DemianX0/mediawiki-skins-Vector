@@ -8,7 +8,6 @@
 	float: left;
 	cursor: pointer;
 	position: relative;
-	//line-height: 1.125em;
 
 	// FIXME: overqualified selector.
 	// The structure of this file is a mess to retain git history and avoid massive manual merges.
@@ -20,7 +19,8 @@
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
 		// Note: a gradient border on the right is created with background, necessitating >=1px padding-right.
-		font-size: @font-size-tabs;
+		margin: 0;
+		font-size: inherit;
 		font-weight: normal;
 
 		// Down arrow
@@ -28,8 +28,11 @@
 			.background-image-svg( 'images/arrow-down.svg', 'images/arrow-down.png' );
 			background-position-y: 0.2em;
 			background-repeat: no-repeat;
+			background-size: 100%;
 			content: '';
 			display: inline-block;
+			top: 0;
+			right: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			width: 1em;
 			height: 1em;
 			transition: transform 2 * @transition-duration-base;
@@ -47,7 +50,6 @@
 		// Match the width of the dropdown "heading" (the tab)
 		min-width: 100%;
 		top: 100%; // Move down with tab height.
-		left: -@border-width-base;
 		background-color: @background-color-base;
 		border: @border-width-base @border-style-base @border-color-base;
 		border-top-width: 0;
@@ -95,7 +97,7 @@
 			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			white-space: nowrap;
 			cursor: pointer;
-			font-size: @font-size-tabs;
+			//font-size: @font-size-tabs;
 		}
 	}
 
@@ -106,12 +108,32 @@
 	}
 }
 
+#mw-head .vector-menu-dropdown {
+	font-size: @font-size-tabs;
+	line-height: @line-height-tabs;
+
+	ul {
+		margin-left: -@border-width-base;
+	}
+}
+
 #mw-head .vector-menu-dropdown .vector-menu__button {
-	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
+	// Tab layout duplicated from `.vector-menu-tabs li a` without `color: @color-link;`
+	// Tab separator: Border between tabs and outer right border.
 	background-position: right bottom;
-	float: left;
-	height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
-	margin: 0 -@border-width-base 0 0;
+	.box-sizing( border-box );
+	//float: left;
+	//display: inline-block;
+	height: unit( 30px / @font-size-tabs--px, em ); // 30/13 = 2.30769231em
+	// height = 10px margin-top + 2 * 8px padding + 14px line-height
+	position: relative;
+	margin-top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
+	padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
+	//padding-top: 1.25em;
+	cursor: pointer;
+
+	// Space for gradient border created with background.
+	margin-right: -@border-width-base;
 }
 
 // Tab Separators
