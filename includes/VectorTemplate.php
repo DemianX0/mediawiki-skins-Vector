@@ -483,6 +483,11 @@ class VectorTemplate extends BaseTemplate {
 
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
+			$itemOptions = null;
+			if ( $item['text-wrapper'] ?? null ) {
+				$itemOptions = self::TEXTWRAPPER + $options;
+				unset( $item['text-wrapper'] );
+			}
 			if (
 				$key !== 'watch' && $key !== 'unwatch' &&
 				isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
@@ -491,7 +496,7 @@ class VectorTemplate extends BaseTemplate {
 				}
 				$item['class'] = rtrim( 'collapsible ' . $item['class'], ' ' );
 			}
-			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $options );
+			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $itemOptions ?? $options );
 
 			// Check the class of the item for a `selected` class and if so, propagate the items
 			// label to the main label.
@@ -523,6 +528,8 @@ class VectorTemplate extends BaseTemplate {
 		$props['class'] = $class;
 		return $props;
 	}
+
+	const TEXTWRAPPER = [ 'text-wrapper' => [ 'tag' => 'span', 'attributes' => [ 'class' => 'screen-reader-only' ] ] ];
 
 	/**
 	 * @return array
@@ -561,6 +568,14 @@ class VectorTemplate extends BaseTemplate {
 				$uls = $skin->makeListItem( 'uls', $personalTools[ 'uls' ] );
 			}
 			unset( $personalTools['uls'] );
+		}
+
+		if ( !$this->isLegacy ) {
+			if ( $personalTools['watchlist'] ?? null ) {
+				$personalTools['watchlist']['links'][0]['class'][] = 'mw-ui-icon mw-ui-icon-history';
+				// $personalTools['watchlist']['links'][0] += self::TEXTWRAPPER;
+				$personalTools['watchlist']['text-wrapper'] = true;
+			}
 		}
 
 		$ptools = $this->getMenuData(
