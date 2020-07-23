@@ -11,6 +11,19 @@
 		line-height: 1.5em;
 	}
 
+	/* Any menu icons */
+	// FIXME: add class `.mw-ui-icon` to HTML
+	.menu-user > .vector-menu__button:before,
+	.mw-ui-icon:before {
+		width: @size-personal-menu-icon;
+		height: @size-personal-menu-icon;
+		display: inline-block;
+		vertical-align: bottom;
+		content: '';
+		background-repeat: no-repeat;
+		background-size: 100%;
+	}
+
 	/* Echo notification icons */
 	#pt-notifications-alert,
 	#pt-notifications-notice {
@@ -44,4 +57,10 @@
 
 	// Margin between the button icon and text: 2/12 = 0.16666667em
 	margin-right: unit( 2px / @font-size-nav-personal--px, em );
+}
+
+/* Watchlist icon */
+#pt-watchlist > a:before {
+	// 51% opaque similar to Echo icons.
+	opacity: 0.51;
 }
