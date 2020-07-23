@@ -105,6 +105,19 @@ class VectorTemplate extends BaseTemplate {
 	}
 
 	/**
+	 * Add calculated 'height--em' value to logo config.
+	 *
+	 * @param array $logoImage Logo config data.
+	 * @param integer $cssFontSizePx Font-size defined in the CSS in pixels.
+	 */
+	private static function addLogoHeightEm( &$logoImage, $cssFontSizePx ) : void {
+		$height = $logoImage['height'] ?? null;
+		if ( $height ) {
+			$logoImage['height--em'] = ( $height / $cssFontSizePx ) . 'em';
+		}
+	}
+
+	/**
 	 * @deprecated Please use Skin::getTemplateData instead
 	 * @return array Returns an array of data shared between Vector and legacy
 	 * Vector.
@@ -186,6 +199,11 @@ class VectorTemplate extends BaseTemplate {
 			'sidebar-visible' => $this->isSidebarVisible(),
 			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
 		] + $this->getMenuProps();
+		
+		$logos = &$commonSkinData['data-logos'];
+		// font-size declared in Logo.less
+		self::addLogoHeightEm( $logos['wordmark'], 22.4 ); // font-size: 1.4em; -> 22.4px
+		self::addLogoHeightEm( $logos['tagline'], 11.2 ); // font-size: 0.7em; -> 11.2px
 
 		// The following logic is unqiue to Vector (not used by legacy Vector) and
 		// is planned to be moved in a follow-up patch.
