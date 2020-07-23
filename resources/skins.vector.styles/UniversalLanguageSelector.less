@@ -1,6 +1,13 @@
 @import '../../variables.less';
 
 /* Universal Language Selector */
+#pt-uls {
+	.uls-trigger {
+		// Unset the !important rule inherited from core to align vertically with menu items.
+		padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+	}
+}
+
 .skin-vector-new-search #pt-uls {
 	font-size: @font-size-language-selector; // 13/16 = 0.8125em
 
@@ -8,6 +15,8 @@
 		// Style as a button
 		.box-sizing( border-box );
 		padding: 0.4em;
+		// Override the !important rule inherited from core.
+		padding-top: 0.4em !important;  // stylelint-disable-line declaration-no-important
 		border: @border-width-base @border-style-base @colorGray10;
 		border-radius: @borderRadius;
 

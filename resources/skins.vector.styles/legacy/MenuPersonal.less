@@ -1,0 +1,29 @@
+@import '../../../variables.less';
+
+/* Personal menu */
+#p-personal {
+	li {
+		// `padding-top` instead of `margin-top` necessary for
+		// anonymous user icon position below
+		padding-top: 0.5em;
+		line-height: @line-height-nav-personal;
+	}
+}
+
+/* Icon for registered user names & anonymous message */
+#pt-anonuserpage,
+#pt-userpage a {
+	// SVG support using a transparent gradient to guarantee cross-browser
+	// compatibility (browsers able to understand gradient syntax support also SVG)
+	.background-image-svg( 'images/user-avatar.svg', 'images/user-avatar.png' );
+	background-position: left ( 4 / @font-size-browser / @font-size-nav-personal );
+	background-repeat: no-repeat;
+	background-size: @size-personal-icon @size-personal-icon;
+	// Same as `#p-personal li` above, see T207075.
+	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
+	padding-left: unit( 1em / @font-size-nav-personal, em ); // 1.33333333em
+}
+
+#pt-userpage {
+	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+}

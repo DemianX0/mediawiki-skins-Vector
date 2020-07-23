@@ -200,16 +200,13 @@ body:not( .skin-vector-new-search ) #p-search {
 	}
 }
 
-#pt-uls .uls-trigger {
-	// Override the !important rule inherited from core to align vertically with menu items.
-	padding-top: 0.4em !important;  // stylelint-disable-line declaration-no-important
-}
-
 /* Personal menu */
 #p-personal {
 	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
+	// Baseline alignment between Searchbox and Personal menu.
+	padding-top: unit( 3px / @font-size-browser, em );
 
 	@media ( max-width: @max-width-header--narrow ) {
 		.flex-size( 1, 1, 75% ); // Grow to full width, leave space for ULS.
@@ -218,24 +215,15 @@ body:not( .skin-vector-new-search ) #p-search {
 	}
 
 	ul {
+		.flex-display();
+		.flex-wrap();
+		.justify-content( flex-end ); // Right justify the children: IE>=11
 		text-align: right; // Right align the second row.
 
 		> li {
 			// Restore left align. Right align conflicts with hiding speech-only text on notification icons.
 			text-align: left;
 		}
-
-		li {
-			// Higher specificity to override inherited rule.
-			// FIXME: avoid using padding to position PersonalMenu items.
-			padding-top: 0; // Unset `padding-top: 0.5em;` inherited from legacy.
-		}
-	}
-
-	li {
-		display: inline-block;
-		// Reset `margin-bottom` from general `li` element.
-		margin-bottom: 0;
 	}
 
 	.skin-vector-new-search & {
@@ -248,9 +236,12 @@ body:not( .skin-vector-new-search ) #p-search {
 
 	#pt-notifications-alert,
 	#pt-notifications-notice {
+		margin-right: 0;
+
 		.mw-echo-notifications-badge {
 			// Adjust `top: -5px;` rule inherited from legacy and Echo.
 			top: -2px; // Eyeballed magic number.
+			margin: 0; // Unset inherited `margin: 0 2px;`.
 		}
 	}
 }
@@ -277,12 +268,6 @@ body:not( .skin-vector-new-search ) #p-search {
 .mw-body-content {
 	position: relative;
 	z-index: @z-index-base;
-}
-
-/* Hide, but keep accessible for screen-readers */
-#mw-navigation h2 {
-	position: absolute;
-	top: -9999px;
 }
 
 /* Sidebar and Tabs */
@@ -328,6 +313,13 @@ body:not( .skin-vector-new-search ) #p-search {
 
 #right-navigation {
 	float: right;
+}
+
+/* Hide element, but read with screen reader */
+.mw-article-toolbar-container h2,
+.screen-reader-only {
+	position: absolute;
+	top: -9999px;
 }
 
 /* Footer */
