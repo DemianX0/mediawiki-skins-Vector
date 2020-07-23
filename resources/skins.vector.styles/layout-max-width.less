@@ -22,15 +22,15 @@
 	// We want ~60px of space between the end of the sidebar and the start of the
 	// content container for aesthetic reasons. The sidebar is already displaced
 	// -30px so we simply add 30px of space to the width of the sidebar.
-	@margin-start-content: @width-grid-column-one + unit( 30px / @font-size-browser, em );
+	@margin-start-content: @width-grid-column-one + unit( @padding-horizontal-page-container / @font-size-root--px, em ); // 11em + 30/16 = 12.875em
 	// Page container's total horizontal padding in em units.
-	@padding-horizontal-page-container-total: 2 * unit( @padding-horizontal-page-container / @font-size-browser, em );
+	@padding-horizontal-page-container-total: 2 * unit( @padding-horizontal-page-container / @font-size-root--px, em ); // 2 * 30/16 = 3.75em
 	// Equivalent to 1432px. This determines the maximum width breakpoint at which
 	// the content will have a fixed start margin applied to it when the sidebar
 	// is open. The content can shift its position when the sidebar is open/closed
 	// at or below this breakpoint and will maintain its position above this
 	// breakpoint.
-	@max-width-margin-start-content: ( 2 * @margin-start-content ) + @padding-horizontal-page-container-total + ( unit( @max-width-content-container / @font-size-browser, em ) );
+	@max-width-margin-start-content: ( 2 * @margin-start-content ) + @padding-horizontal-page-container-total + ( unit( @max-width-content-container / @font-size-root--px, em ) );
 	@border-color-sidebar: @background-color-secondary--modern;
 
 	// Style overrides for existing elements. Mostly overrides layout.less rules.
@@ -74,8 +74,8 @@
 		margin-top: 0;
 		// To avoid the white part of the gradient colliding with the sidebar links
 		// we apply top and bottom padding.
-		padding-top: 8px;
-		padding-bottom: 40px;
+		padding-top: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
+		padding-bottom: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 	}
 
 	.mw-footer {
