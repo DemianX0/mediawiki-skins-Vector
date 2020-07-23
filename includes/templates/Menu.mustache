@@ -12,14 +12,12 @@
 	</h3>
 	{{! `body` class for backwards compatibility but let editors know not to use
 	 it via HTML comment below: }}
-	<div class="body vector-menu-content">
-		<ul class="{{list-classes}}">
-			{{#data-items}}
-			{{{html-item}}}
-			{{/data-items}}
-		</ul>
-		{{{html-after-portal}}}
-	</div>
+	<ul class="body {{list-classes}}">
+		{{#data-items}}
+		{{{html-item}}}
+		{{/data-items}}
+	</ul>
+	{{{html-after-portal}}}
 </{{tag}}>
 {{! Note: html-hook-vector-after-toolbox is deprecated. }}
 {{{html-hook-vector-after-toolbox}}}
