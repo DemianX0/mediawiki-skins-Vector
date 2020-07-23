@@ -52,6 +52,8 @@ class VectorTemplate extends BaseTemplate {
 	private const MENU_CLASSES = [
 		// User tools
 		'personal' => 'menu-personal',
+		// User dropdown menu
+		'usermenu' => 'menu-user',
 		// Left side: Page, Discuss.
 		'namespaces' => 'menu-namespaces',
 		// Left side: dropdown.
@@ -401,7 +403,7 @@ class VectorTemplate extends BaseTemplate {
 						$name, $content, self::MENU_TYPE_PORTAL
 					);
 					if ( $html ) {
-						$portal['html-items'] .= $html;
+						$portal['data-items'][] = [ 'html-item' => $html ];
 					}
 					$props[] = $portal;
 					break;
@@ -431,7 +433,7 @@ class VectorTemplate extends BaseTemplate {
 	 * @param string $label to be used to derive the id and human readable label of the menu
 	 *  If the key has an entry in the constant MENU_LABEL_KEYS then that message will be used for the
 	 *  human readable text instead.
-	 * @param array $urls to convert to list items stored as string in html-items key
+	 * @param array $urls to convert to list items stored as string in data-items key
 	 * @param int $type of menu (optional) - a plain list (MENU_TYPE_DEFAULT),
 	 *   a tab (MENU_TYPE_TABS) or a dropdown (MENU_TYPE_DROPDOWN)
 	 * @param array $options (optional) to be passed to makeListItem
@@ -453,12 +455,13 @@ class VectorTemplate extends BaseTemplate {
 		// These inconsitencies are captured in MENU_LABEL_KEYS
 		$msgObj = $skin->msg( self::MENU_LABEL_KEYS[ $label ] ?? $label );
 		$props = [
+			'tag' => 'nav',
 			'id' => "p-$label",
 			'label-id' => "p-{$label}-label",
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
 			'list-classes' => self::LIST_CLASSES[$type] ?? 'vector-menu-content-list',
-			'html-items' => '',
+			'data-items' => [],
 			'is-dropdown' => self::MENU_TYPE_DROPDOWN === $type,
 			'html-tooltip' => Linker::tooltip( 'p-' . $label ),
 		];
@@ -478,7 +481,7 @@ class VectorTemplate extends BaseTemplate {
 				}
 				$item['class'] = rtrim( 'collapsible ' . $item['class'], ' ' );
 			}
-			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $itemOptions ?? $options );
+			$props['data-items'][] = [ 'html-item' => $skin->makeListItem( $key, $item, $itemOptions ?? $options ) ];
 
 			// Check the class of the item for a `selected` class and if so, propagate the items
 			// label to the main label.
@@ -519,37 +522,29 @@ class VectorTemplate extends BaseTemplate {
 	private function getMenuProps() : array {
 		// @phan-suppress-next-line PhanUndeclaredMethod
 		$contentNavigation = $this->getSkin()->getMenuProps();
-		$personalTools = $this->getPersonalTools();
 		$skin = $this->getSkin();
 
-		// For logged out users Vector shows a "Not logged in message"
+		// If logged out users can edit then Vector shows a "Not logged in" menu item.
 		// This should be upstreamed to core, with instructions for how to hide it for skins
 		// that do not want it.
-		// For now we create a dedicated list item to avoid having to sync the API internals
-		// of makeListItem.
-		if ( !$skin->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' ) ) {
-			$loggedIn =
-				Html::element( 'li',
-					[ 'id' => 'pt-anonuserpage' ],
-					$skin->msg( 'notloggedin' )->text()
-				);
-		} else {
-			$loggedIn = '';
-		}
+		$showNotLoggedIn = !$skin->getUser()->isLoggedIn() && User::groupHasPermission( '*', 'edit' );
 
 		$props = [];
+		$personalTools = $this->getPersonalTools();
+		$usermenuItems = null;
 
-		$uls = '';
 		if ( $personalTools['uls'] ?? null ) {
 			$isNewSearch = $this->getConfig()->get( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH );
 			if ( $isNewSearch ) {
 				$props['html-lang-selector'] = $skin->makeListItem( 'uls', $personalTools['uls'], [ 'tag' => 'div' ] );
+				unset( $personalTools['uls'] );
 			} else {
 				// This code doesn't belong here, it belongs in the UniversalLanguageSelector
 				// It is here to workaround the fact that it wants to be the first item in the personal menus.
-				$uls = $skin->makeListItem( 'uls', $personalTools[ 'uls' ] );
+				$uls = $personalTools['uls'];
+				unset( $personalTools['uls'] );
+				$personalTools = [ 'uls' => $uls ] + $personalTools;
 			}
-			unset( $personalTools['uls'] );
 		}
 
 		if ( !$this->isLegacy ) {
@@ -558,19 +553,60 @@ class VectorTemplate extends BaseTemplate {
 				// $personalTools['watchlist']['links'][0] += self::TEXTWRAPPER;
 				$personalTools['watchlist']['text-wrapper'] = true;
 			}
+			if ( $personalTools['userpage'] ?? null ) {
+				$personalTools['userpage']['links'][0]['text'] = $skin->msg( 'nstab-user' )->text();
+			}
+			if ( $personalTools['mytalk'] ?? null ) {
+				$personalTools['mytalk']['links'][0]['text'] .= ' ' . strtolower( $skin->msg( 'mypage' )->text() );
+			}
+
+			$toolKeys = [
+				'uls' => true,
+				'notifications-alert' => true,
+				'notifications-notice' => true,
+				'watchlist' => true,
+			];
+			$personalItems = array_intersect_key( $personalTools, $toolKeys );
+			$usermenuItems = array_diff_key( $personalTools, $toolKeys );
+
+			// No dropdown if only a single item in it.
+			if ( count( $usermenuItems ) <= 1 ) {
+				$personalItems += $usermenuItems;
+				$usermenuItems = null;
+			}
 		}
 
-		$ptools = $this->getMenuData(
-			'personal',
-			$personalTools,
-			self::MENU_TYPE_DEFAULT
+		$props['data-personal-menu'] = $this->getMenuData(
+			'personal', $personalItems ?? $personalTools, self::MENU_TYPE_DEFAULT
 		);
 
-		// Append additional link items if present.
-		$ptools['html-items'] = $uls . $loggedIn . $ptools['html-items'];
+		if ( $usermenuItems ) {
+			// Modern layout.
+			$usermenuLabel = $skin->getUser()->isLoggedIn()
+				? $skin->username
+				: $skin->msg( 'notloggedin' )->text();
+			//$props['data-usermenu'] = [
+			$props['data-personal-menu']['data-items'][]['data-menu'] = [
+				'data-menu' => false, // Prevent recursion.
+				'tag' => 'li', // Override 'div'.
+				'label' => $usermenuLabel,
+			] + $this->getMenuData(
+				'usermenu', $usermenuItems, self::MENU_TYPE_DROPDOWN
+			);
+		} elseif ( $showNotLoggedIn ) {
+			// Legacy layout, logged-out, editing enabled.
+			// For now we create a dedicated list item to avoid having to sync the API internals
+			// of makeListItem.
+			$notloggedin = Html::rawElement( 'li', [], Html::element( 'span',
+				[ 'id' => 'pt-anonuserpage' ],
+				$skin->msg( 'notloggedin' )->text()
+			) );
+
+			// Prepend "Not logged in".
+			array_unshift( $props['data-personal-menu']['data-items'], [ 'html-item' => $notloggedin ] );
+		}
 
 		return $props + [
-			'data-personal-menu' => $ptools,
 			'data-namespace-tabs' => $this->getMenuData(
 				'namespaces',
 				$contentNavigation[ 'namespaces' ] ?? [],
@@ -580,14 +616,14 @@ class VectorTemplate extends BaseTemplate {
 				'variants',
 				$contentNavigation[ 'variants' ] ?? [],
 				self::MENU_TYPE_DROPDOWN,
-				[], true
+				[],
+				true
 			),
 			'data-page-actions' => $this->getMenuData(
 				'views',
 				$contentNavigation[ 'views' ] ?? [],
-				self::MENU_TYPE_TABS, [
-					'vector-collapsible' => true,
-				]
+				self::MENU_TYPE_TABS,
+				[ 'vector-collapsible' => true ]
 			),
 			'data-page-actions-more' => $this->getMenuData(
 				'cactions',

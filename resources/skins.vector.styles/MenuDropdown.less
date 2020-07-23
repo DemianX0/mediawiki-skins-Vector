@@ -8,7 +8,7 @@
 	float: left;
 	cursor: pointer;
 	position: relative;
-	line-height: 1.125em;
+	//line-height: 1.125em;
 
 	h3 {
 		color: @color-base--subtle;
@@ -53,7 +53,7 @@
 		// Match the width of the dropdown "heading" (the tab)
 		min-width: 100%;
 		position: absolute;
-		top: 2.5em;
+		top: 100%; // Move down with tab height.
 		left: -@border-width-base;
 		border: @border-width-base @border-style-base @border-color-base;
 		border-top-width: 0;
@@ -82,12 +82,14 @@
 		padding: 0;
 		margin: 0;
 		text-align: left;
-		line-height: 1em;
+		line-height: 1em; // 16px
 
+		> span,
 		a {
 			color: @color-link;
 			display: block;
-			padding: 0.625em;
+			//padding: 0.625em; // 8.125px
+			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			white-space: nowrap;
 			cursor: pointer;
 			font-size: @font-size-tabs;

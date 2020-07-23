@@ -24,14 +24,18 @@
 // Space for SearchBox + personal menu row + menu items optionally wrapping.
 @height-header--narrow: @height-header--medium + @height-header-row + 0.5em; // 9.125em
 @height-header--micro: @height-header--narrow + @height-header-row; // 11.125em
-@max-width-header--medium: unit( 1100px / @font-size-root--px, em ); // 2 rows in header: logo + usermenu, search + uls.
-@max-width-header--narrow: unit( 850px / @font-size-root--px, em ); // 3 rows in header: logo, uls + usermenu, search.
-@max-width-header--micro: unit( 600px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
+@max-width-header--medium: unit( 960px / @font-size-root--px, em ); // <= 60em, 2 rows in header: logo + usermenu, search + uls.
+@max-width-header--narrow: unit( 560px / @font-size-root--px, em ); // <= 35em, 3 rows in header: logo, uls + usermenu, search.
+@max-width-header--micro: unit( 400px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
 @margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 @margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
 
 // Font sizes
 @font-size-logo--px: @font-size-root--px;
+@font-size-nav-personal--px: @font-size-tabs--px; // 13px only in modern layout.
+@font-size-nav-personal: unit( @font-size-nav-personal--px / @font-size-root--px, em ); // 13/16 = 0.8125em
+@line-height-nav-personal: unit( 14px / @font-size-nav-personal--px ); // 14/13 = 1.07692308
+@line-height-nav-personal: unit( 16px / @font-size-nav-personal--px ); // 16/13 = 1.23076923
 @size-personal-menu-icon--px: 20px;
 @size-personal-menu-icon: unit( @size-personal-menu-icon--px / @font-size-nav-personal--px, em ); // 20/13 = 1.53846154em
 
@@ -45,6 +49,7 @@ body {
 	color: @color-base;
 	// Vertical scrollbar always visible.
 	overflow-y: scroll;
+	height: 100%;
 }
 
 .mw-body,
@@ -88,19 +93,27 @@ body {
 }
 
 /* Header layout */
+#p-personal,
+.menu-personal,
+.mw-header > div,
+.mw-header {
+	.flex-display();
+	.align-items( center ); // Supports: IE11.
+}
+
 .mw-header {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
+	max-width: 100vw;
+	.box-sizing( border-box );
 	// A `min-height` is set to account for projects where no icon is set.
 	min-height: @height-header--inner;
 	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
 	// Vertical centering of header elements (IE>=11), requires flex.
-	.flex-display();
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
 	.mixin-clearfix(); // Close float flow.
-	.align-items( center ); // Supports: IE11.
 	.justify-content( center ); // Medium: Searchbox and ULS nicely centered.
 	z-index: @z-index-header;
 
@@ -120,10 +133,10 @@ body {
 	vertical-align: middle;
 }
 
-/* Logo */
-.mw-logo {
+/* Sidebar button and logo */
+.mw-header-left {
 	@media ( max-width: @max-width-header--narrow ) {
-		.flex-size( 1, 1, 75% ); // Grow to full width, but don't wrap after sidebar button.
+		.flex-size( 1, 1, 90% ); // Grow to full width.
 	}
 }
 
@@ -195,7 +208,6 @@ body:not( .skin-vector-new-search ) #p-search {
 		@media ( max-width: @max-width-header--narrow ) {
 			.flex-order( 1 );
 			padding-left: 0;
-			margin-left: 0; // Stick to left edge.
 		}
 
 		@media ( max-width: @max-width-header--micro ) {
@@ -205,12 +217,12 @@ body:not( .skin-vector-new-search ) #p-search {
 }
 
 /* Personal menu */
-#p-personal {
-	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
+// FIXME: remove #p-personal after 2 weeks of deployment.
+#p-personal,
+.menu-personal {
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
-	// Baseline alignment between Searchbox and Personal menu.
-	padding-top: unit( 3px / @font-size-root--px, em ); // 3/16 = 0.1875em
+	float: right; // Non-flex fallback for IE<=9. Float does no vertical centering.
 
 	@media ( max-width: @max-width-header--narrow ) {
 		.flex-size( 1, 1, 75% ); // Grow to full width, leave space for ULS.
@@ -218,7 +230,12 @@ body:not( .skin-vector-new-search ) #p-search {
 		margin-top: @margin-vertical-search;
 	}
 
-	ul {
+	@media ( max-width: @max-width-header--micro ) {
+		.flex-size( 1, 1, 90% ); // Grow to full width.
+	}
+
+	> ul {
+		margin-left: auto;
 		.flex-display();
 		.flex-wrap();
 		.justify-content( flex-end ); // Right justify the children: IE>=11
@@ -233,7 +250,7 @@ body:not( .skin-vector-new-search ) #p-search {
 	.skin-vector-new-search & {
 		padding-left: 0;
 
-		li {
+		> ul > li {
 			margin-left: 0.75em;
 		}
 	}
