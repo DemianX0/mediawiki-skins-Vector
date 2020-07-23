@@ -174,6 +174,37 @@ body:not( .skin-vector-new-search ) #p-search {
 	font-family: inherit;
 }
 
+/* Universal Language Selector */
+#pt-uls {
+	display: inline-block;
+
+	.skin-vector-new-search & {
+		margin-right: @margin-horizontal-search;
+
+		@media ( max-width: @max-width-header--medium ) {
+			.flex-order( 2 );
+			padding-left: @margin-horizontal-search;
+			margin-right: 0;
+			margin-top: @margin-vertical-search;
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			.flex-order( 1 );
+			padding-left: 0;
+			margin-left: 0; // Stick to left edge.
+		}
+
+		@media ( max-width: @max-width-header--micro ) {
+			margin-right: auto; // Don't center with justify-content.
+		}
+	}
+}
+
+#pt-uls .uls-trigger {
+	// Override the !important rule inherited from core to align vertically with menu items.
+	padding-top: 0.4em !important;  // stylelint-disable-line declaration-no-important
+}
+
 /* Personal menu */
 #p-personal {
 	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
@@ -181,7 +212,7 @@ body:not( .skin-vector-new-search ) #p-search {
 	padding-left: 1em;
 
 	@media ( max-width: @max-width-header--narrow ) {
-		.flex-size( 1, 1, 90% ); // Grow to full width.
+		.flex-size( 1, 1, 75% ); // Grow to full width, leave space for ULS.
 		.flex-order( 1 );
 		margin-top: @margin-vertical-search;
 	}
@@ -271,7 +302,7 @@ body:not( .skin-vector-new-search ) #p-search {
 
 		@media ( max-width: @max-width-header--micro ) {
 			top: @height-header--micro;
-		}
+	}
 	}
 }
 
