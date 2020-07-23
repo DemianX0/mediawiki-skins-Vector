@@ -32,6 +32,8 @@
 
 // Font sizes
 @font-size-logo--px: @font-size-root--px;
+@size-personal-menu-icon--px: 20px;
+@size-personal-menu-icon: unit( @size-personal-menu-icon--px / @font-size-nav-personal--px, em ); // 20/13 = 1.53846154em
 
 // Sidebar width
 @padding-left-sidebar: 0.5em;
@@ -289,7 +291,7 @@ body:not( .skin-vector-new-search ) #p-search {
 
 		@media ( max-width: @max-width-header--micro ) {
 			top: @height-header--micro;
-	}
+		}
 	}
 }
 
