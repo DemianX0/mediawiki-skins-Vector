@@ -16,7 +16,7 @@
 {{{html-hook-vector-before-footer}}}
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles and
 	to mitigate a VoiceOver bug. }}
-<footer id="footer" class="mw-footer" role="contentinfo" {{{html-user-language-attributes}}}>
+<footer id="footer" class="mw-footer mw-content-container" role="contentinfo" {{{html-user-language-attributes}}}>
 	{{#array-footer-rows}}
 	<ul id="{{id}}" {{#className}}class="{{.}}"{{/className}}>
 		{{#array-items}}
