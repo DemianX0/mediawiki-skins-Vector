@@ -78,11 +78,11 @@ pre,
 }
 
 .mw-body-content {
-	font-size: @font-size-base;
+	font-size: @font-size-content;
 	// Support IE 9-11, Trident cuts values 2 digits after decimal point.
 	// `calc` enables to set correct calculation in place again. See T102364.
-	font-size: calc( 1em ~'*' unit( @font-size-base ) );
-	line-height: @line-height-base;
+	font-size: calc( 1em ~'*' unit( @font-size-content ) );
+	line-height: @line-height-content;
 
 	h1 {
 		margin-top: 1em;
@@ -100,7 +100,7 @@ pre,
 		margin-top: 0.3em;
 		margin-bottom: 0;
 		padding-bottom: 0;
-		line-height: @line-height-base;
+		line-height: @line-height-content;
 	}
 
 	h3 {
