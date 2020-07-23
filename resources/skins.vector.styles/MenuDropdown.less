@@ -18,7 +18,7 @@
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
 		padding-left: 8px;
-		padding-right: unit( 24 / @font-size-tabs / @font-size-browser, em );
+		padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
 		font-size: @font-size-tabs;
 		font-weight: normal;
 
@@ -28,10 +28,10 @@
 			background-position: 100% 50%;
 			background-repeat: no-repeat;
 			position: absolute;
-			top: unit( 10 / @font-size-tabs / @font-size-browser, em );
+			top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
 			right: 8px;
 			bottom: 0;
-			width: unit( 16 / @font-size-tabs / @font-size-browser, em );
+			width: unit( 16px / @font-size-tabs--px, em ); // 16/13 = 1.23076923em
 			// Modify the color of the image from the default #202122 to approx. #404244 to match the text.
 			opacity: 0.84;
 		}
@@ -105,13 +105,13 @@
 	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
 	background-position: right bottom;
 	float: left;
-	height: unit( 40 / @font-size-tabs / @font-size-browser, em );
+	height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
 	margin: 0 -@border-width-base 0 0;
 	// `padding-right` >= `1px` effectively moves the "background border" outside of the element to
 	// act like a real border. It is necessary for `.vector-menu-dropdown .vector-menu-content-list` dropdown to align well.
 	// 0.5em equals `8px` at computed `font-size` of `14px` as visually harmonically with
 	// `padding-left` in `.vector-menu-dropdown h3 a`
-	padding-right: unit( 24 / @font-size-tabs / @font-size-browser, em );
+	padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
 }
 
 // Tab Separators
