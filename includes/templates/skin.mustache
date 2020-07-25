@@ -104,12 +104,12 @@
 
 <div id="mw-navigation">
 	<h2>{{{html-navigation-heading}}}</h2>
-	<div id="mw-head" class="mw-content-container mw-article-toolbar-container">
-		<div id="left-navigation">
+	<div id="mw-head" class="mw-content-container mw-article-toolbar">
+		<div id="left-navigation" class="mw-article-toolbar__left">
 			{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
 			{{#data-variants}}{{>Menu}}{{/data-variants}}
 		</div>
-		<div id="right-navigation">
+		<div id="right-navigation" class="mw-article-toolbar__right">
 			{{#data-page-actions}}{{>Menu}}{{/data-page-actions}}
 			{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
 			{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}

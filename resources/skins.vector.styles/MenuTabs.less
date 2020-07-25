@@ -5,16 +5,40 @@
  * Styling for namespace tabs (page, discussion) and views (read, edit, view history, watch and other actions)
  */
 
+.vector-menu-tabs li {
+	float: left;
+}
+
+.mw-article-toolbar {
+	> div > div,
+	> div > nav {
+		float: left;
+	}
+
+	// Clear the floats on .mw-article-toolbar__left, .mw-article-toolbar__right and siblings.
+	.mixin-clearfix();
+}
+
+.mw-article-toolbar__left {
+	float: left;
+}
+
+.mw-article-toolbar__right {
+	float: right;
+}
+
 /* Namespaces and Views */
 .vector-menu-tabs {
 	// Tab separator: Outer start border (left in LTR) of tab row.
 	background-position: left bottom;
-	float: left;
-	height: 2.5em;
+	// height: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
+	// height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
+	font-size: @font-size-tabs; // 13px
+	line-height: @line-height-tabs; // 14px
 	padding-left: @border-width-base;
 
 	ul {
-		float: left;
+		//float: left;
 		height: 100%;
 		list-style: none none;
 		padding: 0;
@@ -26,27 +50,23 @@
 		background-image: linear-gradient( to top, @border-color-content--tabs-inactive 0, #e8f2f8 1px, #fff 100% ); // Support: Standard (Firefox 16+, IE 10+, Safari 6.1+, Chrome 26+)
 		background-position: left bottom;
 		background-repeat: repeat-x;
-		float: left;
-		display: block;
-		height: 100%;
+		//height: 100%;
 		margin: 0;
 		padding: 0;
-		line-height: @line-height-nav;
 		white-space: nowrap;
 
 		a {
+			color: @color-link;
 			// Tab separator: Border between tabs and outer right border.
 			background-position: right bottom;
-			color: @color-link;
 			.box-sizing( border-box );
+			//float: left;
 			display: block;
-			float: left;
-			height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
+			height: unit( 30px / @font-size-tabs--px, em ); // 30/13 = 2.30769231em
+			// height = 10px margin-top + 2 * 8px padding + 14px line-height
 			position: relative;
-			padding-top: 1.25em;
-			padding-left: 8px;
-			padding-right: 8px;
-			font-size: @font-size-tabs;
+			margin-top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
+			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			cursor: pointer;
 		}
 	}
