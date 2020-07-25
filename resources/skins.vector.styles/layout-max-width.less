@@ -35,6 +35,7 @@
 	// Colors
 	@background-color-secondary--modern: #f8f9fa;
 	@border-color-sidebar: @background-color-secondary--modern;
+	@border-color-sidebar--gradient: #f6f6f6;
 	@border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em
 	@box-shadow-color: #f0f0f0;
 
@@ -173,9 +174,40 @@
 		}
 	}
 
-	// Small padding on narrow viewport.
+	@media ( min-width: ( @max-width-workspace-container + ( 2 * @padding-horizontal-page-container ) ) ) {
+		.mw-sidebar {
+			background: @background-color-page-container;
+			border-right: @border-width-base solid @border-color-sidebar;
+			@color-outside: @background-color-base;
+			@color-inside: @border-color-sidebar; // @background-color-secondary--modern;
+			@color-inside: @border-color-sidebar--gradient;
+			border-image: linear-gradient( to bottom, @color-outside 0%, @color-inside 10%, @color-inside 90%, @color-outside 100% ) 1 100%;
+		}
+	}
+
 	@media ( max-width: @max-width-page-container--narrow ) {
+		// Small padding on narrow viewport.
 		padding: 0 ( @padding-horizontal-page-container / 2 );
+
+		// On narrow viewport show the sidebar over the content.
+		// Dupliciate class selector to override the `&.ns-special` rules with precedence.
+		#mw-sidebar-checkbox#mw-sidebar-checkbox:checked ~ .mw-workspace-container .mw-article-toolbar,
+		#mw-sidebar-checkbox#mw-sidebar-checkbox:checked ~ .mw-workspace-container .mw-content-container {
+			margin-left: 0;
+		}
+
+		.mw-sidebar {
+			//padding-bottom: 1em;
+			border-color: @border-color-sidebar--gradient;
+			border-right-width: 2 * @border-width-base;
+			border-bottom-width: 2 * @border-width-base;
+			border-radius: 6 * @border-width-base;
+			box-shadow: 1em 1.5em 4em -1em #888;
+
+			// Restore animation.
+			@duration: 2 * @transition-duration-base ease-out;
+			.transition( all @duration );
+		}
 	}
 
 	// Border and sidebar background on wide viewport.
