@@ -104,8 +104,7 @@ final class SkinVersionLookup {
 		// had their user preferences initialized in `Hooks::onLocalUserCreated()`, that means all
 		// subsequent requests to `User->getOption()` that do not have a preference set are either
 		// existing accounts or anonymous users. Login state makes the distinction.
-		return (string)$this->request->getVal(
-			Constants::QUERY_PARAM_SKIN_VERSION,
+		return $_REQUEST[ Constants::QUERY_PARAM_SKIN_VERSION ] ?? 
 			$this->user->getOption(
 				Constants::PREF_KEY_SKIN_VERSION,
 				$this->config->get(
@@ -113,7 +112,6 @@ final class SkinVersionLookup {
 						? Constants::CONFIG_KEY_DEFAULT_SKIN_VERSION_FOR_EXISTING_ACCOUNTS
 						: Constants::CONFIG_KEY_DEFAULT_SKIN_VERSION
 				)
-			)
-		);
+			);
 	}
 }
