@@ -201,6 +201,13 @@ class Hooks {
 		$user->setOption( Constants::PREF_KEY_SKIN_VERSION, $default );
 	}
 
+	private static function setConfigFromRequest( $paramName, $configName ) {
+		$param = $_GET[ $paramName ] ?? $_COOKIE[ $paramName ] ?? null;
+		if ( $param !== null ) {
+			$GLOBALS[ 'wg' . $configName ] = !!$param;
+		}
+	}
+
 	/**
 	 * Called when OutputPage::headElement is creating the body tag to allow skins
 	 * and extensions to add attributes they might need to the body of the page.
@@ -218,6 +225,9 @@ class Hooks {
 			$bodyAttrs['class'] .= ' skin-vector-legacy';
 			return;
 		}
+
+		self::setConfigFromRequest( 'usemaxwidth', Constants::CONFIG_KEY_LAYOUT_MAX_WIDTH );
+		self::setConfigFromRequest( 'usenewsearch', Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH );
 
 		if ( self::getConfig( Constants::CONFIG_KEY_LAYOUT_MAX_WIDTH ) ) {
 			$bodyAttrs['class'] .= ' skin-vector-max-width';
