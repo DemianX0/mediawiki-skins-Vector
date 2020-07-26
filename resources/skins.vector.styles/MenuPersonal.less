@@ -15,14 +15,30 @@
 		vertical-align: middle;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
+		line-height: 1.5em; // User icon alignment depends on this. Related: T207075.
 	}
 
 	/* Echo notification icons */
 	#pt-notifications-alert,
 	#pt-notifications-notice {
+		margin-right: 0;
+
 		.mw-echo-notifications-badge {
 			// Adjust `top: -5px;` rule inherited from legacy and Echo.
 			top: -2px; // Eyeballed magic number.
+			margin: 0; // Unset inherited `margin: 0 2px;`.
 		}
 	}
+}
+
+/* User page link icon */
+#pt-anonuserpage,
+#pt-userpage a {
+	// SVG support using a transparent gradient to guarantee cross-browser
+	// compatibility (browsers able to understand gradient syntax support also SVG)
+	background-image: url( images/user-avatar.svg );
+	background-position: left 0;
+	background-repeat: no-repeat;
+	background-size: @size-personal-icon @size-personal-icon;
+	padding-left: unit( 1 / @font-size-nav-personal, em ); // 1.33333333em
 }

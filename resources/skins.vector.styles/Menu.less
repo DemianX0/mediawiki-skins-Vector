@@ -13,10 +13,8 @@
 	display: none;
 }
 
-/* Personal */
-.vector-menu,
-/* FIXME: Remove p-personal selector when cache has cleared. */
-#p-personal {
+/* All menus: tabs, dropdown (More), portal (sidebar), personal (User menu) */
+.vector-menu {
 	// Hidden by default, but displayed by certain menus
 	// e.g. MenuPortal
 	h3 {
@@ -27,31 +25,16 @@
 		list-style: none none;
 		margin: 0;
 	}
+}
 
+/* Personal */
+#p-personal {
 	li {
 		margin-left: 0.75em;
-		// `padding-top` instead of `margin-top` necessary for
-		// anonymous user icon position below
-		padding-top: 0.5em;
-		line-height: @line-height-nav-personal;
 	}
 }
 
-/* Icon for registered user names & anonymous message */
-#pt-anonuserpage,
-#pt-userpage a {
-	background-image: url( images/user-avatar.svg );
-	background-position: @background-position-nav-personal-icon;
-	background-repeat: no-repeat;
-	background-size: @background-size-nav-personal-icon @background-size-nav-personal-icon;
-	// Same as `#p-personal li` above
-	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
-	padding-left: 16px !important; // stylelint-disable-line declaration-no-important
-}
-
 #pt-userpage {
-	padding-top: 0 !important; // stylelint-disable-line declaration-no-important
-
 	a {
 		display: inline-block;
 	}

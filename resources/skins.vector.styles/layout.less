@@ -208,16 +208,13 @@ body:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
-#pt-uls .uls-trigger {
-	// Override the !important rule inherited from core to align vertically with menu items.
-	padding-top: 0.4em !important;  // stylelint-disable-line declaration-no-important
-}
-
 /* Personal menu */
 #p-personal {
 	float: right; // Non-flexbox fallback for IE<=9. No vertical centering with float.
 	margin-left: auto; // Right justify the container.
 	padding-left: 1em;
+	// Baseline alignment between Searchbox and Personal menu.
+	padding-top: unit( 3px / @font-size-browser, em );
 
 	.skin-vector-new-search & {
 		padding-left: 0;
@@ -277,12 +274,6 @@ body:not( .skin-vector-new-search ) .mw-search {
 	z-index: @z-index-base;
 }
 
-/* Hide, but keep accessible for screen-readers */
-#mw-navigation h2 {
-	position: absolute;
-	top: -9999px;
-}
-
 /* Sidebar and Tabs */
 .mw-article-toolbar-container,
 .mw-sidebar {
@@ -332,6 +323,13 @@ body:not( .skin-vector-new-search ) .mw-search {
 
 #right-navigation {
 	float: right;
+}
+
+/* Hide element, but read with screen reader */
+.mw-article-toolbar-container h2,
+.screen-reader-only {
+	position: absolute;
+	top: -9999px;
 }
 
 /* Footer */
