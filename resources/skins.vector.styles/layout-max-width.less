@@ -8,7 +8,7 @@
 // design will not appear. In either case, the appearance should not be broken.
 .skin-vector-max-width {
 	@background-color-secondary--modern: #f8f9fa;
-	@min-width-page-container: 600px;
+	//@min-width-page-container: 600px;
 	@max-width-page-container: 1650px;
 	@padding-horizontal-page-container: 30px;
 	@min-width-page-container--padded: @max-width-page-container + ( 2 * @padding-horizontal-page-container );
@@ -57,7 +57,7 @@
 		margin-left: 0;
 	}
 
-	#p-search {
+	body:not( .skin-vector-new-search )& .mw-search {
 		margin-right: 0;
 	}
 
@@ -85,7 +85,7 @@
 
 	// Container logic.
 	.mw-page-container {
-		min-width: @min-width-page-container;
+		//min-width: @min-width-page-container;
 		max-width: @max-width-page-container;
 		// Fill the viewport even if the content height is small. This also helps
 		// mitigate a long sidebar overflowing the page container (T257518).

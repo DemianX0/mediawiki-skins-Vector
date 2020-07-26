@@ -94,6 +94,9 @@
 		{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
 	</div>
 	{{>Logo}}
+	{{#is-layout-new-search}} 
+		{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
+	{{/is-layout-new-search}}
 	{{#data-personal-menu}}{{>Menu}}{{/data-personal-menu}}
 </header>
 
@@ -107,7 +110,7 @@
 		<div id="right-navigation">
 			{{#data-page-actions}}{{>Menu}}{{/data-page-actions}}
 			{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
-			{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
+			{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}
 		</div>
 	</div>
 </div>
