@@ -1,22 +1,57 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
 
+@background-color-menu: #fcfcfc;
+
 /* Personal menu */
-#p-personal {
-	.vector-menu-content-list {
+#p-personal,
+.menu-personal {
+	font-size: @font-size-nav-personal; // NOTE: Moved up from legacy `#personal li`.
+	line-height: @line-height-nav-personal;
+
+	> .vector-menu-content-list {
 		li {
 			// Higher specificity to override inherited rule.
 			// FIXME: avoid using padding to position PersonalMenu items.
 			padding-top: 0; // Unset `padding-top: 0.5em;` inherited from legacy.
 		}
+
+		// Only the tray icons, not the submenuitems on dropdowns.
+		> li {
+			position: relative;  // Context for the dropdowns.
+			display: inline-block;  // Line up blocks.
+			vertical-align: middle;
+			margin-bottom: 0;
+			margin-left: 0.75em;
+		}
 	}
 
 	li {
-		display: inline-block;
-		vertical-align: middle;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
-		line-height: 1.5em; // User icon alignment depends on this. Related: T207075.
+		//line-height: 1.5em; // User icon alignment depends on this. Related: T207075.
+	}
+
+	/* Echo notification icons */
+	#pt-notifications-alert,
+	#pt-notifications-notice {
+		margin-right: 0;
+
+		.mw-echo-notifications-badge {
+			// Adjust `top: -5px;` rule inherited from legacy and Echo.
+			top: 0; // Fix positioning of #pt-notifications-alert .mw-echo-notifications-badge:focus, #pt-notifications-notice .mw-echo-notifications-badge:focus
+			margin: 0; // Unset inherited `margin: 0 2px;`.
+			// Override with precedence.
+			width: @size-personal-menu-icon;
+			height: @size-personal-menu-icon;
+			background-repeat: no-repeat;
+			background-size: 100%;
+			
+			&:focus {
+				box-shadow: none;
+				.mixin-focus-outline();
+			}
+		}
 	}
 
 	/* Any menu icons */
@@ -32,39 +67,71 @@
 		background-size: 100%;
 	}
 
-	/* Echo notification icons */
-	#pt-notifications-alert,
-	#pt-notifications-notice {
-		margin-right: 0;
+	/* User menu dropdown icon */
+	.menu-user > h3:before {
+		// SVG support using a transparent gradient to guarantee cross-browser
+		// compatibility (browsers able to understand gradient syntax support also SVG)
+		background-image: url( images/user-avatar.svg );
+		//margin-bottom: -2%; // 1px / 20px height.
+	}
 
-		.mw-echo-notifications-badge {
-			// Adjust `top: -5px;` rule inherited from legacy and Echo.
-			top: -2px; // Eyeballed magic number.
-			margin: 0; // Unset inherited `margin: 0 2px;`.
+	/* Any dropdown menu */
+	.vector-menu-dropdown {
+		// Menu button
+		> h3 {
+			padding: 0.3em 0.2em 0.2em 0.2em;
+			margin-bottom: 0;
+			border: @border-width-base @border-style-base @colorGray10;
+			border-radius: 2px;
+			font-size: inherit;
+			//vertical-align: middle;
+			cursor: pointer;
+			// Space for down arrow.
+			padding-right: unit( 24px / @font-size-nav-personal--px, em ); // 24/13 = 1.84615385em
+
+			// Down arrow
+			&:after {
+				// display: none;
+				top: unit( 6px / @font-size-nav-personal--px, em ); // 6/13 = 0.46153846em
+				right: unit( 6px / @font-size-nav-personal--px, em ); // 6/13 = 0.46153846em
+			}
+		}
+
+		// Dropdown menu list
+		.vector-menu-content-list {
+			// Selector must be more specific than `.vector-menu-dropdown` to override some rules.
+			//top: 100%;
+			left: auto; // `initial` with compatibility.
+			right: 0;
+			border-top-width: 1px;
+			border-radius: 2px;
+			// background-color: @background-color-menu;
+			.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+		}
+
+		// Dropdown menu items
+		li {
+			// Unset inherited `1em`.
+			line-height: inherit;
+
+			span,
+			a {
+				font-size: inherit;
+				padding: unit( 10px / @font-size-nav-personal--px, em ); // 10/13 = 0.76923077em
+			}
 		}
 	}
 }
 
-/* User page link icon */
-#pt-anonuserpage:before,
-#pt-userpage a:before {
-	content: '';
-	display: inline-block;
-	width: @size-personal-icon; // Equals `1.16666667em`.
-	height: @size-personal-icon;
-	// SVG support using a transparent gradient to guarantee cross-browser
-	// compatibility (browsers able to understand gradient syntax support also SVG)
-	background-image: url( images/user-avatar.svg );
-	background-repeat: no-repeat;
-	background-size: 100%;
+// Echo popup styling similar to Personal menu.
+div.oo-ui-popupWidget-popup {
+	.vertical-gradient( @background-color-base, @background-color-secondary, 0%, 10% );
+	.box-shadow( 0 10px 15px -5px rgba(0, 0, 0, 0.15) );
+	border: 0;
+}
 
-	// Move down as much as the border width in the SVG.
-	// There's a 1px (in 20px full height) transparent border
-	// inside the SVG that would misalign the icon and the text.
-	margin-bottom: -@size-personal-icon / 20; // -0.05833333em.
-
-	// Margin between the button icon and text: 2/12 = 0.16666667em
-	margin-right: unit( 2px / @font-size-nav-personal--px, em );
+div.mw-echo-ui-placeholderItemWidget {
+	background-color: transparent;
 }
 
 /* Watchlist icon */

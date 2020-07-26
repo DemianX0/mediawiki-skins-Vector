@@ -2,8 +2,7 @@
 	See @typedef MenuDefinition
 }}
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
-<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
-<nav id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
+<{{tag}} id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
 	 {{{html-user-language-attributes}}}>
 	{{#is-dropdown}}
 	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="{{label-id}}" />
@@ -13,12 +12,14 @@
 	</h3>
 	{{! `body` class for backwards compatibility but let editors know not to use
 	 it via HTML comment below: }}
-	<!-- Please do not use the .body class, it is deprecated. -->
 	<div class="body vector-menu-content">
-		<!-- Please do not use the .menu class, it is deprecated. -->
-		<ul class="{{list-classes}}">{{{html-items}}}</ul>
+		<ul class="{{list-classes}}">
+			{{#data-items}}
+			{{{html-item}}}
+			{{/data-items}}
+		</ul>
 		{{{html-after-portal}}}
 	</div>
-</nav>
+</{{tag}}>
 {{! Note: html-hook-vector-after-toolbox is deprecated. }}
 {{{html-hook-vector-after-toolbox}}}
