@@ -95,23 +95,17 @@ body {
 }
 
 /* Content */
-.mw-indicators {
-	float: right;
-	z-index: @z-index-indicators;
-}
-
 .mw-body-content {
 	position: relative;
 	z-index: @z-index-base;
 }
 
-/* Hide, but keep accessible for screen-readers */
-#mw-navigation h2 {
-	position: absolute;
-	top: -9999px;
+.mw-indicators {
+	float: right;
+	z-index: @z-index-indicators;
 }
 
-/* Tabs */
+/* Article toolbar */
 #mw-head {
 	position: absolute;
 	top: 0;
@@ -119,7 +113,6 @@ body {
 	width: 100%;
 }
 
-/* Navigation Containers */
 #left-navigation {
 	float: left;
 	margin-top: @height-header;
@@ -134,6 +127,12 @@ body {
 #right-navigation {
 	float: right;
 	margin-top: @height-header;
+}
+
+/* Hide element, but read with screen reader */
+#mw-navigation h2 {
+	position: absolute;
+	top: -9999px;
 }
 
 #p-personal {
@@ -154,6 +153,7 @@ body {
 	}
 }
 
+/* Sidebar */
 #mw-panel {
 	position: absolute;
 	// The sidebar is absolutely positioned inside the header which applies a top
@@ -168,6 +168,7 @@ body {
 	z-index: @z-index-sidebar;
 }
 
+/* Footer */
 .mw-footer {
 	margin-top: 0;
 }
