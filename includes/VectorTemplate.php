@@ -31,6 +31,15 @@ use Vector\Constants;
  * Extensions or skins should extend it under no circumstances.
  */
 class VectorTemplate extends BaseTemplate {
+	/** @var int */
+	private const MENU_TYPE_DEFAULT = 0;
+	/** @var int */
+	private const MENU_TYPE_TABS = 1;
+	/** @var int */
+	private const MENU_TYPE_DROPDOWN = 2;
+	/** @var int */
+	private const MENU_TYPE_PORTAL = 3;
+
 	/** @var array of alternate message keys for menu labels */
 	private const MENU_LABEL_KEYS = [
 		'cactions' => 'vector-more-actions',
@@ -38,13 +47,40 @@ class VectorTemplate extends BaseTemplate {
 		'personal' => 'personaltools',
 		'lang' => 'otherlanguages',
 	];
-	/** @var int */
-	private const MENU_TYPE_DEFAULT = 0;
-	/** @var int */
-	private const MENU_TYPE_TABS = 1;
-	/** @var int */
-	private const MENU_TYPE_DROPDOWN = 2;
-	private const MENU_TYPE_PORTAL = 3;
+
+	/** @var Map of menu labels => menu classes */
+	private const MENU_CLASSES = [
+		// User tools
+		'personal' => 'menu-personal',
+		// Left side: Page, Discuss.
+		'namespaces' => 'menu-namespaces',
+		// Left side: dropdown.
+		'variants' => 'menu-variants',
+		// Right side: View, Edit, Edit source, History, Watchstar.
+		'views' => 'menu-actions',
+		// Right side: "More" dropdown.
+		'cactions' => 'menu-more',
+		// Sidebar Toolbox
+		'tb' => 'sidebar-toolbox',
+		// Sidebar Languages
+		'lang' => 'sidebar-languages',
+		// All other sidebar portals mapped: '*' => 'sidebar-*'
+	];
+
+	/** @var A list of classes to apply the list element and override the default behavior. */
+	private const LIST_CLASSES = [
+		// `.menu` is on the portal for historic reasons.
+		// It should not be applied elsewhere per T253329.
+		self::MENU_TYPE_DROPDOWN => 'menu vector-menu-content-list',
+	];
+
+	/** @var Map of menu type => Vector classes */
+	private const EXTRA_CLASSES = [
+		self::MENU_TYPE_DROPDOWN => 'vector-menu vector-menu-dropdown vectorMenu',
+		self::MENU_TYPE_TABS => 'vector-menu vector-menu-tabs vectorTabs',
+		self::MENU_TYPE_PORTAL => 'vector-menu vector-menu-portal portal',
+		self::MENU_TYPE_DEFAULT => 'vector-menu',
+	];
 
 	/** @var Map of menu type => label class */
 	private const LABEL_CLASSES = [
@@ -428,18 +464,6 @@ class VectorTemplate extends BaseTemplate {
 		bool $setLabelToSelected = false
 	) : array {
 		$skin = $this->getSkin();
-		$extraClasses = [
-			self::MENU_TYPE_DROPDOWN => 'vector-menu vector-menu-dropdown vectorMenu',
-			self::MENU_TYPE_TABS => 'vector-menu vector-menu-tabs vectorTabs',
-			self::MENU_TYPE_PORTAL => 'vector-menu vector-menu-portal portal',
-			self::MENU_TYPE_DEFAULT => 'vector-menu',
-		];
-		// A list of classes to apply the list element and override the default behavior.
-		$listClasses = [
-			// `.menu` is on the portal for historic reasons.
-			// It should not be applied elsewhere per T253329.
-			self::MENU_TYPE_DROPDOWN => 'menu vector-menu-content-list',
-		];
 		$isPortal = self::MENU_TYPE_PORTAL === $type;
 
 		// For some menu items, there is no language key corresponding with its menu key.
@@ -451,7 +475,7 @@ class VectorTemplate extends BaseTemplate {
 			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
-			'list-classes' => $listClasses[$type] ?? 'vector-menu-content-list',
+			'list-classes' => self::LIST_CLASSES[$type] ?? 'vector-menu-content-list',
 			'html-items' => '',
 			'is-dropdown' => self::MENU_TYPE_DROPDOWN === $type,
 			'html-tooltip' => Linker::tooltip( 'p-' . $label ),
@@ -480,10 +504,23 @@ class VectorTemplate extends BaseTemplate {
 
 		$props['html-after-portal'] = $isPortal ? $this->getAfterPortlet( $label ) : '';
 
+		$menuClass = self::MENU_CLASSES[$label] ?? null;
+		if ( $isPortal && !$menuClass ) {
+			$menuClass = 'sidebar-' . $label;
+		}
+
+		if ( $menuClass ) {
+			$menuClass .= ' ';
+		}
+
+		$class = ( $menuClass ?? '' ) . self::EXTRA_CLASSES[$type];
+
 		// Mark the portal as empty if it has no content
-		$class = ( count( $urls ) == 0 && !$props['html-after-portal'] )
-			? 'vector-menu-empty emptyPortlet' : '';
-		$props['class'] = trim( "$class $extraClasses[$type]" );
+		if ( count( $urls ) == 0 && !$props['html-after-portal'] ) {
+			$class .= ' emptyPortlet';
+		}
+
+		$props['class'] = $class;
 		return $props;
 	}
 
@@ -526,7 +563,12 @@ class VectorTemplate extends BaseTemplate {
 			unset( $personalTools['uls'] );
 		}
 
-		$ptools = $this->getMenuData( 'personal', $personalTools );
+		$ptools = $this->getMenuData(
+			'personal',
+			$personalTools,
+			self::MENU_TYPE_DEFAULT
+		);
+
 		// Append additional link items if present.
 		$ptools['html-items'] = $uls . $loggedIn . $ptools['html-items'];
 
