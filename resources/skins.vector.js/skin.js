@@ -35,14 +35,27 @@ function enableCssAnimations( document ) {
 }
 
 /**
+ * Initialization when document is ready.
+ */
+function init() {
+	var skinController = vector.init();
+	var checkbox = document.getElementById( sidebar.SIDEBAR_CHECKBOX_ID );
+
+	// Collapse tabs as necessary when sidebar is toggled.
+	$( checkbox ).on( 'input', function() {
+		skinController.checkCollapsing();
+	} );
+}
+
+/**
  * @param {Window} window
  * @return {void}
  */
 function main( window ) {
 	enableCssAnimations( window.document );
-	collapsibleTabs.init();
 	sidebar.init( window );
-	$( vector.init );
+	collapsibleTabs.init();
+	$( init );
 }
 
 main( window );
