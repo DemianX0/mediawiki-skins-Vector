@@ -75,7 +75,7 @@
 						"rtl": "resources/skins.vector.icons/chevronHorizontal-rtl.svg"
 					}
 				},
-				"#mw-sidebar-checkbox:not( :checked ) ~ .mw-header #mw-sidebar-button:before": "resources/skins.vector.icons/menu.svg"
+				"#mw-sidebar-checkbox:not( :checked ) ~ .mw-workspace-container #mw-sidebar-button:before": "resources/skins.vector.icons/menu.svg"
 			}
 		},
 		"skins.vector.styles.responsive": {

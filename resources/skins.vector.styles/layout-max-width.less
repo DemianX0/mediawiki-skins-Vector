@@ -6,7 +6,7 @@
 // listed in the acceptance criteria of T246420. In other words, if this class
 // is present, the max-width design will appear. Without this class, max-width
 // design will not appear. In either case, the appearance should not be broken.
-.skin-vector-max-width {
+.mw-page-container {
 	//@min-width-page-container: unit( 600px  / @font-size-root--px, em ); // 31.25em
 	@max-width-page-container--narrow: unit( 600px / @font-size-root--px, em ); // 37.5em
 	@max-width-page-container: unit( 1650px / @font-size-root--px, em ); // 103.125em
@@ -22,15 +22,15 @@
 	// We want ~60px of space between the end of the sidebar and the start of the
 	// content container for aesthetic reasons. The sidebar is already displaced
 	// -30px so we simply add 30px of space to the width of the sidebar.
-	//@margin-start-content: @width-grid-column-one + @padding-horizontal-page-container; // 11em + 1.875em = 12.875em
-	@margin-start-content: @width-grid-column-one; // 11em -> .mw-page-container already has padding-left: 1.875em
+	//@margin-start-content: @width-sidebar-navigation + @padding-horizontal-page-container; // 11em + 1.875em = 12.875em
+	@margin-start-content: @width-sidebar-navigation; // 11em -> .mw-page-container already has padding-left: 1.875em
 	// Equivalent to 1432px. This determines the maximum width breakpoint at which
 	// the content will have a fixed start margin applied to it when the sidebar
 	// is open. The content can shift its position when the sidebar is open/closed
 	// at or below this breakpoint and will maintain its position above this
 	// breakpoint.
 	@max-width-margin-start-content: 2 * ( @padding-horizontal-page-container + @margin-start-content ) + @max-width-content-container + 1.25em;
-	// 2 * (1.875em + 11em) + 60em = 85.75em // 1372px
+	// 2 * (1.875em + 11em) + 60em + 1.25em = 87em = 1392px
 
 	// Colors
 	@background-color-secondary--modern: #f8f9fa;
@@ -78,11 +78,9 @@
 		// Sidebar is displaced from the workspace container so that the
 		// sidebar is flush with the edge of the screen at small widths.
 		// left: -@padding-horizontal-page-container;
-		margin-top: 0;
 		// To avoid the white part of the gradient colliding with the sidebar links
 		// we apply top and bottom padding.
-		padding-top: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
-		padding-bottom: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
+		//padding-bottom: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 	}
 
 	.mw-footer {
@@ -91,7 +89,7 @@
 	}
 
 	// Container logic.
-	.mw-page-container {
+	& {
 		//min-width: @min-width-page-container;
 		max-width: @max-width-page-container;
 		// Fill the viewport even if the content height is small. This also helps
@@ -101,10 +99,7 @@
 		margin-right: auto;
 		padding: 0 @padding-horizontal-page-container;
 		background-color: @background-color-page-container;
-	}
-
-	// Used as a container for absolutely positioned elements.
-	.mw-page-container-inner {
+		// Used as a container for absolutely positioned elements.
 		position: relative;
 	}
 
@@ -114,19 +109,15 @@
 		margin-right: auto;
 	}
 
+	.mw-article-toolbar,
 	.mw-content-container {
+		// We want to keep the max-width of the article-toolbar-container the
+		// same max-width as the article page's content container in order to
+		// prevent it from moving when going from an article page to a
+		// history/special page.
 		max-width: @max-width-content-container;
 		margin-left: auto;
 		margin-right: auto;
-	}
-
-	.mw-sidebar-container {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		max-width: @max-width-workspace-container + 2 * @padding-horizontal-page-container;
-		margin: 0 auto;
 	}
 
 	.mw-footer-container {
@@ -143,17 +134,16 @@
 			max-width: none;
 		}
 
-		// We want to keep the max-width of the article-toolbar-container the
-		// same max-width as the article page's content container in order to
-		// prevent it from moving when going from an article page to a
-		// history/special page.
-		.mw-article-toolbar {
-			max-width: @max-width-content-container;
+		// Adjusts the content, but not the toolbar when the sidebar is open on wide screen.
+		#mw-sidebar-checkbox:checked {
+			~ .mw-workspace-container .mw-content-container {
+				margin-left: @margin-start-content;
+			}
 		}
 
-		// Adjusts the content when sidebar is open regardless of the viewport width.
-		.mw-checkbox-hack-checkbox:checked ~ .mw-workspace-container .mw-content-container {
-			margin-left: @margin-start-content;
+		.mw-sidebar {
+			// Remove sidebar transition in wide workspace.
+			.transition( none );
 		}
 	}
 
@@ -162,24 +152,19 @@
 	// `.mw-page-container` because that will cut off the sidebar. Therefore, we
 	// calculate the maximum distance from the start of `mw-page-container` to the
 	// start of the sidebar.
-	#mw-sidebar-checkbox:not( :checked ) ~ .mw-header .mw-sidebar {
+	#mw-sidebar-checkbox:not( :checked ) ~ .mw-workspace-container .mw-sidebar {
 		.transform( translateX( -( @max-width-page-container - @max-width-workspace-container ) / 2 ) );
 	}
 
-	// Responsive overrides.
-	@media ( min-width: @min-width-page-container--padded ) {
-		@border-color: @border-color-sidebar;
-
-		.mw-page-container {
-			box-shadow: 0 0 2em 0em @box-shadow-color;
-		}
-	}
-
+	// Smaller width.
+	// 87em = 1392px
 	@media ( max-width: @max-width-margin-start-content ) {
-		// Adjusts the content and mw-article-toolbar-container.
-		.mw-checkbox-hack-checkbox:checked ~ .mw-workspace-container .mw-content-container,
-		.mw-checkbox-hack-checkbox:checked ~ #mw-navigation .mw-content-container {
-			margin-left: @margin-start-content;
+		// Adjusts the content and the toolbar when the sidebar is open and the viewport width is small.
+		#mw-sidebar-checkbox:checked ~ .mw-workspace-container {
+			.mw-article-toolbar,
+			.mw-content-container {
+				margin-left: @margin-start-content;
+			}
 		}
 
 		.mw-sidebar {
@@ -188,7 +173,17 @@
 		}
 	}
 
-	@media ( min-width: ( @max-width-workspace-container + ( 2 * @padding-horizontal-page-container ) ) ) {
+	// Small padding on narrow viewport.
+	@media ( max-width: @max-width-page-container--narrow ) {
+		padding: 0 ( @padding-horizontal-page-container / 2 );
+	}
+
+	// Border and sidebar background on wide viewport.
+	@media ( min-width: @min-width-page-container--padded ) {
+		box-shadow: 0 0 2em 0em @box-shadow-color;
+	}
+
+	@media ( min-width: ( @max-width-workspace-container + 2 * @padding-horizontal-page-container ) ) {
 		.mw-sidebar {
 			background: @background-color-page-container;
 			border-right: @border-width-base solid @border-color-sidebar;

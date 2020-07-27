@@ -230,7 +230,7 @@ class Hooks {
 		self::setConfigFromRequest( 'usenewsearch', Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH );
 
 		if ( self::getConfig( Constants::CONFIG_KEY_LAYOUT_MAX_WIDTH ) ) {
-			$bodyAttrs['class'] .= ' skin-vector-max-width';
+			$bodyAttrs['class'] .= ' mw-page-container';
 		}
 
 		if ( self::getConfig( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH ) ) {

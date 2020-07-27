@@ -8,11 +8,9 @@
 
 // Modern layout variables
 @height-tabs: 2.5em; // Keep in sync with .vector-menu-tabs height.
-@margin-top-sidebar: 0.5em;
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
-@padding-left-sidebar: 0.5em;
-@padding-horizontal-header: @margin-end-portal + @padding-left-sidebar +
+@padding-horizontal-header: @margin-end-portal + @padding-horizontal-sidebar +
 	( @margin-start-portal-body / @font-size-nav-main-heading );
 @padding-top-header: 0.625em;
 @padding-bottom-header: 0.3125em;
@@ -40,8 +38,9 @@
 @size-personal-menu-icon: unit( @size-personal-menu-icon--px / @font-size-nav-personal--px, em ); // 20/13 = 1.53846154em
 
 // Sidebar width
-@padding-left-sidebar: 0.5em;
-@width-grid-column-one: 11em;
+@width-sidebar-navigation: 11em;
+@padding-vertical-sidebar: 1em;
+@padding-horizontal-sidebar: 0.5em;
 
 body {
 	// General background/foreground color definition as one exception to the rule.
@@ -275,11 +274,16 @@ body:not( .skin-vector-new-search ) .mw-search {
 }
 
 /* Main column */
-.mw-body,
-#mw-data-after-content,
 .mw-article-toolbar,
-.mw-footer {
-	margin-left: @width-grid-column-one;
+.mw-content-container {
+	body:not( .mw-page-container ) #mw-sidebar-checkbox:checked ~ .mw-workspace-container & {
+		// Adjusts the content when the sidebar is open.
+		margin-left: @width-sidebar-navigation;
+
+		@media ( max-width: @max-width-header--narrow ) {
+			margin-left: 0;
+		}
+	}
 }
 
 .mw-workspace-container > .mw-content-container {
@@ -293,7 +297,7 @@ body:not( .skin-vector-new-search ) .mw-search {
 	z-index: @z-index-indicators;
 }
 
-.mw-workspace-container > .mw-content-container {
+.mw-content-container {
 	// Space for tabs.
 	padding-top: @height-tabs;
 }
@@ -303,11 +307,17 @@ body:not( .skin-vector-new-search ) .mw-search {
 	z-index: @z-index-base;
 }
 
-/* Sidebar and Tabs */
-.mw-article-toolbar,
-.mw-sidebar {
+.mw-workspace-container {
+	position: relative;
+}
+
+/* Sidebar */
+.mw-sidebar-container {
 	position: absolute;
+	z-index: @z-index-sidebar;
+	left: 0;
 	top: @height-header--wide;  // Below the header.
+	overflow-x: hidden;  // Hide the part that's sliding out when animated.
 
 	.skin-vector-new-search & {
 		// 60em
@@ -327,18 +337,41 @@ body:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
-/* Sidebar */
 .mw-sidebar {
-	z-index: @z-index-sidebar;
 	.box-sizing( border-box );
-	margin-top: @margin-top-sidebar;
-	padding-left: @padding-left-sidebar;
-	width: @width-grid-column-one;
-	left: 0;
+	//max-width: @max-width-workspace-container + 2 * @padding-horizontal-page-container;
+	padding: @padding-vertical-sidebar @padding-horizontal-sidebar;
+	border-radius: 0.5em;
+
+	@media ( min-resolution: 100dpi ) {
+		li {
+			line-height: 2;
+		}
+	}
+
+	// Enable transition on all widths by default.
+	.vector-animations-ready & {
+		@timing: @transition-duration-base * 2 ease-out;
+		.transition( transform @timing, opacity @timing, visibility @timing; );
+	}
+
+	body:not( .mw-page-container ) & {
+		.transition( none ); // Disable with full-width layout.
+		background-color: @background-color-base;
+		background-color: #fff5e5;
+		background-color: #fcf5f0;
+		background-image: linear-gradient( to bottom, #ffffff 0%, #fcf5f0 10%, #fcf5f0 90%, #ffffff 100% );
+	}
+}
+
+.mw-sidebar-navigation {
+	width: @width-sidebar-navigation;
 }
 
 /* Tabs */
 .mw-article-toolbar {
+	position: absolute;
+	top: 0;  // Below the header, relative to .mw-workspace-container
 	left: 0;
 	right: 0;
 }

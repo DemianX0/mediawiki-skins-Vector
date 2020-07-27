@@ -5,6 +5,18 @@
 /**
  * Styling for namespace tabs (page, discussion) and views (read, edit, view history, watch and other actions)
  */
+.mw-article-toolbar {
+	// Clear the floats on #left-navigation and #right-navigation.
+	.mixin-clearfix();
+}
+
+.mw-article-toolbar__left {
+	float: left;
+}
+
+.mw-article-toolbar__right {
+	float: right;
+}
 
 .mw-article-toolbar,
 .mw-article-toolbar > div,
