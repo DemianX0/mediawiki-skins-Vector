@@ -1,50 +1,81 @@
-/** @interface CollapsibleTabsOptions */
-function init() {
-	/** @type {boolean|undefined} */ var boundEvent;
-	var isRTL = document.documentElement.dir === 'rtl';
-	var rAF = window.requestAnimationFrame || setTimeout;
+/**
+ * @class CollapsibleTabsOptions
+ * @property {string|jQuery} collapsedContainer  Selector for the container of collapsed elements.
+ * @property {string} collapsible  CSS selector of collapsible elements within the containers.
+ * @property {Function} expandCondition  Function returning true if one element should be expanded.
+ * @property {Function} collapseCondition  Function returning true if one element should be collapsed.
+ *
+ * @class CollapsibleInstance
+ * @property {jQuery} $eventTarget  Element receiving the event notifications.
+ * @property {CollapsibleDirection} collapse  Options for one direction.
+ * @property {CollapsibleDirection} expand    Options for one direction.
+ */
 
+function init() {
+	/** @type {Function?} */
+	var boundHandler;
+	/** @type {boolean} */
+	var isRTL = document.documentElement.dir === 'rtl';
+
+	/**
+	 * Collapse tabs as necessary and register resize handler for the container if not done already.
+	 *
+	 * @param {CollapsibleTabsOptions} options
+	 */
 	$.fn.collapsibleTabs = function ( options ) {
 		// Merge options into the defaults
-		var settings = $.extend( {}, $.collapsibleTabs.defaults, options );
+		var options = $.extend( {}, $.collapsibleTabs.defaults, options );
 
 		// return if the function is called on an empty jquery object
 		if ( !this.length ) {
 			return this;
 		}
 
-		this.each( function () {
-			var $el = $( this );
-			// add the element to our array of collapsible managers
-			$.collapsibleTabs.instances.push( $el );
-			// attach the settings to the elements
-			$el.data( 'collapsibleTabsSettings', settings );
-			// attach data to our collapsible elements
-			$el.children( settings.collapsible ).each( function () {
-				$.collapsibleTabs.addData( $( this ) );
+		if ( !boundHandler ) {
+			boundHandler = mw.util.debounce( 100, function () {
+				$.collapsibleTabs.handleResize();
 			} );
-		} );
-
-		// if we haven't already bound our resize handler, bind it now
-		if ( !boundEvent ) {
-			boundEvent = true;
-			$( window ).on( 'resize', mw.util.debounce( 10, function () {
-				rAF( $.collapsibleTabs.handleResize );
-			} ) );
+			$( window ).on( 'resize', boundHandler );
 		}
 
-		// call our resize handler to setup the page
-		rAF( $.collapsibleTabs.handleResize );
+		this.each( function () {
+			var $expandedContainer = $( this );
+			var $collapsedContainer;
+			/** @type {CollapsibleInstance?} */
+			var instance = $expandedContainer.data( 'collapsibleTabsInstance' );
+			if ( instance ) {
+				$.collapsibleTabs.checkInstance( instance );
+				return;
+			}
+
+			$collapsedContainer = $( options.collapsedContainer );
+			instance = {
+				$eventTarget: $expandedContainer,
+				collapse: new CollapsibleDirection( true, options.collapseCondition, $expandedContainer, $collapsedContainer, options.collapsible ),
+				expand  : new CollapsibleDirection( false, options.expandCondition, $collapsedContainer, $expandedContainer, options.collapsible ),
+			};
+			$expandedContainer.data( 'collapsibleTabsInstance', instance );
+			// Add to the managed containers.
+			$.collapsibleTabs.instances.push( instance );
+
+			// Measure expanded items' width.
+			$expandedContainer.children( options.collapsible ).each( function () {
+				$( this ).data( 'expandedWidth', $( this ).width() );
+			} );
+
+			// Do the necessary collapsing after page load.
+			$.collapsibleTabs.checkInstance( instance );
+		} );
+
 		return this;
 	};
+
 	$.collapsibleTabs = {
+		/** @type {[CollapsibleInstance]} */
 		instances: [],
 		defaults: {
-			expandedContainer: '#p-views ul',
-			collapsedContainer: '#p-cactions ul',
+			collapsedContainer: null,
 			collapsible: 'li.collapsible',
-			shifting: false,
-			expandedWidth: 0,
 			expandCondition: function ( eleWidth ) {
 				// If there are at least eleWidth + 1 pixels of free space, expand.
 				// We add 1 because .width() will truncate fractional values but .offset() will not.
@@ -55,146 +86,24 @@ function init() {
 				return $.collapsibleTabs.calculateTabDistance() < 0;
 			}
 		},
-		addData: function ( $collapsible ) {
-			var settings = $collapsible.parent().data( 'collapsibleTabsSettings' );
-			if ( settings ) {
-				$collapsible.data( 'collapsibleTabsSettings', {
-					expandedContainer: settings.expandedContainer,
-					collapsedContainer: settings.collapsedContainer,
-					expandedWidth: $collapsible.width()
-				} );
-			}
-		},
-		getSettings: function ( $collapsible ) {
-			var settings = $collapsible.data( 'collapsibleTabsSettings' );
-			if ( !settings ) {
-				$.collapsibleTabs.addData( $collapsible );
-				settings = $collapsible.data( 'collapsibleTabsSettings' );
-			}
-			// it's possible for getSettings to return undefined
-			// if no data attributes have been set
-			// see T177108#6310908.
-			// In particular, a gadget may have added a collapsible link to the list:
-			// e.g.
-			// $('<li class="collapsible">my link</a>').appendTo( $('#p-cactions ul') )
-			return settings || {};
-		},
+
+		/**
+		 * Check all containers for collapse and expand when the window is resized.
+		 */
 		handleResize: function () {
-			$.collapsibleTabs.instances.forEach( function ( $el ) {
-				var $tab,
-					data = $.collapsibleTabs.getSettings( $el );
-
-				if ( data.shifting ) {
-					return;
-				}
-
-				// if the two navigations are colliding
-				if ( $el.children( data.collapsible ).length && data.collapseCondition() ) {
-					/**
-					 * Fired before tabs are moved to "collapsedContainer".
-					 *
-					 * @event beforeTabCollapse
-					 * @memberof jQuery.plugin.collapsibleTabs
-					 */
-					$el.trigger( 'beforeTabCollapse' );
-					// Move the element to the dropdown menu.
-					$.collapsibleTabs.moveToCollapsed( $el.children( data.collapsible ).last() );
-				}
-
-				$tab = $( data.collapsedContainer ).children( data.collapsible ).first();
-				// if there are still moveable items in the dropdown menu,
-				// and there is sufficient space to place them in the tab container
-				if (
-					$( data.collapsedContainer + ' ' + data.collapsible ).length &&
-					data.expandCondition(
-						$.collapsibleTabs.getSettings( $tab ).expandedWidth
-					)
-				) {
-					/**
-					 * Fired before tabs are moved to "expandedContainer".
-					 *
-					 * @event beforeTabExpand
-					 * @memberof jQuery.plugin.collapsibleTabs
-					 */
-					$el.trigger( 'beforeTabExpand' );
-					$.collapsibleTabs.moveToExpanded( $tab );
-				}
-			} );
+			$.collapsibleTabs.instances.forEach( this.checkInstance );
 		},
-		moveToCollapsed: function ( $moving ) {
-			/** @type {CollapsibleTabsOptions} */ var outerData;
-			/** @type {CollapsibleTabsOptions} */ var collapsedContainerSettings;
-			/** @type {string} */ var target;
 
-			outerData = $.collapsibleTabs.getSettings( $moving );
-			if ( !outerData ) {
-				return;
-			}
-			collapsedContainerSettings = $.collapsibleTabs.getSettings(
-				$( outerData.expandedContainer )
-			);
-			if ( !collapsedContainerSettings ) {
-				return;
-			}
-			collapsedContainerSettings.shifting = true;
-
-			// Remove the element from where it's at and put it in the dropdown menu
-			target = outerData.collapsedContainer;
-			// eslint-disable-next-line no-jquery/no-animate
-			$moving.css( 'position', 'relative' )
-				.css( ( isRTL ? 'left' : 'right' ), 0 )
-				.animate( { width: '1px' }, 'normal', function () {
-					$( this ).hide();
-					// add the placeholder
-					$( '<span>' ).addClass( 'placeholder' ).css( 'display', 'none' ).insertAfter( this );
-					$( this ).detach().prependTo( target ).data( 'collapsibleTabsSettings', outerData );
-					$( this ).attr( 'style', 'display: list-item;' );
-					collapsedContainerSettings.shifting = false;
-					rAF( $.collapsibleTabs.handleResize );
-				} );
+		/**
+		 * Check one container for collapse and expand.
+		 *
+		 * @param {CollapsibleInstance} instance
+		 */
+		checkInstance: function ( instance ) {
+			var $eventTarget = instance.$eventTarget;
+			instance.collapse.checkMove( $eventTarget ) || instance.expand.checkMove( $eventTarget );
 		},
-		moveToExpanded: function ( $moving ) {
-			/** @type {CollapsibleTabsOptions} */ var data;
-			/** @type {CollapsibleTabsOptions} */ var expandedContainerSettings;
-			var $target;
-			var expandedWidth;
-
-			data = $.collapsibleTabs.getSettings( $moving );
-			if ( !data ) {
-				return;
-			}
-			expandedContainerSettings =
-				$.collapsibleTabs.getSettings( $( data.expandedContainer ) );
-			if ( !expandedContainerSettings ) {
-				return;
-			}
-			expandedContainerSettings.shifting = true;
-
-			// grab the next appearing placeholder so we can use it for replacing
-			$target = $( data.expandedContainer ).find( 'span.placeholder' ).first();
-			expandedWidth = data.expandedWidth;
-			$moving.css( 'position', 'relative' ).css( ( isRTL ? 'right' : 'left' ), 0 ).css( 'width', '1px' );
-			$target.replaceWith(
-				// eslint-disable-next-line no-jquery/no-animate
-				$moving
-					.detach()
-					.css( 'width', '1px' )
-					.data( 'collapsibleTabsSettings', data )
-					.animate( { width: expandedWidth + 'px' }, 'normal', function () {
-						$( this ).attr( 'style', 'display: block;' );
-						rAF( function () {
-							// Update the 'expandedWidth' in case someone was brazen enough to
-							// change the tab's contents after the page load *gasp* (T71729). This
-							// doesn't prevent a tab from collapsing back and forth once, but at
-							// least it won't continue to do that forever.
-							data.expandedWidth = $moving.width() || 0;
-							$moving.data( 'collapsibleTabsSettings', data );
-							expandedContainerSettings.shifting = false;
-							$.collapsibleTabs.handleResize();
-						} );
-					} )
-			);
-		},
+		
 		/**
 		 * Get the amount of horizontal distance between the two tabs groups in pixels.
 		 *
@@ -206,24 +115,116 @@ function init() {
 		 *
 		 * @return {number} distance/overlap in pixels
 		 */
-		calculateTabDistance: function () {
-			var leftTab, rightTab, leftEnd, rightStart;
+		calculateTabDistance: function ( leftElement, rightElement ) {
+			var leftEnd, rightStart;
+			leftElement = leftElement || document.getElementById( 'left-navigation' );
+			rightElement = rightElement || document.getElementById( 'right-navigation' );
+			if ( !leftElement || !rightElement ) {
+				return 0;
+			}
 
 			// In RTL, #right-navigation is actually on the left and vice versa.
 			// Hooray for descriptive naming.
-			if ( !isRTL ) {
-				leftTab = document.getElementById( 'left-navigation' );
-				rightTab = document.getElementById( 'right-navigation' );
-			} else {
-				leftTab = document.getElementById( 'right-navigation' );
-				rightTab = document.getElementById( 'left-navigation' );
+			if ( isRTL ) {
+				leftEnd = leftElement;
+				leftElement = rightElement;
+				rightElement = leftEnd;
 			}
-			if ( leftTab && rightTab ) {
-				leftEnd = leftTab.getBoundingClientRect().right;
-				rightStart = rightTab.getBoundingClientRect().left;
-				return rightStart - leftEnd;
+
+			leftEnd = leftElement.getBoundingClientRect().right;
+			rightStart = rightElement.getBoundingClientRect().left;
+			return rightStart - leftEnd;
+		}
+	};
+
+	/**
+	 * @constructor
+	 * @param {boolean} collapse  true if this is the collapse direction, false if the expand.
+	 * @param {Function} moveCondition  Function returning true if one element should be moved.
+	 * @param {jQuery} $sourceContainer  Element to move items from.
+	 * @param {jQuery} $targetContainer  Element to move items into.
+	 * @param {string} itemSelector  CSS selector of collapsible items within the containers.
+	 */
+	function CollapsibleDirection( collapse, moveCondition, $sourceContainer, $targetContainer, itemSelector ) {
+		this.collapse = collapse;
+		this.moveItem = collapse ? this.moveToCollapsed : this.moveToExpanded;
+		this.moveCondition = moveCondition;
+		this.$sourceContainer = $sourceContainer;
+		this.$targetContainer = $targetContainer;
+		this.itemSelector = itemSelector;
+		//this.beforeEvent = collapse ? 'beforeTabCollapse' : 'beforeTabExpand';
+		this.afterEvent  = collapse ?  'afterTabCollapse' :  'afterTabExpand';
+	}
+
+	/**
+	 * @param {jQuery} $eventTarget  The element to send the notification events to.
+	 * @return {boolean}  true if a move happened.
+	 */
+	CollapsibleDirection.prototype.checkMove = function ( $eventTarget ) {
+		var $tab;
+		var changed = false;
+		var last;
+		// if the two navigations are colliding
+		while ( ( $tab = this.getItemToMove() ) && $tab.length && $tab[0] != last ) {
+			last = $tab[0];
+			if ( !changed ) {
+				changed = true;
+				// Historically the events were fired before the move.
+				//$eventTarget.trigger( this.beforeEvent );
 			}
-			return 0;
+			// Move the element to the other container.
+			this.moveItem( $tab );
+		}
+		if ( changed ) {
+			$eventTarget.trigger( this.afterEvent );
+		}
+		return changed;
+	};
+
+	/**
+	 * @return {jQuery?}  Element to move.
+	 */
+	CollapsibleDirection.prototype.getItemToMove = function () {
+		var $items = this.$sourceContainer.children( this.itemSelector );
+		var $item = this.collapse ? $items.last() : $items.first();
+		// Items initially added to collapsedContainer have no width measurement.
+		// Avoid a first-time flicker of an "expand -> too wide -> collapse" cycle by
+		// using the item's width in the collapsed container which might be bigger
+		// than in the expanded container.
+		var elementWidth = $item.data( 'expandedWidth' ) || $item.width() || ( this.collapse ? 0 : 100 );
+		if ( $item.length && this.moveCondition.call( null, elementWidth, $items ) ) {
+			return $item;
+		}
+	};
+
+	/**
+	 * @param {jQuery} $item  Element to move.
+	 */
+	CollapsibleDirection.prototype.moveToCollapsed = function ( $item ) {
+		// Add a placeholder.
+		$( '<span>' ).addClass( 'placeholder' ).css( 'display', 'none' ).insertAfter( $item );
+		// Remove the element from where it's at and put it in the dropdown menu.
+		this.$targetContainer.prepend( $item );
+	};
+
+	/**
+	 * @param {jQuery} $item  Element to move.
+	 */
+	CollapsibleDirection.prototype.moveToExpanded = function ( $item ) {
+		var $placeholder = this.$targetContainer.children( '.placeholder' ).first();
+		var elementWidth;
+		if ( $placeholder.length ) {
+			$placeholder.replaceWith( $item );
+		} else {
+			this.$targetContainer.append( $item );
+		}
+		// Update the 'expandedWidth' in case someone was brazen enough to
+		// change the tab's contents after the page load *gasp* (T71729). This
+		// doesn't prevent a tab from collapsing back and forth once, but at
+		// least it won't continue to do that forever.
+		elementWidth = $item.width();
+		if ( elementWidth ) {
+			$item.data( 'expandedWidth', elementWidth );
 		}
 	};
 }
