@@ -92,5 +92,7 @@ function init( window ) {
 }
 
 module.exports = {
-	init: init
+	init: init,
+	SIDEBAR_CHECKBOX_ID: SIDEBAR_CHECKBOX_ID,
+	SIDEBAR_BUTTON_ID: SIDEBAR_BUTTON_ID,
 };
