@@ -1,9 +1,17 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
+@import 'mediawiki.mixins.flex-align.less';
 
 /**
  * Styling for namespace tabs (page, discussion) and views (read, edit, view history, watch and other actions)
  */
+
+.mw-article-toolbar,
+.mw-article-toolbar > div,
+.vector-menu-tabs > .vector-menu-content-list {
+	.flex-display();
+	.align-items( flex-start );
+}
 
 .vector-menu-tabs li {
 	float: left;
@@ -25,6 +33,7 @@
 
 .mw-article-toolbar__right {
 	float: right;
+	margin-left: auto; // Right-justify with flexbox layout.
 }
 
 /* Namespaces and Views */
