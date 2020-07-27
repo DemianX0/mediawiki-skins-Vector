@@ -13,10 +13,8 @@
 	display: none;
 }
 
-/* Personal */
-.vector-menu,
-/* FIXME: Remove p-personal selector when cache has cleared. */
-#p-personal {
+/* All menus: tabs, dropdown (More), portal (sidebar), personal (User menu) */
+.vector-menu {
 	// Hidden by default, but displayed by certain menus
 	// e.g. MenuPortal
 	h3 {
@@ -27,7 +25,10 @@
 		list-style: none none;
 		margin: 0;
 	}
+}
 
+/* Personal menu */
+#p-personal {
 	li {
 		margin-left: 0.75em;
 		// `padding-top` instead of `margin-top` necessary for
