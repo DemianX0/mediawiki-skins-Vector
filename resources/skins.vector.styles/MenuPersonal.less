@@ -2,7 +2,7 @@
 @import 'mediawiki.mixins.less';
 
 /* Personal menu */
-#p-personal {
+.menu-personal {
 	li {
 		display: inline-block; // Line up menu items.
 		vertical-align: middle;
@@ -10,7 +10,10 @@
 		margin-bottom: 0;
 		line-height: 1.5em;
 	}
+}
 
+// Use element ID to override inherited rules with precedence.
+#p-personal {
 	/* Echo notification icons */
 	#pt-notifications-alert,
 	#pt-notifications-notice {
