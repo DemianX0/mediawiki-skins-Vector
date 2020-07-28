@@ -41,7 +41,6 @@
 	// Colors
 	@background-color-secondary--modern: #f8f9fa;
 	@border-color-sidebar: @background-color-secondary--modern;
-	@border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em
  	@box-shadow-color: #f0f0f0;
  
 	// Style overrides for existing elements. Mostly overrides layout.less rules.
@@ -205,6 +204,10 @@
 		.mw-sidebar {
 			background: @background-color-page-container;
 			border-right: @border-width-base solid @border-color-sidebar;
+			@color-outside: @background-color-base;
+			@color-inside: @border-color-sidebar; // @background-color-secondary--modern;
+			@color-inside: @border-color-sidebar--gradient;
+			border-image: linear-gradient( to bottom, @color-outside 0%, @color-inside 10%, @color-inside 90%, @color-outside 100% ) 1 100%;
 		}
 	}
 
