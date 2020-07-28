@@ -75,6 +75,11 @@ final class Constants {
 	/**
 	 * @var string
 	 */
+	public const CONFIG_KEY_LAYOUT_NEW_SEARCH = 'VectorLayoutNewSearch';
+
+	/**
+	 * @var string
+	 */
 	public const PREF_KEY_SKIN_VERSION = 'VectorSkinVersion';
 
 	/**
