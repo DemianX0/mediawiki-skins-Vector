@@ -1,6 +1,13 @@
 @import '../../variables.less';
 
 /* Universal Language Selector */
+#pt-uls {
+	.uls-trigger {
+		// Unset the !important rule inherited from 'ext.uls.pt.less' to align vertically with menu items.
+		padding-top: 0 !important; // stylelint-disable-line declaration-no-important
+	}
+}
+
 .skin-vector-new-search #pt-uls {
 	font-size: @font-size-language-selector; // 13/16 = 0.8125em
 
