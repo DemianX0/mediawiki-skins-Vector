@@ -105,11 +105,11 @@
 
 <div id="mw-head" class="mw-article-toolbar">
 	<h2 screen-reader>{{{html-navigation-heading}}}</h2>
-	<div id="left-navigation">
+	<div id="left-navigation" class="mw-article-toolbar--left">
 		{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
 		{{#data-variants}}{{>Menu}}{{/data-variants}}
 	</div>
-	<div id="right-navigation">
+	<div id="right-navigation" class="mw-article-toolbar--right">
 		{{#data-page-actions}}{{>Menu}}{{/data-page-actions}}
 		{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
 		{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}

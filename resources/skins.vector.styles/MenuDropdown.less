@@ -5,10 +5,8 @@
 /* Variants and Actions */
 .vector-menu-dropdown {
 	direction: ltr;
-	float: left;
 	cursor: pointer;
 	position: relative;
-	//line-height: 1.125em;
 
 	// FIXME: overqualified selector.
 	// The structure of this file is a mess to retain git history and avoid massive manual merges.
@@ -21,7 +19,8 @@
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
 		// Note: a gradient border on the right is created with background, necessitating >=1px padding-right.
-		font-size: @font-size-tabs;
+		margin: 0;
+		font-size: inherit;
 		font-weight: normal;
 		white-space: nowrap;
 		cursor: pointer;
@@ -97,7 +96,6 @@
 		padding: 0;
 		margin: 0;
 		text-align: left;
-		line-height: 1em; // 16px
 
 		> span,
 		a {
@@ -107,7 +105,7 @@
 			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			white-space: nowrap;
 			cursor: pointer;
-			font-size: @font-size-tabs;
+			//font-size: @font-size-tabs;
 		}
 	}
 
@@ -135,6 +133,9 @@
 }
 
 .mw-article-toolbar .vector-menu-dropdown {
+	font-size: @font-size-tabs;
+	line-height: @line-height-tabs; // 14px
+
 	.vector-menu--list {
 		// Only in modern layout the dropdown menu grows to the left.
 		right: -@border-width-base; // Adapt to the border simulated with background.
@@ -148,11 +149,20 @@
 }
 
 .mw-article-toolbar .vector-menu-dropdown .vector-menu--button {
-	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
+	// Tab layout duplicated from `.vector-menu-tabs li a` without `color: @color-link;`
+	// Tab separator: Border between tabs and outer right border.
 	background-position: right bottom;
-	float: left;
-	height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
-	margin: 0 -@border-width-base 0 0;
+	.box-sizing( border-box );
+	height: unit( 30px / @font-size-tabs--px, em ); // 30/13 = 2.30769231em
+	// height = 10px margin-top + 2 * 8px padding + 16px line-height
+	position: relative;
+	margin-top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
+	padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
+	//padding-top: 1.25em;
+	cursor: pointer;
+
+	// Space for gradient border created with background.
+	margin-right: -@border-width-base;
 }
 
 // Tab Separators
