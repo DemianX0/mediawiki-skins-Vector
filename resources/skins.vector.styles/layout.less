@@ -52,6 +52,8 @@
 @is-using-placeholder: 0;
 
 html {
+	.mixin-header-space( scroll-padding-block-start, 0.5em );
+	// No IE support for scroll properties.
 	scroll-behavior: smooth;
 }
 
@@ -131,7 +133,8 @@ body when ( @is-using-placeholder = 0 ) {
 
 /* Header layout */
 .mw-header {
-	position: absolute;
+	position: absolute; // Kept for testing in DevTools.
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -141,6 +144,12 @@ body when ( @is-using-placeholder = 0 ) {
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
 	.mixin-clearfix(); // Close float flow.
 	z-index: @z-index-header;
+
+	// Not layout.
+	@box-shadow-blur-size-header: 10px;
+	@box-shadow-color-header: #f0f0f0;
+	background-color: @background-color-base;
+	.box-shadow( 0 @box-shadow-blur-size-header @box-shadow-blur-size-header -@box-shadow-blur-size-header @box-shadow-color-header );
 
 	.skin-vector-new-search & {
 		.justify-content( center ); // Medium: Searchbox and ULS nicely centered.
@@ -208,7 +217,7 @@ body when ( @is-using-placeholder = 0 ) {
 }
 
 /* Searchbox */
-body:not( .skin-vector-new-search ) .mw-search {
+html:not( .skin-vector-new-search ) .mw-search {
 	// :not support: IE9+
 	margin: 0.5em 0.5em 0 0.5em;
 	min-width: 5em;
@@ -269,6 +278,11 @@ body:not( .skin-vector-new-search ) .mw-search {
 			padding-left: 0;
 		}
 	}
+}
+
+.uls-menu.uls-menu {
+	position: fixed;
+	top: 3.7em !important;
 }
 
 /* Personal menu */

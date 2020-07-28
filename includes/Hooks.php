@@ -233,7 +233,8 @@ class Hooks {
 
 		self::setConfigFromRequest( 'usenewsearch', Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH );
 		if ( self::getConfig( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH ) ) {
-			$bodyAttrs['class'] .= ' skin-vector-new-search';
+			//$bodyAttrs['class'] .= ' skin-vector-new-search';
+			$out->addHtmlClasses( 'skin-vector-new-search' );
 		}
 	}
 
