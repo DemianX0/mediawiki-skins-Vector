@@ -1,12 +1,12 @@
 {{!
  See @typedef SearchData
 }}
-<div id="p-search" role="search">
+<div id="p-search" class="mw-search" role="search">
 	<h3 {{{html-user-language-attributes}}}>
 		<label for="searchInput">{{msg-search}}</label>
 	</h3>
 	<form action="{{form-action}}" id="searchform">
-		<div id="simpleSearch">
+		<div id="simpleSearch" class="mw-search-inner">
 			{{{html-input}}}
 			<input type="hidden" name="title" value="{{page-title}}">
 			{{!	We construct two buttons (for 'go' and 'fulltext' search modes), but only one will be
