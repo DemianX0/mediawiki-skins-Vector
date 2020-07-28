@@ -7,11 +7,13 @@
 @import 'mediawiki.mixins.flex-align.less';
 
 // Modern layout variables
-@height-tabs: 2.5em; // Keep in sync with .vector-menu-tabs height.
-@margin-top-sidebar: 0.5em;
+@css-selector-sidebar: ~'.mw-header .mw-sidebar';
+@css-selector-article-toolbar: ~'.mw-workspace-container .mw-article-toolbar';
+@css-selector-content-container: ~'.mw-workspace-container .mw-content-container';
+// Note: there's one selector in 'skin.json' too, keep in sync:
+// "#mw-sidebar-checkbox:not( :checked ) ~ .mw-header #mw-sidebar-button:before"
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
-@padding-left-sidebar: 0.5em;
 @padding-horizontal-header: @margin-end-portal + @padding-left-sidebar +
 	( @margin-start-portal-body / @font-size-nav-main-heading );
 @padding-top-header: 0.625em;
@@ -33,16 +35,17 @@
 // Font sizes
 @font-size-logo--px: @font-size-root--px;
 
-// Sidebar width
-@padding-left-sidebar: 0.5em;
-@width-grid-column-one: 11em;
-
 body {
 	// General background/foreground color definition as one exception to the rule.
 	background-color: @background-color-base;
 	color: @color-base;
 	// Vertical scrollbar always visible.
 	overflow-y: scroll;
+}
+
+.mw-page-container {
+	// Used as a container for absolutely positioned elements.
+	position: relative;
 }
 
 .mw-body,
@@ -66,23 +69,35 @@ body {
 }
 
 /* Space for header above content */
-.mw-header-placeholder {
+.mixin-header-space( @property ) {
 	// Reserve space for the absolute positioned header and tabs.
-	height: @height-header--wide;
+	@{property}: @height-header--wide;
 
 	.skin-vector-new-search & {
 		@media ( max-width: @max-width-header--medium ) {
-			height: @height-header--medium; // Space for personal menu row.
+			@{property}: @height-header--medium; // Space for personal menu row.
 		}
 
 		@media ( max-width: @max-width-header--narrow ) {
-			height: @height-header--narrow; // Space for SearchBox + personal menu row.
+			@{property}: @height-header--narrow; // Space for SearchBox + personal menu row.
 		}
 
 		@media ( max-width: @max-width-header--micro ) {
-			height: @height-header--micro; // Space for +1 row.
+			@{property}: @height-header--micro; // Space for +1 row.
 		}
 	}
+}
+
+.mw-header-placeholder {
+	// Space for header.
+	.mixin-header-space( height );
+	// Space for article toolbar.
+	margin-bottom: @height-article-toolbar;
+}
+
+.mw-sidebar-container,
+.mw-article-toolbar {
+	.mixin-header-space( top );
 }
 
 /* Header layout */
@@ -246,20 +261,7 @@ body:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
-/* Main column */
-.mw-body,
-#mw-data-after-content,
-.mw-article-toolbar,
-.mw-footer {
-	margin-left: @width-grid-column-one;
-}
-
 /* Content */
-.mw-workspace-container > .mw-content-container {
-	// Space for tabs.
-	padding-top: @height-tabs;
-}
-
 .mw-body-content {
 	position: relative;
 	z-index: @z-index-base;
@@ -270,42 +272,75 @@ body:not( .skin-vector-new-search ) .mw-search {
 	z-index: @z-index-indicators;
 }
 
-/* Sidebar and Article toolbar */
-.mw-article-toolbar,
-.mw-sidebar {
-	position: absolute;
-	top: @height-header--wide;  // Below the header.
-
-	.skin-vector-new-search & {
-		// 60em
-		@media ( max-width: @max-width-header--medium ) {
-			top: @height-header--medium;
-		}
-
-		// 35em
-		@media ( max-width: @max-width-header--narrow ) {
-			top: @height-header--narrow;
-		}
-
-		// 25em
-		@media ( max-width: @max-width-header--micro ) {
-			top: @height-header--micro;
+/* Sidebar state */
+#mw-sidebar-checkbox:not( :checked ) {
+	 ~ @{css-selector-sidebar} {
+		// Turn off presentation so that screen readers get the same effect as visually hiding.
+		// Visibility and opacity can be animated. If animation is unnecessary, use `display: none`
+		// instead to avoid hidden rendering.
+		visibility: hidden;
+		opacity: 0;
+		.transform( translateX( -50% ) );
 	}
+}
+
+body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
+	~ @{css-selector-article-toolbar},
+	~ @{css-selector-content-container} {
+		// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
+		@media ( min-width: @max-width-header--narrow ) {
+			margin-left: @width-sidebar-navigation;
+		}
 	}
 }
 
 /* Sidebar */
-.mw-sidebar {
+.mw-sidebar-anchor {
+	position: absolute;
 	left: 0;
-	width: @width-grid-column-one;
-	margin-top: @margin-top-sidebar;
-	padding-left: @padding-left-sidebar;
-	.box-sizing( border-box );
+	top: 0;
+	//bottom: 0; // Stick to bottom of header.
+	max-height: 0;
+}
+
+.mw-sidebar-container {
+	position: absolute; // Avoid .mw-sidebar-anchor gaining height and covering the content.
+	left: 0;
+	overflow-x: hidden;  // Hide the part that's sliding out when animated.
+}
+
+.mw-sidebar {
+	position: relative;
 	z-index: @z-index-sidebar;
+	padding-top: @padding-top-sidebar;
+	padding-bottom: 3 * @padding-top-sidebar;
+	padding-left: @padding-left-sidebar;
+	border-radius: 0.5em;
+	.box-sizing( border-box );
+
+	@media ( min-resolution: 100dpi ) {
+		li {
+			line-height: 2;
+		}
+	}
+
+	body:not( .mw-page-container ) & {
+		//.transition( none ); // Disable with full-width layout.
+		background-color: @background-color-base;
+		background-color: #fff5e5;
+		background-color: #fcf5f0;
+		background-image: linear-gradient( to bottom, #ffffff 0%, #fcf5f0 10%, #fcf5f0 90%, #ffffff 100% );
+	}
+}
+
+.mw-sidebar-navigation {
+	width: @width-sidebar-navigation;
 }
 
 /* Article toolbar */
 .mw-article-toolbar {
+	position: absolute;
+	// top defined above with mixin-header-space()
 	left: 0;
 	right: 0;
 }

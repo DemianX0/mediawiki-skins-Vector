@@ -72,6 +72,12 @@
 @border-color-portal-heading-transparent: rgba( red( @border-color-portal-heading ), green( @border-color-portal-heading ), blue( @border-color-portal-heading ), 0 );
 @padding-content: 1em;
 
+// Sidebar
+@width-sidebar-navigation: 11em;
+@padding-top-sidebar: 1em; // 16px
+@padding-left-sidebar: 0.5em; // 8px
+@padding-left-portal: 1.2em; // 19.2px in addition to @padding-left-sidebar
+
 // Navigation
 @background-color-secondary: #f6f6f6;
 @color-nav-subtle: #444;
@@ -110,6 +116,7 @@
 @size-personal-icon: unit( @line-height-nav-personal, em ); // 14/12 = 1.16666667em
 
 // Tabs
+@height-article-toolbar: 2.5em; // Keep in sync with .vector-menu-tabs height.
 @font-size-tabs--px: 13px;
 @font-size-tabs: unit( @font-size-tabs--px / @font-size-root--px, em ); // 13/16 = 0.8125em
 
