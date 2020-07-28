@@ -491,9 +491,9 @@ class VectorTemplate extends BaseTemplate {
 				$itemOptions = $options + self::TEXTWRAPPER;
 				unset( $item['text-wrapper'] );
 			}
-			if (
-				$key !== 'watch' && $key !== 'unwatch' &&
-				isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
+			if ( $key === 'watch' || $key === 'unwatch' ) {
+				$itemOptions = $options + self::TEXTWRAPPER;
+			} elseif ( isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
 				if ( !isset( $item['class'] ) ) {
 					$item['class'] = '';
 				}
