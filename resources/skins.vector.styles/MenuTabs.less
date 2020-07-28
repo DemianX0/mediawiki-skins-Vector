@@ -4,6 +4,11 @@
 /**
  * Styling for namespace tabs (page, discussion) and views (read, edit, view history, watch and other actions)
  */
+ 
+.mw-article-toolbar {
+	// Clear the floats on .mw-article-toolbar__left, .mw-article-toolbar__right and siblings.
+	.mixin-clearfix();
+}
 
 /* Namespaces and Views */
 .vector-menu-tabs {
