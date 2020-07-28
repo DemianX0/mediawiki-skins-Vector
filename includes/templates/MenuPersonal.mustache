@@ -1,0 +1,15 @@
+{{!
+	See @typedef MenuDefinition
+}}
+
+<nav id="p-personal" class="menu-personal vector-menu vectorMenu" aria-labelledby="p-personal-label" role="navigation">
+	{{^is-layout-new-search}} 
+		{{{html-lang-selector}}}
+	{{/is-layout-new-search}}
+	<h3 id="p-personal-label" class="vector-menu__label"> <span>{{label}}</span> </h3>
+	<ul class="vector-menu-content-list" role="menubar" {{{html-userlangattributes}}}>
+		{{#data-items}}
+		{{{html-item}}} {{#data-menu}}{{>Menu}}{{/data-menu}}
+		{{/data-items}}
+	</ul>
+</nav>

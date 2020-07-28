@@ -2,7 +2,7 @@
 	See @typedef MenuDefinition
 }}
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
-<nav id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
+<{{tag}} id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
 	 {{{html-user-language-attributes}}}>
 	{{#is-dropdown}}
 	<input type="checkbox" class="vector-menu-checkbox" aria-labelledby="{{label-id}}"/>
@@ -13,7 +13,9 @@
 	{{! `body` class for backwards compatibility but let editors know not to use
 	 it via HTML comment below: }}
 	<ul class="body {{list-classes}}">
-		{{{html-items}}}
+		{{#data-items}}
+		{{{html-item}}}
+		{{/data-items}}
 	</ul>
 	{{{html-after-portal}}}
-</nav>
+</{{tag}}>

@@ -76,25 +76,29 @@
 </div> {{! END mw-workspace-container }}
 
 <header class="mw-header">
-	<label
-		id="mw-sidebar-button"
-		class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
-		for="mw-sidebar-checkbox"
-		role="button"
-		aria-controls="mw-panel"
-		data-event-name="ui.sidebar"
-		tabindex="0">
-		{{msg-vector-action-toggle-sidebar}}
-	</label>
-	<div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
-		{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
-	</div></div>
-	{{>Logo}}
+	<div class="mw-header-left">
+		<label
+			id="mw-sidebar-button"
+			class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
+			for="mw-sidebar-checkbox"
+			role="button"
+			aria-controls="mw-panel"
+			data-event-name="ui.sidebar"
+			tabindex="0">
+			{{msg-vector-action-toggle-sidebar}}
+		</label>
+
+		<div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
+			{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
+		</div></div>
+
+		{{>Logo}}
+	</div>
 	{{#is-layout-new-search}} 
 		{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
 		{{{html-lang-selector}}}
 	{{/is-layout-new-search}}
-	{{#data-personal-menu}}{{>Menu}}{{/data-personal-menu}}
+	{{#data-personal-menu}}{{> MenuPersonal}}{{/data-personal-menu}}
 </header>
 
 <div class="mw-workspace-container">

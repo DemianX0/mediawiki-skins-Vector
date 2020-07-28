@@ -26,15 +26,20 @@
 // Space for SearchBox + personal menu row + menu items optionally wrapping.
 @height-header--narrow: @height-header--medium + @height-header-row + 0.5em; // 9.125em
 @height-header--micro: @height-header--narrow + @height-header-row; // 11.125em
-@max-width-header--medium: unit( 1100px / @font-size-root--px, em ); // 2 rows in header: logo + usermenu, search + uls.
-@max-width-header--narrow: unit( 850px / @font-size-root--px, em ); // 3 rows in header: logo, uls + usermenu, search.
-@max-width-header--micro: unit( 600px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
-@max-width-sidebar-overlay: @max-width-header--micro;
+@max-width-header--medium: unit( 960px / @font-size-root--px, em ); // <= 60em, 2 rows in header: logo + usermenu, search + uls.
+@max-width-header--narrow: unit( 560px / @font-size-root--px, em ); // <= 35em, 3 rows in header: logo, uls + usermenu, search.
+@max-width-header--micro: unit( 400px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
+//@max-width-sidebar-overlay: unit( 600px / @font-size-root--px, em );
+@max-width-sidebar-overlay: @max-width-header--narrow;
 @margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 @margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
 
 // Font sizes
 @font-size-logo--px: @font-size-root--px;
+@font-size-nav-personal--px: @font-size-tabs--px; // 13px only in modern layout.
+@font-size-nav-personal: unit( @font-size-nav-personal--px / @font-size-root--px, em ); // 13/16 = 0.8125em
+@line-height-nav-personal: unit( 14px / @font-size-nav-personal--px ); // 14/13 = 1.07692308
+@line-height-nav-personal: unit( 16px / @font-size-nav-personal--px ); // 16/13 = 1.23076923
 @size-personal-menu-icon--px: 20px;
 @size-personal-menu-icon: unit( @size-personal-menu-icon--px / @font-size-nav-personal--px, em ); // 20/13 = 1.53846154em
 
@@ -144,7 +149,6 @@ body {
 		}
 	}
 
-	> label,
 	> nav,
 	> div {
 		// Non-flex fallback for IE<=9.
@@ -161,8 +165,27 @@ body {
 	// IE<=10 will position the personal menu icons ca. 3px higher.
 }
 
-/* Logo */
-.skin-vector-new-search .mw-logo {
+.menu-personal > .vector-menu-content-list,
+.mw-header .mw-header-left,
+.mw-header {
+	.flex-display();
+	.align-items( center ); // Supports: IE11.
+	// IE<=10 will position the personal menu icons ca. 3px higher.
+}
+
+/* Sidebar button and logo */
+.mw-header-left {
+	white-space: nowrap; // Avoid wrapping on narrow screen, non-flexbox.
+
+	> a,
+	> label {
+		// Non-flex fallback for IE<=9.
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.skin-vector-new-search .mw-header-left {
 	@media ( max-width: @max-width-header--medium ) {
 		margin-right: auto;
 	}
@@ -256,9 +279,9 @@ body:not( .skin-vector-new-search ) .mw-search {
 		}
 	}
 
-	.vector-menu-content-list {
- 		.flex-wrap();
- 		.justify-content( flex-end ); // Move Notifications, PersonalMenu to the right: IE>=11
+	> .vector-menu-content-list {
+		.flex-wrap();
+		.justify-content( flex-end ); // Move Notifications, PersonalMenu to the right: IE>=11
 		text-align: right; // Right align the second row.
 
 		> li {

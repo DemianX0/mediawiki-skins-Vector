@@ -8,7 +8,7 @@
 	float: left;
 	cursor: pointer;
 	position: relative;
-	line-height: 1.125em;
+	//line-height: 1.125em;
 
 	// FIXME: overqualified selector.
 	// The structure of this file is a mess to retain git history and avoid massive manual merges.
@@ -49,13 +49,12 @@
 
 	// The menu itself.
 	.vector-menu-content-list {
+		position: absolute;
+		top: 100%; // Move down with tab height.
 		background-color: @background-color-base;
 		list-style: none none;
 		// Match the width of the dropdown "heading" (the tab)
 		min-width: 100%;
-		position: absolute;
-		top: 2.5em;
-		left: -@border-width-base;
 		border: @border-width-base @border-style-base @border-color-base;
 		border-top-width: 0;
 		padding: 0;
@@ -85,12 +84,14 @@
 		padding: 0;
 		margin: 0;
 		text-align: left;
-		line-height: 1em;
+		line-height: 1em; // 16px
 
+		> span,
 		a {
 			color: @color-link;
 			display: block;
-			padding: 0.625em;
+			//padding: 0.625em; // 8.125px
+			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			white-space: nowrap;
 			cursor: pointer;
 			font-size: @font-size-tabs;
@@ -101,6 +102,19 @@
 	.selected a:visited {
 		color: @color-link-selected;
 		text-decoration: none;
+	}
+}
+
+.mw-article-toolbar .vector-menu-dropdown {
+	.vector-menu-content-list {
+		// Only in modern layout the dropdown menu grows to the left.
+		right: -@border-width-base; // Adapt to the border simulated with background.
+
+		.skin-vector-legacy & {
+			// Grow to the right.
+			left: -@border-width-base;
+			right: auto;
+		}
 	}
 }
 
