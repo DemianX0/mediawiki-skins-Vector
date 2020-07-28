@@ -114,7 +114,8 @@ body {
 
 /* Header layout */
 .mw-header {
-	position: absolute;
+	position: fixed;
+	.box-sizing( border-box );
 	top: 0;
 	left: 0;
 	right: 0;
@@ -125,6 +126,12 @@ body {
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
 	.mixin-clearfix(); // Close float flow.
 	z-index: @z-index-header;
+
+	// Not layout.
+	@box-shadow-blur-size-header: 10px;
+	@box-shadow-color-header: #f0f0f0;
+	background-color: @background-color-base;
+	.box-shadow( 0 @box-shadow-blur-size-header @box-shadow-blur-size-header -@box-shadow-blur-size-header @box-shadow-color-header );
 
 	.skin-vector-new-search & {
 		.justify-content( center ); // Medium: Searchbox and ULS nicely centered.
@@ -253,6 +260,11 @@ body:not( .skin-vector-new-search ) .mw-search {
 			padding-left: 0;
 		}
 	}
+}
+
+.uls-menu.uls-menu {
+	position: fixed;
+	top: 3.7em !important;
 }
 
 /* Personal menu */
