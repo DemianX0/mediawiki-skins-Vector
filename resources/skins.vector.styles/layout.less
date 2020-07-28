@@ -49,9 +49,12 @@
 @border-color-sidebar: #f6f6f6;
 @border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em
 @box-shadow-color: #f0f0f0;
+@box-shadow-size-header: unit( 10px / @font-size-root--px, em ); // 0.625em
 @is-using-placeholder: 0;
 
 html {
+	.mixin-header-space( scroll-padding-block-start, 2em ); // Scroll to 2em below header.
+	// No IE support for scroll properties.
 	scroll-behavior: smooth;
 }
 
@@ -131,7 +134,8 @@ body when ( @is-using-placeholder = 0 ) {
 
 /* Header layout */
 .mw-header {
-	position: absolute;
+	position: absolute; // Kept for testing in DevTools.
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -141,6 +145,11 @@ body when ( @is-using-placeholder = 0 ) {
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
 	.mixin-clearfix(); // Close float flow.
 	z-index: @z-index-header;
+
+	// Not layout.
+	background-color: @background-color-base;
+	@size-shadow: @box-shadow-size-header;
+	box-shadow: 0 @size-shadow @size-shadow -@size-shadow @box-shadow-color;
 
 	.skin-vector-new-search & {
 		.justify-content( center ); // Medium: Searchbox and ULS nicely centered.
@@ -208,7 +217,7 @@ body when ( @is-using-placeholder = 0 ) {
 }
 
 /* Searchbox */
-body:not( .skin-vector-new-search ) .mw-search {
+html:not( .skin-vector-new-search ) .mw-search {
 	// :not support: IE9+
 	margin: 0.5em 0.5em 0 0.5em;
 	min-width: 5em;
@@ -269,6 +278,11 @@ body:not( .skin-vector-new-search ) .mw-search {
 			padding-left: 0;
 		}
 	}
+}
+
+.uls-menu.uls-menu {
+	position: fixed;
+	top: 3.7em !important;
 }
 
 /* Personal menu */
