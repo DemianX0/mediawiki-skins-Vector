@@ -53,28 +53,8 @@
 
 	.mw-body,
 	#mw-data-after-content,
-	#left-navigation,
 	.mw-footer {
 		margin-left: 0;
-	}
-
-	#mw-head {
-		width: auto;
-		left: 0;
-		right: 0;
-	}
-
-	#left-navigation {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-
-	#right-navigation {
-		margin-top: 0;
-	}
-
-	#p-personal {
-		right: 0;
 	}
 
 	#p-search {
@@ -131,12 +111,6 @@
 		max-width: @max-width-content-container;
 		margin-left: auto;
 		margin-right: auto;
-	}
-
-	.mw-article-toolbar-container {
-		margin-top: @height-header;
-		// Clear the floats on #left-navigation and #right-navigation.
-		.mixin-clearfix();
 	}
 
 	.mw-sidebar-container {
@@ -196,7 +170,7 @@
 	@media ( max-width: @max-width-margin-start-content ) {
 		// Adjusts the content and mw-article-toolbar-container.
 		.mw-checkbox-hack-checkbox:checked ~ .mw-workspace-container .mw-content-container,
-		.mw-checkbox-hack-checkbox:checked ~ #mw-navigation .mw-content-container {
+		.mw-checkbox-hack-checkbox:checked ~ .mw-article-toolbar {
 			margin-left: @margin-start-content;
 		}
 
