@@ -14,8 +14,8 @@
 // "#mw-sidebar-checkbox:not( :checked ) ~ .mw-header #mw-sidebar-button:before"
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
-@padding-horizontal-header: @margin-end-portal + @padding-left-sidebar +
-	( @margin-start-portal-body / @font-size-nav-main-heading );
+//@padding-horizontal-header: unit( 30px / @font-size-root--px, em ); // 30/16 = 1.875em
+@padding-horizontal-header: @padding-left-sidebar + @padding-left-portal; // 0.5em + 1.2em = 1.7em -> 27.2px
 @padding-top-header: 0.625em;
 @padding-bottom-header: 0.3125em;
 @height-header--inner: 3.375em; // Logo sizes per specification in T245190.
