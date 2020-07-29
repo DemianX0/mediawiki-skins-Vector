@@ -40,8 +40,8 @@
 <input
 	type="checkbox"
 	id="mw-sidebar-checkbox"
-	class="mw-checkbox-hack-checkbox"
-	{{#sidebar-visible}}checked{{/sidebar-visible}}>
+	class="mw-sidebar-toggle"
+	{{{html-sidebar-checked}}}>
 {{{raw-sidebar-init-script}}}
 
 <div class="mw-workspace-container">
@@ -79,21 +79,7 @@
 
 <header class="mw-header">
 	<div class="mw-header-left">
-		<label
-			id="mw-sidebar-button"
-			class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
-			for="mw-sidebar-checkbox"
-			role="button"
-			aria-controls="mw-panel"
-			data-event-name="ui.sidebar"
-			tabindex="0">
-			{{msg-vector-action-toggle-sidebar}}
-		</label>
-
-		<div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
-			{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
-		</div></div>
-
+		{{>Sidebar}}
 		{{>Logo}}
 	</div>
 	{{#is-layout-new-search}} 

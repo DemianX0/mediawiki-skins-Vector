@@ -1,5 +1,3 @@
-// This file is being considered for Core as part of T252774.
-
 // Notes:
 //
 // - Usage requires three elements: a hidden checkbox input, a button, and a show / hide target.
@@ -12,7 +10,7 @@
 //
 // - Animate target in and out from start (left in LTR) to end (right in LTR):
 //
-//     .mw-checkbox-hack-checkbox:not( :checked ) ~ .mw-checkbox-hack-target {
+//     #mw-sidebar-checkbox:not( :checked ) ~ .<target> {
 //             // Turn off presentation so that screen readers get the same effect as visually
 //             // hiding. Visibility and opacity can be animated. If animation is unnecessary, all
 //             // of this can be replaced with `display: none` instead to avoid hidden rendering.
@@ -25,21 +23,18 @@
 //
 // - Show / hide the target instantly without animation:
 //
-//     .mw-checkbox-hack-checkbox:not( :checked ) ~ .mw-checkbox-hack-target {
+//     #mw-sidebar-checkbox:not( :checked ) ~ .<target> {
 //	       display: none;
 //     }
 
-@import 'mediawiki.ui/variables.less';
-@import 'mediawiki.mixins.less';
-
-.mw-checkbox-hack-checkbox {
+.mw-sidebar-toggle {
 	// We don't want the browser to focus on the checkbox so we remove it from the
 	// accessibility tree. Instead, we want the label button to receive focus
 	// which has a tabindex of '0'.
 	display: none;
 }
 
-.mw-checkbox-hack-button {
+.mw-sidebar-button {
 	// Labels are inlined by default but are also an icon having width and height specified.
 	display: inline-block;
 	// Use the hand icon for the toggle button which is actually a checkbox label.
