@@ -235,7 +235,7 @@ class VectorTemplate extends BaseTemplate {
 
 			'raw-sidebar-init-script' => $rawSidebarInitScript,
 			'data-sidebar' => $this->buildSidebar(),
-			'sidebar-visible' => $this->isSidebarVisible(),
+			'html-sidebar-checked' => $this->isSidebarVisible() ? 'checked' : false,
 			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
 		] + $this->getMenuProps();
 		
