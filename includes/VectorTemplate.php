@@ -489,7 +489,7 @@ class VectorTemplate extends BaseTemplate {
 		bool $setLabelToSelected = false
 	) : array {
 		$skin = $this->getSkin();
-		$isPortal = self::MENU_TYPE_PORTAL === $type;
+		$isPortal = $type === self::MENU_TYPE_PORTAL;
 
 		// For some menu items, there is no language key corresponding with its menu key.
 		// These inconsitencies are captured in MENU_LABEL_KEYS
@@ -502,7 +502,7 @@ class VectorTemplate extends BaseTemplate {
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
 			'html-items' => [],
-			'is-dropdown' => self::MENU_TYPE_DROPDOWN === $type,
+			'is-dropdown' => $type === self::MENU_TYPE_DROPDOWN,
 			'html-tooltip' => Linker::tooltip( $menuId ),
 			'is-portal' => $isPortal,
 		];
