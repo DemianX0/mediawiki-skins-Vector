@@ -484,20 +484,26 @@ class VectorTemplate extends BaseTemplate {
 			$loggedIn = '';
 		}
 
-		// This code doesn't belong here, it belongs in the UniversalLanguageSelector
-		// It is here to workaround the fact that it wants to be the first item in the personal menus.
-		if ( array_key_exists( 'uls', $personalTools ) ) {
-			$uls = $skin->makeListItem( 'uls', $personalTools[ 'uls' ] );
-			unset( $personalTools[ 'uls' ] );
-		} else {
-			$uls = '';
+		$props = [];
+
+		$uls = '';
+		if ( $personalTools['uls'] ?? null ) {
+			$isNewSearch = $this->getConfig()->get( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH );
+			if ( $isNewSearch ) {
+				$props['html-lang-selector'] = $skin->makeListItem( 'uls', $personalTools['uls'], [ 'tag' => 'div' ] );
+			} else {
+				// This code doesn't belong here, it belongs in the UniversalLanguageSelector
+				// It is here to workaround the fact that it wants to be the first item in the personal menus.
+				$uls = $skin->makeListItem( 'uls', $personalTools[ 'uls' ] );
+			}
+			unset( $personalTools['uls'] );
 		}
 
 		$ptools = $this->getMenuData( 'personal', $personalTools );
 		// Append additional link items if present.
 		$ptools['html-items'] = $uls . $loggedIn . $ptools['html-items'];
 
-		return [
+		return $props + [
 			'data-personal-menu' => $ptools,
 			'data-namespace-tabs' => $this->getMenuData(
 				'namespaces',
