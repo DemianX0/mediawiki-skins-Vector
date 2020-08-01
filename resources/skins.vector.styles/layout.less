@@ -163,14 +163,14 @@ body when ( @is-using-placeholder = 0 ) {
 }
 
 // Header elements using flexbox layout.
-#p-personal > .vector-menu-content-list,
+#p-personal > .vector-menu--list,
 .mw-header {
 	.flex-display();
 	.align-items( center ); // Supports: IE11.
 	// IE<=10 will position the personal menu icons ca. 3px higher.
 }
 
-.menu-personal > .vector-menu__list,
+.menu-personal > .vector-menu--list,
 .mw-header .mw-header-left,
 .mw-header {
 	.flex-display();
@@ -284,7 +284,7 @@ body:not( .skin-vector-new-search ) .mw-search {
 		}
 	}
 
-	.vector-menu-content-list {
+	.vector-menu--list {
 		.flex-wrap();
 		.justify-content( flex-end ); // Move Notifications, PersonalMenu to the right: IE>=11
 		text-align: right; // Right align the second row.
