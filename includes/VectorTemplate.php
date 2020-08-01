@@ -484,7 +484,7 @@ class VectorTemplate extends BaseTemplate {
 
 		// Mark the portal as empty if it has no content
 		$class = ( count( $urls ) == 0 && !$props['html-after-portal'] )
-			? 'vector-menu-empty emptyPortlet' : '';
+			? 'emptyPortlet' : '';
 		$props['class'] = trim( "$class $extraClasses[$type]" );
 		return $props;
 	}
