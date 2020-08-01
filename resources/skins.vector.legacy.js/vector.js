@@ -8,8 +8,8 @@ function initCollapsing() {
 	var overflowElement = document.getElementById( 'mw-head' );
 	var $expandedContainer = $( '#p-views ul' ); // Renamed from $tabContainer.
 	var $collapsedContainer = $( '#p-cactions ul' ); // Renamed from $cactions.
-	//var $expandedContainer = $( '.menu-actions > .vector-menu-content-list' ); // Renamed from $tabContainer.
-	//var $collapsedContainer = $( '.menu-more > .vector-menu-content-list' ); // Renamed from $cactions.
+	//var $expandedContainer = $( '.menu-actions > .vector-menu__list' ); // Renamed from $tabContainer.
+	//var $collapsedContainer = $( '.menu-more > .vector-menu__list' ); // Renamed from $cactions.
 	var collapsibleSelector = '.collapsible';
 	var collapsedMenuWidth = $collapsedContainer.width() || 0;
 
