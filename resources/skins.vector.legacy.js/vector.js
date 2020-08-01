@@ -89,14 +89,14 @@ function initCollapsing() {
 		.on( 'afterTabCollapse', function () {
 			// If the dropdown was hidden, show it
 			// eslint-disable-next-line no-jquery/no-class-state
-			$collapsedContainer.removeClass( 'emptyPortlet vector-menu-empty' );
+			$collapsedContainer.removeClass( 'emptyPortlet' );
 			// Note: .classList requires IE10.
 		} )
 		.on( 'afterTabExpand', function () {
 			// Hide the dropdown if all children are removed.
 			if ( $collapsedContainer.children().length === 0 ) {
 				// eslint-disable-next-line no-jquery/no-class-state
-				$collapsedContainer.addClass( 'emptyPortlet vector-menu-empty' );
+				$collapsedContainer.addClass( 'emptyPortlet' );
 			}
 		} )
 		.collapsibleTabs( options );
