@@ -10,9 +10,9 @@
 	<h3 id="{{label-id}}">
 		<span>{{label}}</span>
 	</h3>
-	{{! `body` class for backwards compatibility but let editors know not to use
-	 it via HTML comment below: }}
-	<ul class="body {{list-classes}}">
+	{{! `body` class for backwards compatibility. }}
+	{{! `menu` is on dropdowns for historic reasons. It should not be applied elsewhere per T253329. }}
+	<ul class="body{{#is-dropdown}} menu{{/is-dropdown}} vector-menu--list"> 
 		{{{html-items}}}
 	</ul>
 	{{{html-after-portal}}}
