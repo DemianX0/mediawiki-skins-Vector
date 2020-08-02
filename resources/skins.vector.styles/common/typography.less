@@ -41,12 +41,45 @@ pre,
 .mw-body {
 	// h1's can exist outside of `.mw-body-content` so some heading styles
 	// therefore need to be defined in `.mw-body` as well.
-	& h1,
-	&-content h1,
-	&-content h2 {
+	h1,
+	h2 {
 		margin-bottom: 0.25em;
 		padding: 0;
 		line-height: @line-height-heading;
+	}
+
+	h2:not( .mw-headline ) {
+		// In core patch I6c0f2a2008010f163bf977d1935268030a5d7a53
+		// "sharewidget: Show share links when page is not editable"
+		// `h2` becomes `h2.mw-headline`. See Linker::makeHeadline().
+		border-bottom: none;
+	}
+
+	h1,
+	h2.mw-headline,
+	h2 .mw-headline {
+		// h1 bottom border is full width.
+		// h2 bottom border is only as wide as the headline text.
+		@color-end: @background-color-base;
+		@color-middle: @border-color-content-heading;
+		@width-gradient: 1rem; // 16px
+		@width-overflow: 0.4rem; // 6.4px
+		// Extend border beyond allocated area.
+		overflow: visible;
+		margin-left: -@width-overflow;
+		margin-right: -@width-overflow;
+		padding-left: @width-overflow;
+		padding-right: @width-overflow;
+		//border-bottom: ( 1rem / 16px ) solid @color-middle;
+		border-bottom: unit( 1px / @font-size-root--px, rem ) solid @color-middle;
+		// Support: IE11.
+		border-image: linear-gradient( to right, @color-end, @color-middle @width-gradient calc( 100% ~'-' @width-gradient ), @color-end 100% ) 100% 1;
+	}
+
+	.mw-headline {
+		// Position the bottom border closer to the text.
+		display: inline-block;
+		overflow: visible; // Necessary for proper vertical alignment of .mw-editsection
 	}
 
 	h1,
