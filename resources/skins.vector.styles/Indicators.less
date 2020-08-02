@@ -1,14 +1,29 @@
 @import '../variables.less';
+@import 'mediawiki.mixins.less';
 
-// FIXME: Is specific `.mw-body` even needed? Does `.mw-indicators` exist outside?
-.mw-body {
-	.mw-indicators {
-		font-size: @font-size-content;
-		line-height: 1;
-		position: relative;
-	}
+.mw-body-header {
+	// Keep border in sync with:  core/resources/src/mediawiki.skinning/elements.css / h1-h6
+	border-bottom: 1px solid #a2a9b1;
+	.mixin-clearfix();
+}
 
-	.mw-indicator {
-		display: inline-block;
+h1.firstHeading {
+	float: left;
+	margin: 0;
+	border: none;
+}
+
+.mw-indicators {
+	float: right;
+	font-size: @font-size-content;
+	line-height: 1;
+	position: relative;
+}
+
+.mw-indicator {
+	display: inline-block;
+
+	@media ( min-width: 720px ) {
+		white-space: nowrap;
 	}
 }
