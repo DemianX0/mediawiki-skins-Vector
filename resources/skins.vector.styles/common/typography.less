@@ -35,6 +35,20 @@ pre,
 .mw-editsection,
 .mw-editsection-like {
 	font-family: @font-family-sans;
+	margin-left: @margin-left-editsection;
+}
+
+.mw-content-ltr .mw-editsection,
+.mw-content-rtl .mw-content-ltr .mw-editsection {
+	/* Correct directionality when page dir is different from site/user dir */
+	/* @noflip */
+	margin-left: @margin-left-editsection;
+}
+
+.mw-content-rtl .mw-editsection,
+.mw-content-ltr .mw-content-rtl .mw-editsection {
+	/* @noflip */
+	margin-right: @margin-left-editsection;
 }
 
 /* Main content area, including siteNotice, indicators, firstHeading and `.mw-body-content`. */
