@@ -7,7 +7,6 @@
 // is present, the max-width design will appear. Without this class, max-width
 // design will not appear. In either case, the appearance should not be broken.
 .skin-vector-max-width {
-	@background-color-secondary--modern: #f8f9fa;
 	//@min-width-page-container: 600px;
 	@max-width-page-container: 1650px;
 	@padding-horizontal-page-container: 30px;
@@ -31,7 +30,6 @@
 	// at or below this breakpoint and will maintain its position above this
 	// breakpoint.
 	@max-width-margin-start-content: ( 2 * @margin-start-content ) + @padding-horizontal-page-container-total + ( unit( @max-width-content-container / @font-size-root--px, em ) );
-	@border-color-sidebar: @background-color-secondary--modern;
 
 	// Style overrides for existing elements. Mostly overrides layout.less rules.
 	background-color: @background-color-secondary--modern;
@@ -183,7 +181,11 @@
 	@media ( min-width: ( @max-width-workspace-container + ( 2 * @padding-horizontal-page-container ) ) ) {
 		#mw-panel {
 			background: @background-color-page-container;
-			border-right: 1px solid @border-color-sidebar;
+			@color-end: @background-color-base;
+			@color-middle: @border-color-sidebar;
+			@percent-gradient: 20%;
+			border-image: linear-gradient( to bottom, @color-end 0%, @color-middle @percent-gradient ( 100% - @percent-gradient ), @color-end 100% ) 1 100%;
+			border-right: @border-width-base solid @border-color-sidebar;
 		}
 	}
 }
