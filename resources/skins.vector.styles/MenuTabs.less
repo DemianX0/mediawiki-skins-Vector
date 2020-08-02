@@ -6,8 +6,16 @@
  */
  
 .mw-article-toolbar {
-	// Clear the floats on .mw-article-toolbar__left, .mw-article-toolbar__right and siblings.
+	// Clear the floats on .mw-article-toolbar--left, .mw-article-toolbar--right and siblings.
 	.mixin-clearfix();
+}
+
+.mw-article-toolbar--left {
+	float: left;
+}
+
+.mw-article-toolbar--right {
+	float: right;
 }
 
 /* Namespaces and Views */
@@ -15,7 +23,7 @@
 	// Tab separator: Outer start border (left in LTR) of tab row.
 	background-position: left bottom;
 	float: left;
-	height: 2.5em;
+	height: @height-article-toolbar;
 	padding-left: @border-width-base;
 
 	/* Navigation Labels */

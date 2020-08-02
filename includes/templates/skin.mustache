@@ -37,23 +37,18 @@
 
 {{{html-headelement}}}
 
-<div class="mw-page-container">
-	<div class="mw-page-container-inner">
-
-<div id="mw-page-base" class="mw-header-placeholder noprint"></div>
-
 <input
 	type="checkbox"
 	id="mw-sidebar-checkbox"
 	class="mw-checkbox-hack-checkbox"
 	{{#sidebar-visible}}checked{{/sidebar-visible}}>
-
 {{{raw-sidebar-init-script}}}
 
 <div class="mw-workspace-container">
-	<div class="mw-content-container">
+<div id="mw-page-base" class="mw-header-placeholder noprint"></div>
+<div class="mw-content-container">
+
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
-<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
 <main id="content" class="mw-body" role="main">
 	<a id="top"></a>
 	<div id="siteNotice" class="mw-body-content">{{{html-site-notice}}}</div>
@@ -76,7 +71,8 @@
 	</div>
 </main>
 {{{html-after-content}}}
-	</div> {{! END mw-content-container }}
+
+</div> {{! END mw-content-container }}
 </div> {{! END mw-workspace-container }}
 
 <header class="mw-header">
@@ -90,9 +86,9 @@
 		tabindex="0">
 		{{msg-vector-action-toggle-sidebar}}
 	</label>
-	<div class="mw-workspace-container mw-sidebar-container">
+	<div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
 		{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
-	</div>
+	</div></div>
 	{{>Logo}}
 	{{#is-layout-new-search}} 
 		{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
@@ -101,7 +97,9 @@
 	{{#data-personal-menu}}{{>Menu}}{{/data-personal-menu}}
 </header>
 
-<div id="mw-head" class="mw-content-container mw-article-toolbar">
+<div class="mw-workspace-container">
+
+<div id="mw-head" class="mw-article-toolbar">
 	<h2 screen-reader>{{{html-navigation-heading}}}</h2>
 	<div id="left-navigation">
 		{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
@@ -114,11 +112,10 @@
 	</div>
 </div>
 
-<div class="mw-workspace-container mw-footer-container">
-	<div class="mw-content-container">
-		{{#data-footer}}{{>Footer}}{{/data-footer}}
-	</div>
+<div class="mw-footer-container mw-content-container">
+	{{#data-footer}}{{>Footer}}{{/data-footer}}
 </div>
-	</div> {{! END mw-page-container-inner }}
-</div> {{! END mw-page-container }}
+
+</div> {{! END mw-workspace-container }}
+
 {{{html-printtail}}}
