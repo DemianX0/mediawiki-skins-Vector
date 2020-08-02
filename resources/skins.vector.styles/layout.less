@@ -29,6 +29,7 @@
 @max-width-header--medium: unit( 1100px / @font-size-root--px, em ); // 2 rows in header: logo + usermenu, search + uls.
 @max-width-header--narrow: unit( 850px / @font-size-root--px, em ); // 3 rows in header: logo, uls + usermenu, search.
 @max-width-header--micro: unit( 600px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
+@max-width-sidebar-overlay: @max-width-header--micro;
 @margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 @margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
 
@@ -342,6 +343,33 @@ body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
 	~ @{css-selector-content-container} {
 		// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
 		margin-left: @min-width-sidebar;
+	}
+}
+
+@media ( max-width: @max-width-sidebar-overlay ) {
+	// On narrow viewport show the sidebar over the content.
+	// Dupliciate class selector to override the `&.ns-special` rules with precedence.
+	#mw-sidebar-checkbox#mw-sidebar-checkbox:checked {
+		~ @{css-selector-article-toolbar},
+		~ @{css-selector-content-container} {
+			margin-left: 0;
+		}
+	}
+
+	.mw-sidebar-container {
+		overflow-x: visible;
+	}
+
+	.mw-sidebar {
+		padding-bottom: 2 * @padding-top-sidebar;
+		box-shadow: 1em 3em 5em -1.5em #888;
+		border-radius: 6 * @border-width-base;
+		// border: solid 0 @border-color-sidebar;
+		// border-right-width: 2 * @border-width-base;
+		// border-bottom-width: 2 * @border-width-base;
+		// Restore animation.
+		@duration: @transition-duration-base * 2 ease-out;
+		.transition( all @duration );
 	}
 }
 
