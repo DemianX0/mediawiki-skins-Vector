@@ -403,6 +403,20 @@ body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
 		// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
 		margin-left: @min-width-sidebar;
 	}
+
+	/*
+	~ #mw-sidebar-radio-toc:checked {
+		~ @{css-selector-sidebar} {
+			max-width: @max-width-sidebar-toc;
+		}
+
+		~ @{css-selector-article-toolbar},
+		~ @{css-selector-content-container} {
+			// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
+			margin-left: @max-width-sidebar-toc;
+		}
+	}
+	*/
 }
 
 @media ( max-width: @max-width-sidebar-overlay ) {

@@ -158,6 +158,14 @@
 			~ @{css-selector-content-container} {
 				margin-left: @margin-start-content;
 			}
+
+			/*
+			~ #mw-sidebar-radio-toc:checked {
+				~ @{css-selector-content-container} {
+					margin-left: @max-width-sidebar-toc + @margin-between-content-and-sidebar; // 16em
+				}
+			}
+			*/
 		}
 
 		.mw-sidebar {
@@ -186,6 +194,15 @@
 			~ @{css-selector-content-container} {
 				margin-left: @margin-start-content;
 			}
+
+			/*
+			~ #mw-sidebar-toc-radio:checked {
+				~ @{css-selector-article-toolbar},
+				~ @{css-selector-content-container} {
+					margin-left: @max-width-sidebar-toc + @margin-between-content-and-sidebar; // 16em
+				}
+			}
+			*/
 		}
 
 		.mw-sidebar.mw-sidebar {
