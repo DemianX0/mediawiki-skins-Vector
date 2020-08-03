@@ -1,29 +1,30 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
+@import 'mediawiki.mixins.flex-align.less';
 @import './layout.less';
 @import 'legacy/Sidebar.less';
 
 @margin-horizontal-sidebar-button-icon: 12px;
+//@background-color-sidebar-toggle: #e8e8e8;
+@background-color-sidebar-toggle: @background-color-secondary--modern;
+@background-color-sidebar-toggle--active: @background-color-base;
+@box-shadow-color-sidebar-toggle--active: #bbb;
+//@box-shadow-color-sidebar-toggle--active: @background-color-frameless--hover;
 
 #mw-sidebar-button {
-	// Override minimum dimensions set by mw-ui-icon.mw-ui-icon-element.
-	min-width: @size-sidebar-button;
-	min-height: @size-sidebar-button;
-	width: @size-sidebar-button;
-	height: @size-sidebar-button;
-	border: 1px solid transparent;
-	border-radius: @border-radius-base;
+	//width: @size-sidebar-button;
+	//height: @size-sidebar-button;
+	padding: ( @size-sidebar-button - @size-sidebar-button-icon ) / 2; // 0.75em -> 12px
 	margin-left: -@margin-horizontal-sidebar-button-icon;
 	margin-right: @margin-horizontal-sidebar-button-icon; // Accidentally the same.
 
 	&:before {
-		// FIXME: the icon itself is supposed to be 20px. mediawiki.ui uses 24px.
-		// As soon as mediawiki.ui is standardized, remove this override. See T191021.
-		min-width: 20px;
-		min-height: 20px;
-		height: 100%;
+		width: @size-sidebar-button-icon; // 1.25em -> 20px
+		height: @size-sidebar-button-icon;
+		line-height: @size-sidebar-button-icon;
+		//height: 100%;
 		// Center it horizontally.
-		margin: 0 @margin-horizontal-sidebar-button-icon;
+		//margin: 0 @margin-horizontal-sidebar-button-icon;
 		// Equals `#555`, closest to `#54595d` on background-color `#fff`.
 		opacity: 0.67;
 	}
@@ -34,6 +35,18 @@
 		&:before {
 			opacity: 1;
 		}
+	}
+}
+
+.mw-sidebar-button {
+	border: 1px solid transparent;
+	border-radius: @border-radius-base;
+
+	&.mw-ui-icon {
+		// Override minimum dimensions set by .mw-ui-icon
+		min-width: auto;
+		min-height: auto;
+		line-height: @line-height-nav;
 	}
 
 	&:focus {
@@ -46,7 +59,7 @@
 // and additional details on how this class is added.
 .vector-animations-ready {
 	// Enable sidebar button transitions.
-	#mw-sidebar-button {
+	.mw-sidebar-button {
 		.transition(
 			background-color @transition-duration-base,
 			border-color @transition-duration-base,
@@ -54,3 +67,77 @@
 		);
 	}
 }
+
+.mw-ui-icon:before {
+	display: inline-block;
+	vertical-align: bottom;
+	background-repeat: no-repeat;
+	background-size: contain; // Support: IE9.
+	background-position: center;
+	content: '';
+}
+
+.mw-sidebar-toggles {
+
+	// Horizontal centering.
+	//.flex-display();
+	//.justify-content( center ); // Support: IE11.
+	// Relative to the outer width of the sidebar.
+	padding-right: @padding-left-sidebar - @padding-right-sidebar;
+	// Vertical space between toggle buttons and sidebar content.
+	margin-bottom: 1em; // 16px
+	margin-bottom: 0.5em; // 8px
+	margin-left: 0.5em;
+
+	.mw-sidebar-button {
+		padding: 0.1em; // 1.6px
+		padding: 0.2em; // 3.2px
+		margin: 0 0.25em; // 4px
+		background-color: @background-color-sidebar-toggle;
+		border: @border-width-base @border-style-base @colorGray10;
+		//box-shadow: 0 0 0.5em 0 @background-color-sidebar-toggle;
+		//box-shadow: 0 0 0.1em 0.2em @background-color-sidebar-toggle;
+
+		&:before {
+			width: @size-sidebar-toggle-icon;
+			height: @size-sidebar-toggle-icon;
+			line-height: @size-sidebar-toggle-icon;
+		}
+
+		&.selected {
+			background-color: @background-color-sidebar-toggle--active;
+			box-shadow: 0 0 0 @border-width-base @color-base--active;
+			//box-shadow: 0 0 0.3em 0.15em @box-shadow-color-sidebar-toggle--active;
+
+			&:before {
+				// Highlight .mw-ui-icon of active panel.
+				opacity: 1;
+			}
+		}
+	}
+
+	.mw-ui-icon-listBullet,
+	.mw-ui-icon-textFlow {
+		.transform( scaleX( -1 ) );
+	}
+}
+
+.mixin-sidebar-hider( @name, @css-selector-panel ) {
+	@css-id-radio: ~'mw-sidebar-@{name}-radio';
+
+	#@{css-id-radio}:not( :checked ) {
+		~ @{css-selector-panel} {
+			display: none;
+		}
+	}
+
+	#@{css-id-radio}:checked {
+		~ @{css-selector-sidebar-toggles-base} label[for=@{css-id-radio}] {
+			&:extend( .mw-sidebar-toggles .mw-sidebar-button.selected all );
+			// all -> inherit `&:before { opacity }` too.
+		}
+	}
+}
+
+.mixin-sidebar-hider( navigation, @css-selector-sidebar-navigation );
+.mixin-sidebar-hider( toc, @css-selector-sidebar-toc );

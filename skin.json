@@ -37,6 +37,7 @@
 		"PreferencesFormPreSave": "Vector\\Hooks::onPreferencesFormPreSave",
 		"SkinTemplateNavigation": "Vector\\Hooks::onSkinTemplateNavigation",
 		"LocalUserCreated": "Vector\\Hooks::onLocalUserCreated",
+		"OutputPageParserOutput": "Vector\\Hooks::onOutputPageParserOutput",
 		"OutputPageBodyAttributes": "Vector\\Hooks::onOutputPageBodyAttributes",
 		"MakeGlobalVariablesScript": "Vector\\Hooks::onMakeGlobalVariablesScript"
 	},

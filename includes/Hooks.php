@@ -6,6 +6,8 @@ use ExtensionRegistry;
 use HTMLForm;
 use MediaWiki\MediaWikiServices;
 use OutputPage;
+use \Parser;
+use \ParserOutput;
 use RequestContext;
 use Skin;
 use SkinTemplate;
@@ -206,6 +208,20 @@ class Hooks {
 		if ( $param !== null ) {
 			$GLOBALS[ 'wg' . $configName ] = !!$param;
 		}
+	}
+
+	/**
+	 * Called from OutputPage::addParserOutputMetadata().
+	 *
+	 * @param OutputPage $out
+	 * @param ParserOutput $parserOutput
+	 */
+	public static function onOutputPageParserOutput( OutputPage $out, ParserOutput $parserOutput ) {
+		SkinVector::$parserOutput = $parserOutput;
+		$out->setTOCAllowed( false );
+		//SkinVector::$contentTOCsave = $parserOutput->getTOCHTML();
+		//$parserOutput->setTOCHTML( '' );
+		//$parserOutput->setSections( [] );
 	}
 
 	/**

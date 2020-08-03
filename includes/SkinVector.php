@@ -24,6 +24,7 @@
 
 use MediaWiki\MediaWikiServices;
 use Vector\Constants;
+use Vector\Hooks;
 use Wikimedia\WrappedString;
 
 /**
@@ -36,6 +37,9 @@ class SkinVector extends SkinTemplate {
 	public $skinname = Constants::SKIN_NAME;
 	public $stylename = 'Vector';
 	public $template = 'VectorTemplate';
+	public $contentTOC;
+
+	static ?ParserOutput $parserOutput = null;
 
 	/**
 	 * @inheritDoc
@@ -64,6 +68,7 @@ class SkinVector extends SkinTemplate {
 					'oojs-ui.styles.icons-layout', // menu, recentChanges, textFlow, (stripeToC removed)
 					'oojs-ui.styles.icons-location', // globe
 					'oojs-ui.styles.icons-user', // userAnonymous, userAvatar, userAvatarOutline, userContributions, userTalk
+					'oojs-ui.styles.icons-wikimedia', // logoWikipedia
 				]
 			);
 			$modules[Constants::SKIN_NAME][] = 'skins.vector.js';
@@ -122,7 +127,7 @@ class SkinVector extends SkinTemplate {
 			$this->printSource()
 		);
 
-		return [
+		$data = [
 			// Data objects:
 			'array-indicators' => $indicators,
 			// HTML strings:
@@ -138,10 +143,28 @@ class SkinVector extends SkinTemplate {
 			// Always returns string, cast to null if empty.
 			'html-undelete-link' => $this->prepareUndeleteLink() ?: null,
 			// Result of OutputPage::addHTML calls
-			'html-body-content' => $this->wrapHTML( $title, $out->mBodytext )
-				. $printFooter,
+			'html-body-content' => $this->wrapHTML( $title, $out->mBodytext ) . $printFooter,
 			'html-after-content' => $this->afterContentHook(),
 		];
+
+		if ( !$this->isLegacy() && !!self::$parserOutput ) {
+			$data['data-toc'] = $this->getTOCData( self::$parserOutput );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param $parserOutput object
+	 * @return array
+	 */
+	private function getTOCData( ParserOutput $parserOutput ) : array {
+		$tocdata = [];
+		$this->contentTOC = $parserOutput->getTOCHTML();
+		if ( $this->contentTOC ) {
+			$tocdata['html-body-content-toc'] = $this->wrapHTML( $this->getOutput()->getTitle(), $this->contentTOC );
+		}
+		return $tocdata;
 	}
 
 	/**

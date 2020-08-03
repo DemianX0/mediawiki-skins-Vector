@@ -205,7 +205,8 @@ class VectorTemplate extends BaseTemplate {
 		$newTalksHtml = $skin->getNewtalks() ?: null;
 
 		// @phan-suppress-next-line PhanUndeclaredMethod
-		$commonSkinData = $skin->getTemplateData() + [
+		$commonSkinData = $skin->getTemplateData();
+		$commonSkinData += [
 			'html-headelement' => $out->headElement( $skin ),
 			'page-langcode' => $title->getPageViewLanguage()->getHtmlCode(),
 			'page-isarticle' => (bool)$out->isArticle(),
@@ -236,9 +237,23 @@ class VectorTemplate extends BaseTemplate {
 			'raw-sidebar-init-script' => $rawSidebarInitScript,
 			'data-sidebar' => $this->buildSidebar(),
 			'html-sidebar-checked' => $this->isSidebarVisible() ? 'checked' : false,
+			'html-sidebar-navigation-checked' => $skin->contentTOC ? false : 'checked',
+			'html-sidebar-toc-checked' => $skin->contentTOC ? 'checked' : false,
+			'data-sidebar-toggles' => !$skin->contentTOC ? null : [
+				// Icons from:  https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop
+				[ 'target' => 'navigation', 'tooltip' => $skin->msg( 'navigation-heading' )->text(), 'icon' => 'globe' ], // From 'oojs-ui.styles.icons-location'
+				//[ 'target' => 'navigation', 'tooltip' => $skin->msg( 'navigation-heading' )->text(), 'icon' => 'menu' ], // From 'oojs-ui.styles.icons-layout'
+				[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'textFlow' ], // From 'oojs-ui.styles.icons-layout', was 'stripeFlow'
+				//[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'listBullet' ], // From 'oojs-ui.styles.icons-editing-list'
+				//[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'listNumbered' ], // From 'oojs-ui.styles.icons-editing-list'
+				//[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'article' ], // From 'oojs-ui.styles.icons-content'
+			],
+			'msg-toc-screen-reader' => $skin->msg( 'toc-screen-reader' )->text(),
+			'msg-navigation-screen-reader' => $skin->msg( 'navigation-heading' )->text(),
 			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
-		] + $this->getMenuProps();
-		
+		];
+		$commonSkinData += $this->getMenuProps();
+
 		$logos = &$commonSkinData['data-logos'];
 		// font-size declared in Logo.less
 		self::addLogoHeightEm( $logos['wordmark'], 22.4 ); // font-size: 1.4em; -> 22.4px
