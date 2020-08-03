@@ -1,0 +1,98 @@
+@import '../vector.variables.less';
+
+@margin-left-toc-level: 1em;
+@margin-left-toc-level: -0.5em;
+@use-css-pseudo-numbers: 1;
+
+.mw-sidebar-toc {
+	// Center toctitle relative to the actual width when not using .toc element.
+	display: inline-block;
+
+	.toc {
+		// Unset rules inherited from core.
+		// Use 'table' / 'inline-block' / 'width: fit-content' / flex layout on parent
+		// to take up minimal width. That will center toctitle relative to the actual width.
+		// 'fit-content' is not supported by IE, so use 'inline-block'.
+		// width: fit-content; // After IE is off the shelf.
+		display: inline-block;
+		font-size: @font-size-sidebar-toc;
+		padding: 0;
+		border: none;
+		background-color: transparent;
+
+		.toctogglespan {
+			display: none;
+		}
+	}
+
+	.toctitle {
+		margin-bottom: 1em; // 12px
+		direction: ltr;
+	}
+
+	ol,
+	ul {
+		margin: 0.3em 0;
+		counter-reset: toc-index;
+		display: table;
+	}
+
+	ol {
+		list-style-type: none;
+	}
+
+	li {
+		margin: 2 * @padding-vertical-sidebar-item 0; // 0.5em -> 6px
+		margin: @padding-vertical-sidebar-item 0; // 0.25em -> 3px
+		white-space: normal;
+		counter-increment: toc-index;
+		display: table-row; // Line up the number and the text.
+	}
+
+	.tocnumber,
+	.toctext,
+	ol li:before,
+	ul li:before {
+		display: inline;
+		display: table-cell;
+	}
+
+	.tocnumber when ( @use-css-pseudo-numbers = 1 ) {
+		display: none;
+	}
+
+	ol li:before,
+	ul li:before {
+		& when ( @use-css-pseudo-numbers = 1 ) {
+			content: counters( toc-index, '.' );
+			padding-right: 0.5em;
+		}
+	}
+
+	// Correct directionality when page dir is different from site/user dir.
+	/* @noflip */ .mw-content-ltr,
+	.mw-content-rtl .mw-content-ltr {
+		ol,
+		ul {
+			text-align: left;
+		}
+
+		.toc ol ol,
+		.toc ul ul {
+			margin: 0.25em 0 0.5em @margin-left-toc-level;
+		}
+	}
+
+	/* @noflip */ .mw-content-rtl,
+	.mw-content-ltr .mw-content-rtl {
+		ol,
+		ul {
+			text-align: right;
+		}
+
+		.toc ol ol,
+		.toc ul ul {
+			margin: 0.25em @margin-left-toc-level 0.5em 0;
+		}
+	}
+}

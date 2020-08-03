@@ -43,10 +43,26 @@ function saveSidebarPreference() {
  * @this CheckboxHack
  * @return {void}
  */
-function saveSidebarLocalState() {
+function saveSidebarOpenLocalSetting() {
 	var sidebarOpen = this.checkbox.checked ? '1' : '0';
 	try {
-		localStorage.setItem( 'vector-sidebar-open', sidebarOpen );
+		localStorage.setItem( 'mw-sidebar-open', sidebarOpen );
+	} catch ( e ) {
+	}
+}
+
+/**
+ * Save selected sidebar panel to localStorage, if available, ignore otherwise.
+ *
+ * @this CheckboxHack
+ * @return {void}
+ */
+function saveSidebarPanelLocalSetting() {
+	var sidebarPanel = this.checkbox.checked && this.checkbox.value;
+	try {
+		if ( sidebarPanel ) {
+			localStorage.setItem( 'mw-sidebar-panel', sidebarPanel );
+		}
 	} catch ( e ) {
 	}
 }
@@ -60,34 +76,53 @@ function saveSidebarLocalState() {
  * @return {CheckboxHack}
  */
 function init( window ) {
-	var checkbox = window.document.getElementById( SIDEBAR_CHECKBOX_ID ),
+	var sidebar, buttons,
+		checkbox = window.document.getElementById( SIDEBAR_CHECKBOX_ID ),
 		button = window.document.getElementById( SIDEBAR_BUTTON_ID );
-	var saveSidebarState, saveSidebarServerState;
+	var saveSidebarOpen, saveSidebarOpenOnServer;
 	if ( !mw.config.get( 'wgVectorDisableSidebarPersistence' ) ) {
-		saveSidebarState = saveSidebarLocalState; // Logged out.
+		saveSidebarOpen = saveSidebarOpenLocalSetting; // Logged out.
 		if ( false && mw.config.get( 'wgUserName' ) ) {
 			// Logged in.
 			// Set the API request to fire after 1 second of inactivity
 			// after an initial click. Guards agains overloading the API.
-			saveSidebarServerState = debounce( 1000, saveSidebarPreference );
-			saveSidebarState = function () {
-				saveSidebarLocalState();
-				saveSidebarServerState();
+			saveSidebarOpenOnServer = debounce( 1000, saveSidebarPreference );
+			saveSidebarOpen = function () {
+				saveSidebarOpenLocalSetting();
+				saveSidebarOpenOnServer();
 			};
 		}
 	}
 
 	if ( checkbox instanceof HTMLInputElement && button ) {
-		checkboxHack = new CheckboxHack( window, checkbox, button, saveSidebarState );
+		checkboxHack = new CheckboxHack( window, checkbox, button, saveSidebarOpen );
 
 		// This code is delay-loaded. If the user toggled
 		// the sidebar by now, its state should be saved.
-		if ( saveSidebarState
-			&& window.mwSidebarInitialState !== undefined
-			&& window.mwSidebarInitialState !== checkbox.checked ) {
-			saveSidebarState.call( checkboxHack );
+		if ( saveSidebarOpen
+			&& window.mwSidebarOpenState !== undefined
+			&& window.mwSidebarOpenState !== checkbox.checked ) {
+			saveSidebarOpen.call( checkboxHack );
+			window.mwSidebarOpenState = checkbox.checked;
 		}
 	}
+
+	sidebar = window.document.getElementsByClassName( 'mw-sidebar-container' )[0];
+	buttons = sidebar.getElementsByClassName( 'mw-sidebar-button' );
+	for (i = 0; i < buttons.length; i++) {
+		button = buttons[i];
+		checkbox = window.document.getElementById( button.getAttribute( 'for' ) );
+		if ( checkbox instanceof HTMLInputElement ) {
+			checkboxHack = new CheckboxHack( window, checkbox, button, saveSidebarPanelLocalSetting );
+			if ( checkbox.checked
+				&& window.mwSidebarPanelState !== undefined
+				&& window.mwSidebarPanelState !== checkbox.value ) {
+				saveSidebarPanelLocalSetting.call( checkboxHack );
+				window.mwSidebarPanelState = checkbox.value;
+			}
+		}
+	}
+
 	return checkboxHack; // Silence unused-var warnings.
 }
 

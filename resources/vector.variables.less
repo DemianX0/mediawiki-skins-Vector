@@ -67,7 +67,6 @@
 @border-color-content-heading: #a2a9b1; // In core/mediawiki.skinning/elements.css
 @margin-left-editsection: unit( 9px / @font-size-root--px, em );
 
-@size-sidebar-button: unit( 44px / @font-size-root--px, em ); // 44/16 = 2.75em
 // FIXME: Use global variable since Echo and CentralNotice use this variable
 @border-color-content: #a7d7f9;
 // Due to darker background gradient, border needs to be darkened for aligned visual perception.
@@ -77,15 +76,20 @@
 @border-color-portal-heading-transparent: rgba( red( @border-color-portal-heading ), green( @border-color-portal-heading ), blue( @border-color-portal-heading ), 0 );
 @padding-content: 1em;
 
+// Sidebar buttons
+@size-sidebar-button: unit( 44px / @font-size-root--px, em ); // 44/16 = 2.75em
+@size-sidebar-button-icon: unit( 20px / @font-size-root--px, em ); // 20/16 = 1.25em
+@size-sidebar-toggle-icon: @size-sidebar-button-icon; // 20px -> 1.25em
+
 // Sidebar
-@min-width-sidebar: 11em;
-@max-width-sidebar: 13em;
-@padding-top-sidebar: 1em; // 16px
+@min-width-sidebar: 10em;
+@max-width-sidebar: 12em;
+@padding-top-sidebar: 0.5em; // 8px
 @padding-bottom-sidebar: 2.5em; // 40px
-@padding-left-sidebar: 0.5em; // 8px
-@padding-right-sidebar: 0.5em; // 8px
-@padding-left-portal: 1.2em; // +0.5em @padding-left-sidebar -> 27.2px
-@padding-right-portal: 0.6em;
+@padding-left-sidebar: 1.5em; // 24px
+@padding-right-sidebar: 1em; // 16px
+@padding-left-portal: 0;
+@padding-right-portal: 0;
 
 // Navigation
 @background-color-secondary: #f6f6f6;
@@ -103,6 +107,8 @@
 // Navigation: Portal
 // Font size of the Portal links.
 @font-size-portal-list-item: @font-size-nav-main-body;
+@padding-vertical-sidebar-item: 0.25em;
+@font-size-sidebar-toc: unit( 13px / @font-size-root--px, rem );
 
 // Navigation: Personal tools
 @top-personal-tools: 6px;

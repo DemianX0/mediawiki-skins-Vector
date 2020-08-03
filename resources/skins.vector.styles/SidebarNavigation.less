@@ -1,5 +1,15 @@
 @import '../vector.variables.less';
 
+.mw-sidebar-navigation {
+	:first-child {
+		padding-top: 0;
+
+		> ul :first-child {
+			padding-top: 0;
+		}
+	}
+}
+
 .mw-sidebar-action {
 	// Align with the portal heading/links
 	// `.portal` + `.portal .body`

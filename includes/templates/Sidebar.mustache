@@ -11,15 +11,22 @@
 
 <label
 	id="mw-sidebar-button"
-	class="mw-sidebar-button mw-ui-icon mw-ui-icon-element"
+	class="mw-sidebar-button mw-ui-icon"
 	for="mw-sidebar-checkbox"
-	role="button"
-	aria-controls="mw-panel"
+	role="button" tabindex="0"
+	aria-haspopup="true"
+	aria-controls="mw-sidebar"
 	data-event-name="ui.sidebar"
-	tabindex="0">
-	{{msg-vector-action-toggle-sidebar}}
+	aria-label="{{msg-vector-action-toggle-sidebar}}"
+	>
 </label>
 
 <div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
-	{{#data-sidebar}}{{> SidebarNavigation}}{{/data-sidebar}}
-</div></div>
+	<aside id="mw-sidebar" class="mw-sidebar">
+		<div class="mw-sidebar-toggles">
+			{{#data-sidebar-toggles}} {{> SidebarToggle}} {{/data-sidebar-toggles}}
+		</div>
+		{{#data-sidebar}} {{> SidebarNavigation}} {{/data-sidebar}}
+		{{#data-toc}} {{> SidebarToc}} {{/data-toc}}
+	</aside>
+</div></div> {{! END mw-sidebar-container, mw-sidebar-anchor }}
