@@ -49,8 +49,11 @@ class SkinVector extends SkinTemplate {
 			$modules[Constants::SKIN_NAME] = 'skins.vector.legacy.js';
 		} else {
 			$modules['styles'] = array_merge(
-				$modules['styles'],
-				[ 'skins.vector.styles', 'mediawiki.ui.icon', 'skins.vector.icons' ]
+				$modules['styles'], [
+					'skins.vector.styles',
+					'mediawiki.ui.icon',
+					'skins.vector.icons',
+				]
 			);
 			$modules[Constants::SKIN_NAME][] = 'skins.vector.js';
 		}

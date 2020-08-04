@@ -523,6 +523,11 @@ class VectorTemplate extends BaseTemplate {
 		return $props;
 	}
 
+	public const ICON_CLASS_PREFIX = 'mw-ui-icon mw-ui-icon-';
+
+	private function preprocessPersonalTools( array &$personalTools, Skin $skin ) {
+	}
+
 	/**
 	 * @return array
 	 */
@@ -548,6 +553,10 @@ class VectorTemplate extends BaseTemplate {
 		}
 
 		$props = [];
+
+		if ( !$this->isLegacy ) {
+			$this->preprocessPersonalTools( $personalTools, $skin );
+		}
 
 		$uls = '';
 		if ( $personalTools['uls'] ?? null ) {
