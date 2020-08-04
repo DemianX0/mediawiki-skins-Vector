@@ -563,6 +563,19 @@ class VectorTemplate extends BaseTemplate {
 		if ( $personalTools['logout'] ?? null ) {
 			$personalTools['logout']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'logOut'; // From 'oojs-ui.styles.icons-interactions'
 		}
+
+		if ( $personalTools['notifications-alert'] ?? null ) {
+			// Icon 'bell' from 'oojs-ui.styles.icons-alerts'
+			$classNames = &$personalTools['notifications-alert']['links'][0]['class'];
+			$classNames = str_replace( 'oo-ui-icon-', self::ICON_CLASS_PREFIX, $classNames );
+			$personalTools['notifications-alert']['options'] = self::TEXTWRAPPER_SCREENREADER;
+		}
+		if ( $personalTools['notifications-notice'] ?? null ) {
+			// Icon 'tray' from 'oojs-ui.styles.icons-alerts'
+			$classNames = &$personalTools['notifications-notice']['links'][0]['class'];
+			$classNames = str_replace( 'oo-ui-icon-', self::ICON_CLASS_PREFIX, $classNames );
+			$personalTools['notifications-notice']['options'] = self::TEXTWRAPPER_SCREENREADER;
+		}
 	}
 
 	/**
