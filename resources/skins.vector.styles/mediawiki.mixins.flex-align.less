@@ -4,6 +4,29 @@
 // Flex layout compatibility mixins
 //
 
+.flex-size( @grow: 0, @shrink: 1, @base-size: auto, @direction: row ) when ( @direction = row ), ( @direction = row-reverse ) {
+	width: @base-size; // Fallback for flex-basis.
+}
+
+// NOTE: `flex-direction: column` is not supported in IE9 and a few Basic support browsers.
+// https://caniuse.com/#feat=mdn-css_properties_flex-direction
+.flex-size( @grow: 0, @shrink: 1, @base-size: auto, @direction: row ) when ( @direction = column ), ( @direction = column-reverse ) {
+	height: @base-size; // Fallback for flex-basis.
+}
+
+.flex-size( @grow: 0, @shrink: 1, @base-size: auto, @direction: row ) {
+	// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Mixins#Flexbox_flex_shorthand
+	// 2009 spec only supports 'flexible' as opposed to grow (flexPositive)
+	// and shrink (flexNegative); default to grow value
+	-webkit-box-flex: @grow; // iOS 6-, Safari 3.1-6 ????
+	-moz-box-flex: @grow; // Firefox 21- ????
+	// -webkit-box: @grow; // ??
+	-moz-box: @grow; // ??
+	// -webkit-flex: @grow @shrink @base-size; // ??
+	-ms-flex: @grow @shrink @base-size; // IE 10
+	flex: @grow @shrink @base-size;
+}
+
 .flex-grow( @grow ) {
 	// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Mixins#Flexbox_grow
 	-webkit-box-flex: @grow; // iOS 6-, Safari 3.1-6

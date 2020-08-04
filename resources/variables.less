@@ -107,6 +107,7 @@
 @line-height-nav-personal: unit( 14px / @font-size-nav-personal--px ); // 14/12 = 1.16666667
 @size-personal-icon: unit( @line-height-nav-personal, em ); // 14/12 = 1.16666667em
 @opacity-menu-icon--unfocused: 0.51; // Same as Echo icons.
+@box-shadow-menu-popup: 0 10px 15px -5px rgba(0, 0, 0, 0.15);
 
 // Article toolbar
 @height-article-toolbar: 2.5em; // Keep in sync with .vector-menu-tabs height.
@@ -123,7 +124,7 @@
 // See skinStyles/jquery.ui/jquery.ui.datepicker.css.
 // @z-index-ui-datepicker-cover: -1;
 @z-index-base: 0;
-@z-index-header: 1;
+@z-index-header: 3; // @z-index-menu + 1
 @z-index-sidebar: 1;
 @z-index-search-button: 1;
 // Ensure that this is displayed on top of .mw-body-content and clickable.
