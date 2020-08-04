@@ -37,6 +37,7 @@
 			vertical-align: middle;
 			width: 1em;
 			height: 1em;
+			opacity: @opacity-menu-icon--unfocused; // 51% opaque similar to Echo icons.
 			.transition( transform 2 * @transition-duration-base );
 		}
 
@@ -109,6 +110,22 @@
 	.selected a:visited {
 		color: @color-link-selected;
 		text-decoration: none;
+	}
+}
+
+.vector-menu-dropdown:focus-within > .vector-menu__button {
+	&:before,
+	&:after {
+		// Highlight the menu icon and down arrow when the focus is inside the menu.
+		opacity: 1;
+	}
+}
+
+.vector-menu__checkbox:checked ~ .vector-menu__button {
+	&:before,
+	&:after {
+		// Highlight the menu icon and down arrow when the menu is pinned.
+		opacity: 1;
 	}
 }
 

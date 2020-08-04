@@ -24,6 +24,31 @@
 	display: none;
 }
 
+/* Any menu icons */
+.mw-ui-icon:before {
+	display: inline-block;
+	vertical-align: bottom;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	opacity: @opacity-menu-icon--unfocused; // 51% opaque similar to Echo icons.
+	content: ''; // FIXME: Move to ResourceLoaderImageModule.getCssDeclarations()
+}
+
+.mw-ui-icon:focus:before {
+	// Highlight icon of focused menu item.
+	opacity: 1;
+}
+
+.vector-animations-ready {
+	.mw-ui-icon:before,
+	.mw-ui-icon:after,
+	.mw-ui-icon {
+		// Enable button transitions.
+		@timing: @transition-duration-base linear;
+		.transition( opacity @timing );
+	}
+}
+
 /* Show anonymous "Not logged in" text in gray */
 #pt-anonuserpage {
 	color: #54595d;
