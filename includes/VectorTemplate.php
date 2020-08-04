@@ -411,7 +411,7 @@ class VectorTemplate extends BaseTemplate {
 						$name, $content, self::MENU_TYPE_PORTAL
 					);
 					if ( $html ) {
-						$portal['html-items'] .= $html;
+						$portal['html-items'][] = $html;
 					}
 					$props[] = $portal;
 					break;
@@ -444,7 +444,7 @@ class VectorTemplate extends BaseTemplate {
 	 * @param string $label to be used to derive the id and human readable label of the menu
 	 *  If the key has an entry in the constant MENU_LABEL_KEYS then that message will be used for the
 	 *  human readable text instead.
-	 * @param array $urls to convert to list items stored as string in html-items key
+	 * @param array $urls to convert to list items stored in 'html-items' key as an array of HTML strings
 	 * @param int $type of menu (optional) - a plain list (MENU_TYPE_DEFAULT),
 	 *   a tab (MENU_TYPE_TABS) or a dropdown (MENU_TYPE_DROPDOWN)
 	 * @param array $options (optional) to be passed to makeListItem
@@ -472,11 +472,12 @@ class VectorTemplate extends BaseTemplate {
 			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
-			'html-items' => '',
+			'html-items' => [],
 			'is-dropdown' => self::MENU_TYPE_DROPDOWN === $type,
 			'html-tooltip' => Linker::tooltip( $menuId ),
 			'is-portal' => $isPortal,
 		];
+		$htmlItems = &$props['html-items'];
 
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
@@ -489,7 +490,7 @@ class VectorTemplate extends BaseTemplate {
 				}
 				$item['class'] = rtrim( 'collapsible ' . $item['class'], ' ' );
 			}
-			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $itemOptions + $options );
+			$htmlItems[] = $skin->makeListItem( $key, $item, $itemOptions + $options );
 
 			// Check the class of the item for a `selected` class and if so, propagate the items
 			// label to the main label.
@@ -569,7 +570,7 @@ class VectorTemplate extends BaseTemplate {
 		);
 
 		// Append additional link items if present.
-		$ptools['html-items'] = $uls . $loggedIn . $ptools['html-items'];
+		array_unshift( $ptools['html-items'], $uls, $loggedIn );
 
 		return $props + [
 			'data-personal-menu' => $ptools,
