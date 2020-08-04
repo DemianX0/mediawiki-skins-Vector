@@ -1,3 +1,5 @@
+/** @type {CheckboxHack} */
+var CheckboxHack = require( /** @type {string} */ ( 'mediawiki.page.ready' ) ).CheckboxHack;
 var collapsibleTabs = require( '../skins.vector.legacy.js/collapsibleTabs.js' ),
 	vector = require( '../skins.vector.legacy.js/vector.js' ),
 	sidebar = require( './sidebar.js' );
@@ -45,6 +47,32 @@ function init() {
 	$( checkbox ).on( 'input', function() {
 		skinController.checkCollapsing();
 	} );
+
+	initDropdowns( window );
+}
+
+/**
+ * Initialize all JS dropdown enhancements.
+ * Improve the interactivity of the dropdown menus by binding optional checkbox hack enhancements
+ * for focus and `aria-expanded`.
+ *
+ * @param {any} window
+ * @return {CheckboxHack}
+ */
+function initDropdowns( window ) {
+	var menus, menu, checkbox, button, popup, checkboxHack;
+	menus = window.document.getElementsByClassName( 'vector-menu-dropdown' );
+	for (i = 0; i < menus.length; i++) {
+		menu = menus[i];
+		checkbox = menu.getElementsByClassName( 'vector-menu-checkbox' )[0];
+		// button   = menu.getElementsByClassName( 'vector-menu__button' )[0];
+		button   = checkbox;
+		popup    = menu.getElementsByClassName( 'vector-menu__list' )[0];
+		if ( checkbox instanceof HTMLInputElement && button ) {
+			checkboxHack = new CheckboxHack( window, checkbox, button, { autoHideElement: popup } );
+		}
+	}
+	return checkboxHack; // Silence warning.
 }
 
 /**

@@ -7,7 +7,7 @@
 	float: left;
 	cursor: pointer;
 	position: relative;
-	line-height: 1.125em;
+	//line-height: 1.125em;
 
 	// FIXME: overqualified selector.
 	// The structure of this file is a mess to retain git history and avoid massive manual merges.
@@ -15,60 +15,61 @@
 		color: @color-base--subtle;
 		position: relative;
 		.box-sizing( border-box );
+		padding: 0 unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 		// `padding-top` needs to scale with font-size.
 		padding-top: 1.25em;
-		padding-left: 8px;
-		padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
+		// Note: a gradient border on the right is created with background, necessitating >=1px padding-right.
 		font-size: @font-size-tabs;
 		font-weight: normal;
+		white-space: nowrap;
 
+		// Down arrow
 		&:after {
 			content: '';
 			background-image: url( images/arrow-down.svg );
-			background-position: 100% 50%;
 			background-repeat: no-repeat;
-			position: absolute;
-			top: unit( 10px / @font-size-tabs--px, em ); // 10/13 = 0.76923077em
-			right: 8px;
-			bottom: 0;
-			width: unit( 16px / @font-size-tabs--px, em ); // 16/13 = 1.23076923em
-			// Modify the color of the image from the default #202122 to approx. #404244 to match the text.
-			opacity: 0.84;
+			background-size: 100%;
+			background-position: center;
+			display: inline-block;
+			vertical-align: middle;
+			width: 1em;
+			height: 1em;
+			transition: transform 2 * @transition-duration-base;
 		}
 
 		&:hover,
 		&:focus {
 			color: @color-base;
-
-			&:after {
-				opacity: 1;
-			}
 		}
 	}
 
 	// The menu itself.
 	.vector-menu__list {
-		background-color: @background-color-base;
-		list-style: none none;
+		position: absolute;
+		top: 100%; // Move down with tab height.
 		// Match the width of the dropdown "heading" (the tab)
 		min-width: 100%;
-		position: absolute;
-		top: 2.5em;
-		left: -@border-width-base;
+		background-color: @background-color-base;
 		border: @border-width-base @border-style-base @border-color-base;
 		border-top-width: 0;
 		padding: 0;
 		box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
 		text-align: left;
+
+		// Hidden by default.
 		opacity: 0;
 		visibility: hidden;
-		.transition( opacity 100ms );
+		transform: translateY( -1em ); // Slide-in effect.
+
+		// Fade and slide in.
+		@timing: 1.5 * @transition-duration-base;
+		.transition( all @timing );
 		z-index: @z-index-menu;
 	}
 
-	&:hover .vector-menu__list {
-		opacity: 1;
-		visibility: visible;
+	// Magnify down arrow when pinned.
+	.vector-menu-checkbox:checked ~ .vector-menu__button:after {
+		.transform( scale( 1.3 ) translateY( 0.05em ) );
 	}
 
 	// Visible when pinned or hovering with mouse or menu item focused.
@@ -78,18 +79,21 @@
 		// No IE support for :focus-within.
 		opacity: 1;
 		visibility: visible;
+		transform: translateY( 0 );
 	}
 
 	li {
 		padding: 0;
 		margin: 0;
 		text-align: left;
-		line-height: 1em;
+		line-height: 1em; // 16px
 
+		> span,
 		a {
 			color: @color-link;
 			display: block;
-			padding: 0.625em;
+			//padding: 0.625em; // 8.125px
+			padding: unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 			white-space: nowrap;
 			cursor: pointer;
 			font-size: @font-size-tabs;
@@ -103,17 +107,25 @@
 	}
 }
 
+.mw-article-toolbar .vector-menu-dropdown {
+	.vector-menu__list {
+		// Only in modern layout the dropdown menu grows to the left.
+		right: -@border-width-base; // Adapt to the border simulated with background.
+
+		.skin-vector-legacy & {
+			// Grow to the right.
+			left: -@border-width-base;
+			right: auto;
+		}
+	}
+}
+
 .mw-article-toolbar .vector-menu-dropdown .vector-menu__button {
 	// Tab separator: Outer end (right in LTR) border of "Actions" menu.
 	background-position: right bottom;
 	float: left;
 	height: unit( 40px / @font-size-tabs--px, em ); // 40/13 = 3.07692308em
 	margin: 0 -@border-width-base 0 0;
-	// `padding-right` >= `1px` effectively moves the "background border" outside of the element to
-	// act like a real border. It is necessary for `.vector-menu-dropdown .vector-menu__list` dropdown to align well.
-	// 0.5em equals `8px` at computed `font-size` of `14px` as visually harmonically with
-	// `padding-left` in `.vector-menu-dropdown .vector-menu__button a`
-	padding-right: unit( 24px / @font-size-tabs--px, em ); // 24/13 = 1.84615385em
 }
 
 // Tab Separators
@@ -132,12 +144,12 @@
 
 // Invisible checkbox covering the dropdown menu handle
 .vector-menu-checkbox {
+	z-index: @z-index-menu-checkbox;
+	opacity: 0;
 	cursor: pointer;
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: @z-index-menu-checkbox;
-	opacity: 0;
 	width: 100%;
 	height: 100%;
 	margin: 0;
@@ -145,13 +157,10 @@
 	// Hide the checkbox completely in browsers that don't support :checked
 	display: none;
 
-	:not( :checked ) > & {
+	&:checked,
+	&:not( :checked ) {
 		// When the browser supports :checked, display it
 		display: block;
-	}
-
-	&:checked + .vector-menu__button:after {
-		transform: scaleY( -1 );
 	}
 
 	&:focus + .vector-menu__button {
