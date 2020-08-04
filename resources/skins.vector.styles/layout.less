@@ -150,11 +150,10 @@ body when ( @is-using-placeholder = 0 ) {
 		}
 
 		@media ( max-width: @max-width-header--micro ) {
-			.justify-content( flex-end ); // Micro: stick ULS and personal menu to right edge.
+			.justify-content( normal ); // Micro: stick sidebar button to the left edge.
 		}
 	}
 
-	> label,
 	> nav,
 	> div {
 		// Non-flex fallback for IE<=9.
@@ -171,8 +170,27 @@ body when ( @is-using-placeholder = 0 ) {
 	// IE<=10 will position the personal menu icons ca. 3px higher.
 }
 
-/* Logo */
-.skin-vector-new-search .mw-logo {
+.menu-personal > .vector-menu__list,
+.mw-header .mw-header-left,
+.mw-header {
+	.flex-display();
+	.align-items( center ); // Supports: IE11.
+	// IE<=10 will position the personal menu icons ca. 3px higher.
+}
+
+/* Sidebar button and logo */
+.mw-header-left {
+	white-space: nowrap; // Avoid wrapping on narrow screen, non-flexbox.
+
+	> a,
+	> label {
+		// Non-flex fallback for IE<=9.
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.skin-vector-new-search .mw-header-left {
 	@media ( max-width: @max-width-header--medium ) {
 		margin-right: auto;
 	}
