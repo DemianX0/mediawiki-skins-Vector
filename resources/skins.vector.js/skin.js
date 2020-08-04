@@ -64,7 +64,7 @@ function initDropdowns( window ) {
 	menus = window.document.getElementsByClassName( 'vector-menu-dropdown' );
 	for (i = 0; i < menus.length; i++) {
 		menu = menus[i];
-		checkbox = menu.getElementsByClassName( 'vector-menu-checkbox' )[0];
+		checkbox = menu.getElementsByClassName( 'vector-menu__checkbox' )[0];
 		button   = menu.getElementsByClassName( 'vector-menu__button' )[0];
 		// button   = checkbox;
 		popup    = menu.getElementsByClassName( 'vector-menu__list' )[0];
