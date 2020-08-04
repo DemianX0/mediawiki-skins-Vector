@@ -164,6 +164,42 @@ class SkinVector extends SkinTemplate {
 		if ( $this->contentTOC ) {
 			$tocdata['html-body-content-toc'] = $this->wrapHTML( $this->getOutput()->getTitle(), $this->contentTOC );
 		}
+
+		//$maxTocLevel = MediaWikiServices::getInstance()->getMainConfig()->get( 'MaxTocLevel' ); // 999, pointless
+		$tocdata['has-items'] = false;
+		$tocdata['data-items'] = [];
+		$prevlevel = 1;
+		$currentParent = &$tocdata['data-items'];
+		//$last = &$currentParent;
+		$parents = [ null, &$currentParent ];
+		foreach ( $parserOutput->getSections() as $tocitem ) {
+			$toclevel = $tocitem['toclevel'];
+			if ( $toclevel < $prevlevel ) {
+				$currentParent = &$parents[ $toclevel ];
+			} elseif ( $toclevel > $prevlevel ) {
+				$dataitem = &$currentParent[ count( $currentParent ) - 1 ];
+				$dataitem['has-items'] = true;
+				$currentParent = &$dataitem['data-items'];
+			}
+
+			$currentParent[] = [
+				'has-items' => false,
+				'data-items' => false, // Avoid recursion on inherited subitems.
+				'id' => $tocitem['anchor'],
+				'number' => $tocitem['number'],
+				'title' => $tocitem['line'],
+			];
+			/*
+			'toclevel' => $toclevel,
+			'level' => $level,
+			'line' => $tocline,
+			'number' => $numbering,
+			'index' => ( $isTemplate ? 'T-' : '' ) . $sectionIndex,
+			'fromtitle' => $titleText,
+			'byteoffset' => ( $noOffset ? null : $byteOffset ),
+			'anchor' => $anchor,
+			*/
+		}
 		return $tocdata;
 	}
 
