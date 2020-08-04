@@ -534,6 +534,35 @@ class VectorTemplate extends BaseTemplate {
 			$personalTools['watchlist']['links'][0]['class'][] = self::ICON_CLASS_PREFIX . 'history';
 			$personalTools['watchlist']['options'] = self::TEXTWRAPPER_SCREENREADER;
 		}
+
+		if ( $personalTools['anonuserpage'] ?? null ) {
+			//$personalTools['anonuserpage']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userAnonymous'; // From 'oojs-ui.styles.icons-user'
+			$personalTools['anonuserpage']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userAvatarOutline'; // From 'oojs-ui.styles.icons-user'
+		}
+		if ( $personalTools['userpage'] ?? null ) {
+			$personalTools['userpage']['links'][0]['text'] = $skin->msg( 'nstab-user' )->text();
+			$personalTools['userpage']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userAvatar'; // From 'oojs-ui.styles.icons-user'
+			//$personalTools['userpage']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userAvatarOutline'; // From 'oojs-ui.styles.icons-user'
+		}
+		if ( $personalTools['mytalk'] ?? null ) {
+			$personalTools['mytalk']['links'][0]['text'] .= ' ' . strtolower( $skin->msg( 'mypage' )->text() );
+			$personalTools['mytalk']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userTalk'; // From 'oojs-ui.styles.icons-user'
+		}
+		if ( $personalTools['preferences'] ?? null ) {
+			$personalTools['preferences']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'settings'; // From 'oojs-ui.styles.icons-interactions'
+		}
+		if ( $personalTools['mycontris'] ?? null ) {
+			$personalTools['mycontris']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'userContributions'; // From 'oojs-ui.styles.icons-user'
+		}
+		/*
+		// Not using logIn icon: too obtrusive.
+		if ( $personalTools['login'] ?? null ) {
+			$personalTools['login']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'logIn-progressive'; // From 'oojs-ui.styles.icons-interactions'
+		}
+		*/
+		if ( $personalTools['logout'] ?? null ) {
+			$personalTools['logout']['links'][0]['class'] = self::ICON_CLASS_PREFIX . 'logOut'; // From 'oojs-ui.styles.icons-interactions'
+		}
 	}
 
 	/**
