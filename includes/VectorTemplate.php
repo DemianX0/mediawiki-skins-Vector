@@ -478,6 +478,7 @@ class VectorTemplate extends BaseTemplate {
 		$msgObj = $skin->msg( self::MENU_LABEL_KEYS[ $label ] ?? $label );
 		$menuId = 'p-' . $label;
 		$props = [
+			'tag' => 'nav',
 			'id' => $menuId,
 			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)

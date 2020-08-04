@@ -3,7 +3,7 @@
 }}
 
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
-<nav id="{{id}}" role="navigation"
+<{{tag}} id="{{id}}"
 	{{#class}}class="{{.}}"{{/class}}
 	aria-labelledby="{{id}}--label"
 	{{{html-user-language-attributes}}}
@@ -29,4 +29,4 @@
 	</ul>
 
 	{{{html-after-portal}}}
-</nav>
+</{{tag}}>
