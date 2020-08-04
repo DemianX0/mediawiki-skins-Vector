@@ -69,6 +69,13 @@
 		@timing: 1.5 * @transition-duration-base;
 		.transition( all @timing );
 		z-index: @z-index-menu;
+
+		.mw-ui-icon:before {
+			// Icons in dropdown menus.
+			background-size: 90%;
+			// Space between icon and text.
+			margin-right: 0.5em;
+		}
 	}
 
 	// Magnify down arrow when pinned.

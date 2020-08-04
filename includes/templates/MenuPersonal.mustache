@@ -1,0 +1,28 @@
+{{!
+	See @typedef MenuDefinition
+}}
+
+{{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
+<{{tag}} id="{{id}}" role="navigation"
+	{{#class}}class="{{.}}"{{/class}}
+	aria-labelledby="{{id}}-label"
+	{{{html-user-language-attributes}}}
+	{{{html-tooltip}}}
+	>
+
+	{{^ is-layout-new-search}} 
+		{{{html-lang-selector}}}
+	{{/ is-layout-new-search}}
+
+	<h3 id="{{id}}-label" class="{{label-class}}"> <span>{{label}}</span> </h3>
+
+	{{! `body` class for backwards compatibility. }}
+	{{! `menu` is on dropdowns for historic reasons. It should not be applied elsewhere per T253329. }}
+	<ul id="{{id}}-list" role="menu" class="body{{#is-dropdown}} menu{{/is-dropdown}} vector-menu__list">
+		{{# html-items}}
+		{{{.}}}
+		{{/ html-items}}
+
+		{{# data-usermenu}} {{> Menu}} {{/ data-usermenu}}
+	</ul>
+</{{tag}}>

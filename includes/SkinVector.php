@@ -53,6 +53,10 @@ class SkinVector extends SkinTemplate {
 					'skins.vector.styles',
 					'mediawiki.ui.icon',
 					'skins.vector.icons',
+					// Icons from:  https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop
+					// Classes: '.mw-ui-icon-userAvatar', etc.
+					'oojs-ui.styles.icons-content', // article, history
+					'oojs-ui.styles.icons-user', // userAnonymous, userAvatar, userAvatarOutline, userContributions, userTalk
 				]
 			);
 			$modules[Constants::SKIN_NAME][] = 'skins.vector.js';
