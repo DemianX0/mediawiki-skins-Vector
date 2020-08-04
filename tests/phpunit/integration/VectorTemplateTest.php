@@ -123,7 +123,7 @@ class VectorTemplateTest extends MediaWikiIntegrationTestCase {
 		$namespaces = $props['data-namespace-tabs'];
 
 		$this->assertSame( $views, [
-			'tag' => 'nav',
+			'tag' => 'div',
 			'id' => 'p-views',
 			'label-id' => 'p-views-label',
 			'label' => $context->msg( 'views' )->text(),

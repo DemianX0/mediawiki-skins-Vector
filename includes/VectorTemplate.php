@@ -223,7 +223,6 @@ class VectorTemplate extends BaseTemplate {
 			'html-printfooter' => $skin->printSource(),
 			'html-categories' => $skin->getCategories(),
 			'data-footer' => $this->getFooterData(),
-			'html-navigation-heading' => $skin->msg( 'navigation-heading' ),
 			'data-search-box' => $this->buildSearchProps(),
 			'is-layout-new-search' => $this->getConfig()->get( Constants::CONFIG_KEY_LAYOUT_NEW_SEARCH ),
 
@@ -236,6 +235,8 @@ class VectorTemplate extends BaseTemplate {
 			'raw-sidebar-init-script' => $rawSidebarInitScript,
 			'data-sidebar' => $this->buildSidebar(),
 			'html-sidebar-checked' => $this->isSidebarVisible() ? 'checked' : false,
+			'msg-navigation-screen-reader' => $skin->msg( 'navigation-heading' )->text(),
+			'msg-article-toolbar-screen-reader' => $skin->msg( 'article-toolbar-screen-reader' )->text(),
 			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
 		] + $this->getMenuProps();
 		
@@ -480,7 +481,7 @@ class VectorTemplate extends BaseTemplate {
 		$msgObj = $skin->msg( self::MENU_LABEL_KEYS[ $label ] ?? $label );
 		$menuId = 'p-' . $label;
 		$props = [
-			'tag' => 'nav',
+			'tag' => 'div',
 			'id' => $menuId,
 			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
@@ -491,6 +492,7 @@ class VectorTemplate extends BaseTemplate {
 			'is-portal' => $isPortal,
 		];
 		$htmlItems = &$props['html-items'];
+		$options['attributes']['role'] = 'menuitem';
 
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
@@ -650,6 +652,7 @@ class VectorTemplate extends BaseTemplate {
 			self::MENU_TYPE_DEFAULT,
 			( $this->isLegacy ? [] : self::TEXTWRAPPER_PLAIN )
 		);
+		$props['data-personal-menu']['tag'] = 'nav';
 
 		if ( $usermenuItems ) {
 			// Modern layout.
