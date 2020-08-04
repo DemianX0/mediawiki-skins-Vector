@@ -30,6 +30,31 @@
 		height: @size-personal-menu-icon;
 	}
 
+	/* Echo notification icons */
+	#pt-notifications-alert,
+	#pt-notifications-notice {
+		margin-right: 0;
+
+		.mw-echo-notifications-badge {
+			// Adjust `top: -5px;` rule inherited from legacy and Echo.
+			top: 0; // Fix positioning of #pt-notifications-alert .mw-echo-notifications-badge:focus, #pt-notifications-notice .mw-echo-notifications-badge:focus
+			margin: 0; // Unset inherited `margin: 0 2px;`.
+			// Override with precedence.
+			width: @size-personal-menu-icon;
+			height: @size-personal-menu-icon;
+			background-repeat: no-repeat;
+			background-size: 100%;
+			opacity: 1; // Unset 0.51, moved to :before element.
+			display: inline-block; // Override inherited `display: block;`;
+			text-indent: 0; // Unset inherited `text-indent: -9999px;`.
+			
+			&:focus {
+				box-shadow: none;
+				.mixin-focus-outline();
+			}
+		}
+	}
+
 	/* User dropdown menu's icon */
 	.menu-user > .vector-menu--button.mw-ui-icon:before {
 		// Make user icon on the dropdown a bit less dominant.
