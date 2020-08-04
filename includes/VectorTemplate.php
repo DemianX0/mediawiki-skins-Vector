@@ -448,6 +448,9 @@ class VectorTemplate extends BaseTemplate {
 		];
 	}
 
+	const TEXTWRAPPER_PLAIN = [ 'text-wrapper' => [ 'tag' => 'span' ] ];
+	const TEXTWRAPPER_SCREENREADER = [ 'text-wrapper' => [ 'tag' => 'span', 'attributes' => [ 'screen-reader' => '' ] ] ];
+
 	/**
 	 * @param string $label to be used to derive the id and human readable label of the menu
 	 *  If the key has an entry in the constant MENU_LABEL_KEYS then that message will be used for the
@@ -487,6 +490,7 @@ class VectorTemplate extends BaseTemplate {
 
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
+			$itemOptions = $item['options'] ?? [];
 			if (
 				$key !== 'watch' && $key !== 'unwatch' &&
 				isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
@@ -495,7 +499,7 @@ class VectorTemplate extends BaseTemplate {
 				}
 				$item['class'] = rtrim( 'collapsible ' . $item['class'], ' ' );
 			}
-			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $options );
+			$props['html-items'] .= $this->getSkin()->makeListItem( $key, $item, $itemOptions + $options );
 
 			// Check the class of the item for a `selected` class and if so, propagate the items
 			// label to the main label.
@@ -570,7 +574,8 @@ class VectorTemplate extends BaseTemplate {
 		$ptools = $this->getMenuData(
 			'personal',
 			$personalTools,
-			self::MENU_TYPE_DEFAULT
+			self::MENU_TYPE_DEFAULT,
+			( $this->isLegacy ? [] : self::TEXTWRAPPER_PLAIN )
 		);
 
 		// Append additional link items if present.
