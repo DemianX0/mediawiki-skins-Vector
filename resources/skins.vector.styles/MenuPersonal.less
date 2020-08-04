@@ -3,12 +3,23 @@
 
 /* Personal menu */
 .menu-personal {
+	font-size: @font-size-nav-personal; // NOTE: Moved up from legacy `#personal li`.
+	line-height: @line-height-nav-personal;
+
+	> .vector-menu__list {
+		// Only the tray icons, not the submenuitems on dropdowns.
+		> li {
+			position: relative;  // Context for the dropdowns.
+			display: inline-block; // Line up menu items.
+			vertical-align: middle;
+			margin-bottom: 0;
+			margin-left: 0.75em;
+		}
+	}
+
 	li {
-		display: inline-block; // Line up menu items.
-		vertical-align: middle;
 		// Reset `margin-bottom` from general `li` element.
 		margin-bottom: 0;
-		line-height: 1.5em;
 	}
 }
 
