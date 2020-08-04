@@ -539,6 +539,12 @@ class VectorTemplate extends BaseTemplate {
 	public const ICON_CLASS_PREFIX = 'mw-ui-icon mw-ui-icon-';
 
 	private function preprocessPersonalTools( array &$personalTools, Skin $skin ) {
+		// Icons chosen from:  https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop
+		if ( $personalTools['watchlist'] ?? null ) {
+			// Used:  content.history, alternative:  layout.recentChanges
+			$personalTools['watchlist']['links'][0]['class'][] = self::ICON_CLASS_PREFIX . 'history';
+			$personalTools['watchlist']['links'][0]['text'] = ''; // Icon only.
+		}
 	}
 
 	/**
