@@ -69,6 +69,13 @@
 		@timing: 1.5 * @transition-duration-base;
 		.transition( all @timing );
 		z-index: @z-index-menu;
+
+		.mw-ui-icon:before {
+			// Icons in dropdown menus.
+			background-size: 90%;
+			// Space between icon and text.
+			margin-right: 0.5em;
+		}
 	}
 
 	// Magnify down arrow when pinned.
@@ -111,7 +118,7 @@
 	}
 }
 
-.vector-menu-dropdown:focus-within > .vector-menu__button {
+.vector-menu-dropdown:focus-within > .vector-menu--button {
 	&:before,
 	&:after {
 		// Highlight the menu icon and down arrow when the focus is inside the menu.
@@ -119,7 +126,7 @@
 	}
 }
 
-.vector-menu__checkbox:checked ~ .vector-menu__button {
+.vector-menu--checkbox:checked ~ .vector-menu--button {
 	&:before,
 	&:after {
 		// Highlight the menu icon and down arrow when the menu is pinned.
