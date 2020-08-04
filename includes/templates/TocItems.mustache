@@ -1,0 +1,17 @@
+{{!
+has-items bool  if data-items has at least one element
+data-items array of toc item data:
+	html-tocline string  innerHTML of toc item
+	data-items array of sublevel items
+}}
+
+{{#has-items}}
+<ul>
+{{#data-items}}
+	<li>
+		<span class="tocnumber">{{number}}</span> <a href="#{{id}}" class="toctext"> {{title}} </a>
+		{{> TocItems}}
+	</li>
+{{/data-items}}
+</ul>
+{{/has-items}}

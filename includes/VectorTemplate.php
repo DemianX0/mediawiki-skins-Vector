@@ -281,6 +281,7 @@ class VectorTemplate extends BaseTemplate {
 	 */
 	public function execute() {
 		$tp = $this->getTemplateParser();
+		$tp->enableRecursivePartials( true );
 		echo $tp->processTemplate( $this->templateRoot, $this->getSkinData() );
 	}
 
