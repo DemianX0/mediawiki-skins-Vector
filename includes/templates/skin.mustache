@@ -106,8 +106,8 @@
 
 <div class="mw-workspace-container">
 
-<div id="mw-head" class="mw-article-toolbar">
-	<h2 screen-reader> {{{html-navigation-heading}}} </h2>
+<nav id="mw-head" class="mw-article-toolbar" role="navigation" aria-labelledby="mw-article-toolbar-label">
+	<h2 id="mw-article-toolbar-label" class="vector-menu__label"> {{msg-article-toolbar-screen-reader}} </h2>
 	<div id="left-navigation" class="mw-article-toolbar__left">
 		{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
 		{{#data-variants}}{{>Menu}}{{/data-variants}}
@@ -117,7 +117,7 @@
 		{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
 		{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}
 	</div>
-</div>
+</nav>
 
 <div class="mw-footer-container mw-content-container">
 	{{#data-footer}}{{>Footer}}{{/data-footer}}
