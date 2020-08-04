@@ -55,7 +55,14 @@ class SkinVector extends SkinTemplate {
 					'skins.vector.icons',
 					// Icons from:  https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop
 					// Classes: '.mw-ui-icon-userAvatar', etc.
+					'oojs-ui.styles.icons-alerts', // message, speechBubbles
 					'oojs-ui.styles.icons-content', // article, history
+					'oojs-ui.styles.icons-editing-advanced', // markup, wikiText
+					'oojs-ui.styles.icons-editing-core', // edit, link
+					'oojs-ui.styles.icons-editing-list', // listBullet, listNumbered
+					'oojs-ui.styles.icons-interactions', // logIn, logOut, settings
+					'oojs-ui.styles.icons-layout', // menu, recentChanges, textFlow, (stripeToC removed)
+					'oojs-ui.styles.icons-location', // globe
 					'oojs-ui.styles.icons-user', // userAnonymous, userAvatar, userAvatarOutline, userContributions, userTalk
 				]
 			);
