@@ -25,7 +25,9 @@
 	{{! `body` class for backwards compatibility. }}
 	{{! `menu` is on dropdowns for historic reasons. It should not be applied elsewhere per T253329. }}
 	<ul id="{{id}}--list" role="menu" class="body{{#is-dropdown}} menu{{/is-dropdown}} vector-menu--list">
-		{{{html-items}}}
+		{{# html-items}}
+		{{{.}}}
+		{{/ html-items}}
 	</ul>
 
 	{{{html-after-portal}}}
