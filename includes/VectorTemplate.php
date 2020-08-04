@@ -462,15 +462,16 @@ class VectorTemplate extends BaseTemplate {
 		// For some menu items, there is no language key corresponding with its menu key.
 		// These inconsitencies are captured in MENU_LABEL_KEYS
 		$msgObj = $skin->msg( self::MENU_LABEL_KEYS[ $label ] ?? $label );
+		$menuId = 'p-' . $label;
 		$props = [
-			'id' => "p-$label",
-			'label-id' => "p-{$label}-label",
+			'id' => $menuId,
 			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
 			'html-items' => '',
 			'is-dropdown' => self::MENU_TYPE_DROPDOWN === $type,
-			'html-tooltip' => Linker::tooltip( 'p-' . $label ),
+			'html-tooltip' => Linker::tooltip( $menuId ),
+			'is-portal' => $isPortal,
 		];
 
 		foreach ( $urls as $key => $item ) {

@@ -14,6 +14,7 @@
 	.vector-menu__button {
 		color: @color-base--subtle;
 		position: relative;
+		display: block;
 		.box-sizing( border-box );
 		padding: 0 unit( 8px / @font-size-tabs--px, em ); // 8/13 = 0.61538462em
 		// `padding-top` needs to scale with font-size.
@@ -22,6 +23,7 @@
 		font-size: @font-size-tabs;
 		font-weight: normal;
 		white-space: nowrap;
+		cursor: pointer;
 
 		// Down arrow
 		&:after {
@@ -144,23 +146,17 @@
 
 // Invisible checkbox covering the dropdown menu handle
 .vector-menu-checkbox {
-	z-index: @z-index-menu-checkbox;
 	opacity: 0;
-	cursor: pointer;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
 	margin: 0;
 	padding: 0;
-	// Hide the checkbox completely in browsers that don't support :checked
-	display: none;
 
-	&:checked,
-	&:not( :checked ) {
-		// When the browser supports :checked, display it
-		display: block;
+	.menu-personal & {
+		// Just for when using DevTools.
+		top: -1em;
 	}
 
 	&:focus + .vector-menu__button {
