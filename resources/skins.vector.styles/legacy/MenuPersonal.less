@@ -1,7 +1,7 @@
 @import '../../variables.less';
 
 /* Personal menu */
-#p-personal {
+.menu-personal {
 	li {
 		// `padding-top` instead of `margin-top` necessary for
 		// anonymous user icon position below
@@ -19,7 +19,7 @@
 	background-position: left unit( 4px / @font-size-nav-personal--px, em ); // 4/12 = 0.33333333em
 	background-repeat: no-repeat;
 	background-size: @size-personal-icon @size-personal-icon;
-	// Same as `#p-personal li` above, see T207075.
+	// Same as `.menu-personal li` above, see T207075.
 	padding-top: 0.5em !important; // stylelint-disable-line declaration-no-important
 	padding-left: unit( 16px / @font-size-nav-personal--px, em ); // 16/12 = 1.33333333em
 }
