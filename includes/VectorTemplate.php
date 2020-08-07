@@ -46,6 +46,14 @@ class VectorTemplate extends BaseTemplate {
 	private const MENU_TYPE_DROPDOWN = 2;
 	private const MENU_TYPE_PORTAL = 3;
 
+	/** @var Map of menu type => label class */
+	private const LABEL_CLASSES = [
+		self::MENU_TYPE_DROPDOWN => 'vector-menu--button',
+		self::MENU_TYPE_TABS => 'vector-menu--label',
+		self::MENU_TYPE_PORTAL => 'vector-menu--heading',
+		self::MENU_TYPE_DEFAULT => 'vector-menu--label',
+	];
+
 	/**
 	 * T243281: Code used to track clicks to opt-out link.
 	 *
@@ -434,6 +442,7 @@ class VectorTemplate extends BaseTemplate {
 		$props = [
 			'id' => "p-$label",
 			'label-id' => "p-{$label}-label",
+			'label-class' => self::LABEL_CLASSES[ $type ] ?? null,
 			// If no message exists fallback to plain text (T252727)
 			'label' => $msgObj->exists() ? $msgObj->text() : $label,
 			'html-items' => '',

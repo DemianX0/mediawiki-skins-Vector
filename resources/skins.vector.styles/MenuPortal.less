@@ -1,8 +1,7 @@
 @import '../vector.variables.less';
 @import 'mediawiki.mixins.less';
 
-// FIXME: For cached HTML
-.portal,
+.portal, /* FIXME: For ULS */
 .vector-menu-portal {
 	//padding: 0.25em @padding-horizontal-portal;
 	// Former values:
@@ -16,8 +15,11 @@
 	padding-right: @padding-right-portal;
 	direction: ltr;
 
-	h3 {
-		display: block;
+	// FIXME: UniversalLanguageSelector should add a
+	// `nav.vector-menu-portal > h3.vector-menu--heading` element
+	// instead of `div.portal > h3`
+	h3,
+	.vector-menu--heading {
 		background-image: url( images/portal-separator.png ); // Support: IE 8 & 9, Fx 3.6-15, Safari 5.1-6, Chrome 10-25
 		background-image: linear-gradient( to right, @border-color-portal-heading-transparent 0, @border-color-portal-heading 33% 66%, @border-color-portal-heading-transparent 100% ); // Standard (Firefox 16+, IE 10+, Safari 6.1+, Chrome 26+)
 		background-position: center bottom;
