@@ -1,19 +1,32 @@
 {{!
 	See @typedef MenuDefinition
 }}
+
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
-<nav id="{{id}}" {{#class}}class="{{.}}"{{/class}} aria-labelledby="{{label-id}}" role="navigation" {{{html-tooltip}}}
-	 {{{html-user-language-attributes}}}>
+<nav id="{{id}}" role="navigation"
+	{{#class}}class="{{.}}"{{/class}}
+	aria-labelledby="{{id}}--label"
+	{{{html-user-language-attributes}}}
+	{{{html-tooltip}}}
+	>
+
 	{{#is-dropdown}}
-	<input type="checkbox" class="vector-menu--checkbox" aria-labelledby="{{label-id}}"/>
+	<input tabindex="-1" type="checkbox" id="{{id}}--checkbox" class="vector-menu--checkbox"/>
+	<label tabindex="0" id="{{id}}--label" for="{{id}}--checkbox" class="{{label-class}}" aria-haspopup="menu" aria-controls="{{id}}--list">
+		<span{{#msg-screen-reader}} aria-hidden="true"{{/msg-screen-reader}}> {{label}} </span>
+		{{#msg-screen-reader}} <span screen-reader> {{.}} </span> {{/msg-screen-reader}}
+	</label>
 	{{/is-dropdown}}
-	<h3 id="{{label-id}}" class="{{label-class}}">
-		<span>{{label}}</span>
-	</h3>
+
+	{{^is-dropdown}}
+	<h3 id="{{id}}--label" class="{{label-class}}"> <span>{{label}}</span> </h3>
+	{{/is-dropdown}}
+
 	{{! `body` class for backwards compatibility. }}
 	{{! `menu` is on dropdowns for historic reasons. It should not be applied elsewhere per T253329. }}
-	<ul class="body{{#is-dropdown}} menu{{/is-dropdown}} vector-menu--list"> 
+	<ul id="{{id}}--list" role="menu" class="body{{#is-dropdown}} menu{{/is-dropdown}} vector-menu--list">
 		{{{html-items}}}
 	</ul>
+
 	{{{html-after-portal}}}
 </nav>

@@ -65,8 +65,8 @@ function initDropdowns( window ) {
 	for (i = 0; i < menus.length; i++) {
 		menu = menus[i];
 		checkbox = menu.getElementsByClassName( 'vector-menu--checkbox' )[0];
-		// button   = menu.getElementsByClassName( 'vector-menu--button' )[0];
-		button   = checkbox;
+		button   = menu.getElementsByClassName( 'vector-menu--button' )[0];
+		// button   = checkbox;
 		popup    = menu.getElementsByClassName( 'vector-menu--list' )[0];
 		if ( checkbox instanceof HTMLInputElement && button ) {
 			checkboxHack = new CheckboxHack( window, checkbox, button, { autoHideElement: popup } );
