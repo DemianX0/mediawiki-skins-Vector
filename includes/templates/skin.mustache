@@ -40,23 +40,40 @@
 <input
 	type="checkbox"
 	id="mw-sidebar-checkbox"
-	class="mw-checkbox-hack-checkbox"
-	{{#sidebar-visible}}checked{{/sidebar-visible}}>
+	class="mw-sidebar-toggle"
+	{{{html-sidebar-checked}}}>
+
+{{#data-toc}}
+<input
+	type="radio" name="sidebar" value="navigation"
+	id="mw-sidebar-navigation-radio"
+	class="mw-sidebar-toggle"
+	{{{html-sidebar-navigation-checked}}}>
+<input
+	type="radio" name="sidebar" value="toc"
+	id="mw-sidebar-toc-radio"
+	class="mw-sidebar-toggle"
+	{{{html-sidebar-toc-checked}}}>
+{{/data-toc}}
+
 {{{raw-sidebar-init-script}}}
 
 <div class="mw-workspace-container">
 <div id="mw-page-base" class="mw-header-placeholder noprint"></div>
 <div class="mw-content-container">
 
+<div id="jump-to-nav"></div>
+<a class="mw-jump-link" href="#mw-sidebar-button">{{msg-vector-jumptonavigation}}</a>
+<a class="mw-jump-link" href="#searchInput">{{msg-vector-jumptosearch}}</a>
+
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
 <main id="content" class="mw-body" role="main">
-	<div id="jump-to-nav"></div>
-	<a class="mw-jump-link" href="#mw-sidebar-button">{{msg-vector-jumptonavigation}}</a>
-	<a class="mw-jump-link" href="#searchInput">{{msg-vector-jumptosearch}}</a>
 	<a id="top"></a>
 	<div id="siteNotice" class="mw-body-content">{{{html-site-notice}}}</div>
-	{{>Indicators}}
-	<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
+	<header class="mw-body-header">
+		<h1 id="firstHeading" class="firstHeading" lang="{{page-langcode}}">{{{html-title}}}</h1>
+		{{>Indicators}}
+	</header>
 	<div id="bodyContent" class="mw-body-content">
 		{{#page-isarticle}}<div id="siteSub" class="noprint">{{msg-tagline}}</div>{{/page-isarticle}}
 		<div id="contentSub"{{{html-user-language-attributes}}}>{{{html-subtitle}}}</div>
@@ -67,6 +84,7 @@
 			using this place to insert extra elements before.
 		}}
 		{{{html-body-content}}}
+		{{{html-body-content-footer}}}
 		{{{html-categories}}}
 	</div>
 </main>
@@ -77,21 +95,7 @@
 
 <header class="mw-header">
 	<div class="mw-header-left">
-		<label
-			id="mw-sidebar-button"
-			class="mw-checkbox-hack-button mw-ui-icon mw-ui-icon-element"
-			for="mw-sidebar-checkbox"
-			role="button"
-			aria-controls="mw-panel"
-			data-event-name="ui.sidebar"
-			tabindex="0">
-			{{msg-vector-action-toggle-sidebar}}
-		</label>
-
-		<div class="mw-sidebar-anchor"><div class="mw-sidebar-container">
-			{{#data-sidebar}}{{>Sidebar}}{{/data-sidebar}}
-		</div></div>
-
+		{{>Sidebar}}
 		{{>Logo}}
 	</div>
 	{{#is-layout-new-search}} 
@@ -103,8 +107,8 @@
 
 <div class="mw-workspace-container">
 
-<div id="mw-head" class="mw-article-toolbar">
-	<h2 screen-reader>{{{html-navigation-heading}}}</h2>
+<nav id="mw-head" class="mw-article-toolbar" role="navigation" aria-labelledby="mw-article-toolbar--label">
+	<h2 id="mw-article-toolbar--label" class="vector-menu--label"> {{msg-article-toolbar-screen-reader}} </h2>
 	<div id="left-navigation" class="mw-article-toolbar--left">
 		{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
 		{{#data-variants}}{{>Menu}}{{/data-variants}}
@@ -114,7 +118,7 @@
 		{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
 		{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}
 	</div>
-</div>
+</nav>
 
 <div class="mw-footer-container mw-content-container">
 	{{#data-footer}}{{>Footer}}{{/data-footer}}
