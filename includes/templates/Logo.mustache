@@ -23,6 +23,9 @@
 			alt="{{msg-sitesubtitle}}"
 			src="{{src}}" width="{{width}}" height="{{height}}">
 		{{/tagline}}
+		{{^tagline}}
+		<span class="mw-logo-tagline">{{msg-sitesubtitle}}</span>
+		{{/tagline}}
 	</span>
 	<style>
 		.mw-logo-wordmark { height: {{wordmark.height--em}}; }
