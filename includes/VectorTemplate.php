@@ -220,7 +220,18 @@ class VectorTemplate extends BaseTemplate {
 		}
 
 		// If footer icons are enabled append to the end of the rows
-		$footerIcons = $this->getFooterIcons( 'icononly' );
+		$footerIcons = $this->get( 'footericons' );
+		// 'icononly'
+		foreach ( $footerIcons as $footerIconsKey => &$footerIconsBlock ) {
+			foreach ( $footerIconsBlock as $footerIconKey => $footerIcon ) {
+				if ( !is_string( $footerIcon ) && !isset( $footerIcon['src'] ) ) {
+					unset( $footerIconsBlock[$footerIconKey] );
+				}
+			}
+			if ( $footerIconsBlock === [] ) {
+				unset( $footerIcons[$footerIconsKey] );
+			}
+		}
 		if ( count( $footerIcons ) > 0 ) {
 			$items = [];
 			foreach ( $footerIcons as $blockName => $blockIcons ) {
