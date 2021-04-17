@@ -1,6 +1,4 @@
 {{!
-	string html-headelement a string of attribute HTML that begins with `<html>` and ends with
-		`</head>` and contains `meta` tags and ResourceLoader internals.
 	string|null html-site-notice the contents of a banner defined in MediaWiki:Sitenotice.
 		Also used by CentralNotice to inject banners into Vector.
 	Indicator[] array-indicators wiki-defined badges such as "good article",
@@ -12,59 +10,10 @@
 	string html-subtitle
 	string html-undelete-link
 	string html-newtalk
-	string msg-vector-jumptonavigation
-	string msg-vector-jumptosearch
 	string html-body-content
 	string html-categories
 	string html-after-content
-	string html-navigation-heading heading for entire navigation that is usually hidden to screen
-		readers
-	LogoOptions data-logos
-	MenuDefinition data-personal-menu
-	MenuDefinition data-namespace-tabs
-	MenuDefinition data-variants
-	MenuDefinition data-page-actions
-	MenuDefinition data-page-actions-more
-	object data-search-box. See SearchBox.mustache for documentation.
-	boolean sidebar-visible For users that want to see the sidebar on initial render, this should be
-	  true.
-	string msg-vector-action-toggle-sidebar The label used by the sidebar button.
-	object data-sidebar. See Sidebar.mustache for documentation.
-	object data-footer for footer template partial. see Footer.mustache for documentation.
-	string html-printtail HTML to render at the end of the page contained necessary script tags for
-		ResourceLoader terminated with `</body></html>`.
 }}
-
-{{{html-headelement}}}
-
-<input
-	type="checkbox"
-	id="mw-sidebar-checkbox"
-	class="mw-sidebar-toggle"
-	{{{html-sidebar-checked}}}>
-
-{{#data-toc}}
-<input
-	type="radio" name="sidebar" value="navigation"
-	id="mw-sidebar-navigation-radio"
-	class="mw-sidebar-toggle"
-	{{{html-sidebar-navigation-checked}}}>
-<input
-	type="radio" name="sidebar" value="toc"
-	id="mw-sidebar-toc-radio"
-	class="mw-sidebar-toggle"
-	{{{html-sidebar-toc-checked}}}>
-{{/data-toc}}
-
-{{{raw-sidebar-init-script}}}
-
-<div class="mw-workspace-container">
-<div id="mw-page-base" class="mw-header-placeholder noprint"></div>
-<div class="mw-content-container">
-
-<div id="jump-to-nav"></div>
-<a class="mw-jump-link" href="#mw-sidebar-button">{{msg-vector-jumptonavigation}}</a>
-<a class="mw-jump-link" href="#searchInput">{{msg-vector-jumptosearch}}</a>
 
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles. }}
 <main id="content" class="mw-body" role="main">
@@ -88,43 +37,5 @@
 		{{{html-categories}}}
 	</div>
 </main>
+
 {{{html-after-content}}}
-
-</div> {{! END mw-content-container }}
-</div> {{! END mw-workspace-container }}
-
-<header class="mw-header">
-	<div class="mw-header-left">
-		{{>Sidebar}}
-		{{>Logo}}
-	</div>
-	{{#is-layout-new-search}} 
-		{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
-		{{{html-lang-selector}}}
-	{{/is-layout-new-search}}
-	{{#data-personal-menu}}{{> MenuPersonal}}{{/data-personal-menu}}
-</header>
-
-
-<div class="mw-workspace-container">
-
-<nav id="mw-head" class="mw-article-toolbar" role="navigation" aria-labelledby="mw-article-toolbar--label">
-	<h2 id="mw-article-toolbar--label" class="vector-menu--label"> {{msg-article-toolbar-screen-reader}} </h2>
-	<div id="left-navigation" class="mw-article-toolbar--left">
-		{{#data-namespace-tabs}}{{>Menu}}{{/data-namespace-tabs}}
-		{{#data-variants}}{{>Menu}}{{/data-variants}}
-	</div>
-	<div id="right-navigation" class="mw-article-toolbar--right">
-		{{#data-page-actions}}{{>Menu}}{{/data-page-actions}}
-		{{#data-page-actions-more}}{{>Menu}}{{/data-page-actions-more}}
-		{{^is-layout-new-search}} {{#data-search-box}}{{>SearchBox}}{{/data-search-box}} {{/is-layout-new-search}}
-	</div>
-</nav>
-
-<div class="mw-footer-container mw-content-container">
-	{{#data-footer}}{{>Footer}}{{/data-footer}}
-</div>
-
-</div> {{! END mw-workspace-container }}
-
-{{{html-printtail}}}
