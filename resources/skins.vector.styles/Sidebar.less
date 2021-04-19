@@ -99,68 +99,6 @@
 	}
 }
 
-/*
-.mw-sidebar-toggles {
-	// Horizontal centering.
-	.flex-display();
-	.justify-content( center ); // Support: IE11.
-	// Relative to the outer width of the sidebar.
-	//padding-right: @padding-left-sidebar - @padding-right-sidebar;
-	// Vertical space between toggle buttons and sidebar content.
-
-	.mw-sidebar-button {
-		padding: 0.2em; // 3.2px
-		margin: 0 0.75em; // 12px
-		//background-color: @background-color-sidebar-toggle;
-		//border: @border-width-base @border-style-base @colorGray10;
-		//box-shadow: 0 0 0.5em 0 @background-color-sidebar-toggle;
-		//box-shadow: 0 0 0.1em 0.2em @background-color-sidebar-toggle;
-
-		&:before {
-			width: @size-sidebar-toggle-icon;
-			height: @size-sidebar-toggle-icon;
-			line-height: @size-sidebar-toggle-icon;
-		}
-
-		&.selected {
-			background-color: @background-color-sidebar-toggle--active;
-			//box-shadow: 0 0 0 @border-width-base @color-base--active;
-			box-shadow: 0 0 0.3em 0.15em @background-color-sidebar-toggle--active;
-
-			&:before {
-				// Highlight .mw-ui-icon of active panel.
-				opacity: 1;
-			}
-		}
-	}
-
-	.mw-ui-icon-listBullet,
-	.mw-ui-icon-textFlow {
-		.transform( scaleX( -1 ) );
-	}
-}
-
-.mixin-sidebar-hider( @name, @css-selector-panel ) {
-	@css-id-radio: ~'mw-sidebar-@{name}-radio';
-
-	#@{css-id-radio}:not( :checked ) {
-		~ @{css-selector-panel} {
-			display: none;
-		}
-	}
-
-	#@{css-id-radio}:checked {
-		~ @{css-selector-sidebar-toggles-base} label[for=@{css-id-radio}] {
-			&:extend( .mw-sidebar-toggles .mw-sidebar-button.selected all );
-			// all -> inherit `&:before { opacity }` too.
-		}
-	}
-}
-
-.mixin-sidebar-hider( navigation, @css-selector-sidebar-navigation );
-.mixin-sidebar-hider( toc, @css-selector-sidebar-toc );
-*/
-
 .mw-sidebar-heading {
 	font-size: @font-size-sidebar-heading;
 	font-weight: 500;
