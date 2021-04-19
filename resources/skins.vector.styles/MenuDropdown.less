@@ -67,6 +67,7 @@
 		// Fade and slide in.
 		@timing: 1.5 * @transition-duration-base;
 		.transition( all @timing );
+		.transition-reduced();
 		transition-delay: 3 * @transition-duration-base; // Delay hiding.
 		z-index: @z-index-menu;
 
