@@ -12,10 +12,27 @@
 <div class="mw-sidebar-container">
 	<aside id="mw-sidebar" class="mw-sidebar" tabindex="-1">
 		{{! Scrollbar would add the element to the tab sequence. }}
-		<div class="mw-sidebar-toggles">
-			{{#data-sidebar-toggles}} {{> SidebarToggle}} {{/data-sidebar-toggles}}
-		</div>
-		{{#data-sidebar}} {{> SidebarNavigation}} {{/data-sidebar}}
-		{{#data-toc}} {{> SidebarToc}} {{/data-toc}}
+		{{^data-toc}}
+			{{#data-sidebar}}
+			<div>
+				<h3 id="mw-sidebar-navigation-label" class="mw-sidebar-heading" title="{{msg-navigation-heading}}"> <span>{{msg-navigation}}</span> </h3>
+				{{> SidebarNavigation}}
+			</div>
+			{{/data-sidebar}}
+		{{/data-toc}}
+
+		{{#data-toc}}
+			{{#data-sidebar}}
+			<details>
+				<summary id="mw-sidebar-navigation-label" class="mw-sidebar-heading" title="{{msg-navigation-heading}}"> <span>{{msg-navigation}}</span> </summary>
+				{{> SidebarNavigation}}
+			</details>
+			{{/data-sidebar}}
+
+			<div>
+				<h3 id="mw-sidebar-toc-label" class="mw-sidebar-heading" title="{{msg-toc-screen-reader}}"> <span>{{msg-toc}}</span> </h3>
+				{{> SidebarToc}}
+			</div>
+		{{/data-toc}}
 	</aside>
 </div> {{! END mw-sidebar-container }}

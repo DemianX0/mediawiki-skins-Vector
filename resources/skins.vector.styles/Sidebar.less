@@ -2,6 +2,7 @@
 @import 'mediawiki.mixins.less';
 @import 'mediawiki.mixins.flex-align.less';
 @import './layout.less';
+//@import 'legacy/Sidebar.less';
 
 //@background-color-sidebar-toggle: #e8e8e8;
 //@background-color-sidebar-toggle: @background-color-secondary--modern;
@@ -80,6 +81,10 @@
 /* Panel */
 .mw-sidebar {
 	font-size: @font-size-sidebar;
+	.toctitle,
+	.portal-first .vector-menu--heading {
+		display: none;
+	}
 
 	> * {
 		margin: 1em 0; // Expects margin collapsing. Alternative: 0.5em + flex layout.
@@ -94,6 +99,7 @@
 	}
 }
 
+/*
 .mw-sidebar-toggles {
 	// Horizontal centering.
 	.flex-display();
@@ -153,6 +159,30 @@
 
 .mixin-sidebar-hider( navigation, @css-selector-sidebar-navigation );
 .mixin-sidebar-hider( toc, @css-selector-sidebar-toc );
+*/
+
+.mw-sidebar-heading {
+	font-size: @font-size-sidebar-heading;
+	font-weight: 500;
+	padding: 0;
+	margin: 0 1rem;
+	border-bottom: 0;
+	list-style-type: none;
+	position: relative;
+
+	summary&:before {
+		position: absolute;
+		left: -1.1em;
+		display: inline-block;
+		content: 'ᐅ'; // '➢➽➼'
+		font-weight: normal;
+		transition: transform @transition-duration-base * 1.5 ease-in-out; // Chrome 36+
+
+		details[open] > & {
+			.transform( rotate( 90deg ) );
+		}
+	}
+}
 
 // Increase the space between links on mobile to make it easier to touch.
 @media ( min-resolution: 192dpi ), ( min-resolution: 2dppx ) {
