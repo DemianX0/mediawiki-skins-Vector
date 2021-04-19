@@ -453,3 +453,13 @@ body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
 .mw-footer {
 	margin-top: 0;
 }
+
+/* Scale down wide images on narrow display */
+.mw-parser-output img {
+	max-width: 100%;
+	height: auto; // Scale height proportionally with width.
+}
+
+.noresize img {
+	max-width: none;
+}
