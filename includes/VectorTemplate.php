@@ -214,13 +214,7 @@ class VectorTemplate extends BaseTemplate {
 			// Remember that the string '0' is a valid title.
 			// From OutputPage::getPageTitle, via ::setPageTitle().
 			'html-title' => $out->getPageTitle(),
-			'msg-tagline' => $skin->msg( 'tagline' )->text(),
-
 			'html-newtalk' => $newTalksHtml ? '<div class="usermessage">' . $newTalksHtml . '</div>' : '',
-
-			'msg-vector-jumptonavigation' => $skin->msg( 'vector-jumptonavigation' )->text(),
-			'msg-vector-jumptosearch' => $skin->msg( 'vector-jumptosearch' )->text(),
-
 			'html-printfooter' => $skin->printSource(),
 			'html-categories' => $skin->getCategories(),
 			'data-footer' => $this->getFooterData(),
@@ -229,8 +223,6 @@ class VectorTemplate extends BaseTemplate {
 
 			// Header
 			'data-logos' => ResourceLoaderSkinModule::getAvailableLogos( $this->getConfig() ),
-			'msg-sitetitle' => $skin->msg( 'sitetitle' )->text(),
-			'msg-sitesubtitle' => $skin->msg( 'sitesubtitle' )->text(),
 			'main-page-href' => $mainPageHref,
 
 			'raw-sidebar-init-script' => $rawSidebarInitScript,
@@ -247,11 +239,12 @@ class VectorTemplate extends BaseTemplate {
 				//[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'listNumbered' ], // From 'oojs-ui.styles.icons-editing-list'
 				//[ 'target' => 'toc', 'tooltip' => $skin->msg( 'toc-screen-reader' )->text(), 'icon' => 'article' ], // From 'oojs-ui.styles.icons-content'
 			],
-			'msg-toc-screen-reader' => $skin->msg( 'toc-screen-reader' )->text(),
-			'msg-navigation-screen-reader' => $skin->msg( 'navigation-heading' )->text(),
-			'msg-article-toolbar-screen-reader' => $skin->msg( 'article-toolbar-screen-reader' )->text(),
-			'msg-vector-action-toggle-sidebar' => $skin->msg( 'vector-action-toggle-sidebar' )->text(),
 		];
+
+		foreach ( $skin->localizedMessages as $msg ) {
+			$commonSkinData[ 'msg-' . $msg ] = $skin->msg( $msg )->text();
+		}
+
 		$commonSkinData += $this->getMenuProps();
 
 		$logos = &$commonSkinData['data-logos'];

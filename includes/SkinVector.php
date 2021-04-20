@@ -39,6 +39,18 @@ class SkinVector extends SkinTemplate {
 	public $template = 'VectorTemplate';
 	public $contentTOC;
 
+	public $localizedMessages = [
+			'tagline',
+			'sitetitle',
+			'sitesubtitle',
+			'toc-screen-reader',
+			'navigation-heading',
+			'article-toolbar-screen-reader',
+			'vector-jumptonavigation',
+			'vector-jumptosearch',
+			'vector-action-toggle-sidebar',
+	];
+
 	static ?ParserOutput $parserOutput = null;
 
 	/**
