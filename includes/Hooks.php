@@ -49,7 +49,6 @@ class Hooks {
 		if ( $skinVersionLookup->isLegacy()
 			&& ( $mobile || $sk->getConfig()->get( 'VectorResponsive' ) )
 		) {
-			$out->addMeta( 'viewport', 'width=device-width, initial-scale=1' );
 			$out->addModuleStyles( 'skins.vector.styles.responsive' );
 		}
 	}
