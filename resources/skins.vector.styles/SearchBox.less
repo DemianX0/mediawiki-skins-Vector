@@ -27,7 +27,7 @@
 	border-radius: @border-radius-base;
 	// `padding-right` equals to `#searchbutton` width below.
 	padding: 0.4em @width-search-button 0.4em 0.4em;
-	.box-shadow( @boxShadowWidget );
+	box-shadow: @box-shadow-base;
 	font-size: @font-size-search-input;
 	direction: ltr;
 	.transition( ~'border-color 250ms, box-shadow 250ms' );
@@ -45,8 +45,8 @@
 	&:focus,
 	#simpleSearch:hover &:focus {
 		outline: 0;
-		border-color: @colorProgressive;
-		.box-shadow( @boxShadowProgressiveFocus );
+		border-color: @border-color-base--focus;
+		box-shadow: @box-shadow-base--focus;
 	}
 
 	.mixin-placeholder( {
