@@ -4,6 +4,7 @@
 
 @import '../variables.less';
 @import 'mediawiki.mixins.less';
+@import 'mediawiki.mixins.scrollbar.less';
 @import 'mediawiki.mixins.flex-align.less';
 
 // Modern layout variables
@@ -355,6 +356,28 @@ html:not( .skin-vector-new-search ) .mw-search {
 	@media ( max-width: @max-width-sidebar-overlay ) {
 		// Override `@max-width-header--medium` media query.
 		max-width: @max-width-sidebar;
+	}
+
+	// Scrollbar
+	.scrollbar-width( @scrollbar-width-sidebar--hover );
+	@radius: @scrollbar-width-sidebar--hover / 2;
+	.scrollbar-radius( @radius );
+	.scrollbar-button( @scrollbar-width-sidebar--hover * 1.5, @radius );
+	.scrollbar-color( @scrollbar-track-color-sidebar-, @scrollbar-thumb-color-sidebar- );
+	.scrollbar-button-color( @scrollbar-thumb-color-sidebar- );
+	.scrollbar-arrow( vertical, @scrollbar-arrow-color-sidebar- );
+
+	// scrollbar-gutter: If not hovering then make the scrollbar smaller, fill the gap with padding.
+	//padding-right: @padding-right-sidebar + @scrollbar-width-sidebar--hover - @scrollbar-width-sidebar;
+
+	&:focus-within,
+	&:hover {
+		// On hover extend the scrollbar, replacing the padding.
+		//padding-right: @padding-right-sidebar;
+		//.scrollbar-width( @scrollbar-width-sidebar--hover );
+		.scrollbar-color( @scrollbar-track-color-sidebar---hover, @scrollbar-thumb-color-sidebar---hover );
+		.scrollbar-button-color( @scrollbar-thumb-color-sidebar---hover );
+		.scrollbar-arrow( vertical, @scrollbar-arrow-color-sidebar---hover );
 	}
 
 	// Background-color for full-width layout.

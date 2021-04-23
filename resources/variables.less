@@ -1,4 +1,5 @@
 @import 'mediawiki.ui/variables.less';
+@import 'mediawiki.ui/wikimedia-ui-base.less';
 
 //
 // == Typography ==
@@ -160,3 +161,39 @@
 
 // Transitions
 @transition-duration-base: 100ms;
+
+// == Scrollbar ==
+
+// Scrollbar sizes
+// TODO: HiDPI
+
+// Content scrollbar is always visible.
+@scrollbar-width-content:         1em;  // Chrome's sidebar width is 13.6px.
+
+// Sidebar's scrollbar is very thin when not hovering the sidebar.
+@scrollbar-width-sidebar:         0.25em;
+// Sidebar's scrollbar is thinner than content's even when hovering the sidebar.
+@scrollbar-width-sidebar--hover:  0.6em;
+
+// Scrollbar colors
+@scrollbar-track-color-content: @wmui-color-base80;
+@scrollbar-thumb-color-content: @wmui-color-base70;
+//@scrollbar-arrow-color-content: ~'rgb( 114, 119, 125 )'; // @wmui-color-base50; // #a2a9b1
+@scrollbar-arrow-color-content: ~'rgb(32,33,34)'; // @wmui-color-base10; // #202122
+
+// Sidebar's scrollbar has subtle colors when not hovering over the sidebar.
+//@scrollbar-track-color-sidebar-: mix( @wmui-color-base90, @wmui-color-base100, 50% ); // #fcfcfd
+//@scrollbar-thumb-color-sidebar-: @wmui-color-base90; // #f8f9fa
+//@scrollbar-thumb-color-sidebar-: mix( @wmui-color-base70, @wmui-color-base80, 75% ); // #d1d4d9
+//@scrollbar-thumb-color-sidebar-: mix( @wmui-color-base70, @wmui-color-base80, 50% ); // #d9dce1
+//@scrollbar-thumb-color-sidebar-: mix( @wmui-color-base70, @wmui-color-base80, 40% ); // #dcdfe4
+//@scrollbar-thumb-color-sidebar-: mix( @wmui-color-base70, @wmui-color-base80, 30% ); // #e0e2e7
+//@scrollbar-thumb-color-sidebar-: mix( @wmui-color-base70, @wmui-color-base80, 25% ); // #e2e4e8
+@scrollbar-track-color-sidebar-: @wmui-color-base90; // #f8f9fa
+@scrollbar-thumb-color-sidebar-: @wmui-color-base80; //#eaecf0
+@scrollbar-arrow-color-sidebar-: ~'rgb(200,204,209)'; // @wmui-color-base70; // #c8ccd1
+
+// When hovering the sidebar its scrollbar has the same intensity (same colors) as the main scrollbar.
+@scrollbar-track-color-sidebar---hover: @scrollbar-track-color-content; // @wmui-color-base80;
+@scrollbar-thumb-color-sidebar---hover: @scrollbar-thumb-color-content; // @wmui-color-base70;
+@scrollbar-arrow-color-sidebar---hover: @scrollbar-arrow-color-content; // @wmui-color-base10;
