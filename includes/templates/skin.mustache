@@ -8,6 +8,7 @@
 	string msg-vector-action-toggle-sidebar The label used by the sidebar button.
 	string html-navigation-heading heading for entire navigation that is usually hidden to screen
 		readers
+	object data-sidebar See Sidebar.mustache for documentation.
 	object data-footer for footer template partial. see Footer.mustache for documentation.
 	string html-printtail HTML to render at the end of the page contained necessary script tags for
 		ResourceLoader terminated with `</body></html>`.
@@ -40,7 +41,7 @@
 
 <div class="mw-workspace-container">
 
-{{>ArticleToolbar}}
+{{>Sidebar}}
 
 <div class="mw-content-container">
 
@@ -48,14 +49,14 @@
 <a class="mw-jump-link" href="#mw-sidebar-button">{{msg-vector-jumptonavigation}}</a>
 <a class="mw-jump-link" href="#searchInput">{{msg-vector-jumptosearch}}</a>
 
+{{>ArticleToolbar}}
 {{>Content}}
 
-</div> {{! END mw-content-container }}
-
-<div class="mw-footer-container mw-content-container">
+<div class="mw-footer-container">
 	{{#data-footer}}{{>Footer}}{{/data-footer}}
 </div>
 
+</div> {{! END mw-content-container }}
 </div> {{! END mw-workspace-container }}
 
 {{{html-printtail}}}

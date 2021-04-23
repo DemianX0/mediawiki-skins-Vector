@@ -7,10 +7,11 @@
 @import 'mediawiki.mixins.flex-align.less';
 
 // Modern layout variables
-@css-selector-sidebar: ~'.mw-header .mw-sidebar';
-@css-selector-sidebar-navigation: ~'.mw-header .mw-sidebar-navigation';
-@css-selector-sidebar-toc: ~'.mw-header .mw-sidebar-toc';
-@css-selector-sidebar-toggles-base: ~'.mw-header';
+@css-selector-sidebar-container: ~'.mw-workspace-container .mw-sidebar-container';
+@css-selector-sidebar: ~'.mw-workspace-container .mw-sidebar';
+@css-selector-sidebar-navigation: ~'.mw-workspace-container .mw-sidebar-navigation';
+@css-selector-sidebar-toc: ~'.mw-workspace-container .mw-sidebar-toc';
+@css-selector-sidebar-toggles-base: ~'.mw-workspace-container';
 @css-selector-article-toolbar: ~'.mw-workspace-container .mw-article-toolbar';
 @css-selector-content-container: ~'.mw-workspace-container .mw-content-container';
 // Note: there's one selector in 'skin.json' too, keep in sync:
@@ -33,7 +34,7 @@
 @max-width-header--narrow: unit( 560px / @font-size-root--px, em ); // <= 35em, 3 rows in header: logo, uls + usermenu, search.
 @max-width-header--micro: unit( 400px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
 //@max-width-sidebar-overlay: unit( 600px / @font-size-root--px, em );
-@max-width-sidebar-overlay: @max-width-header--narrow;
+@max-width-sidebar-overlay: @max-width-header--narrow; // 35em -> 560px
 @margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
 @margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
 
@@ -48,10 +49,11 @@
 
 // Colors
 @background-color-secondary--modern: #f8f9fa;
-@border-radius-base: unit( 2px / @font-size-root--px, rem ); // 2/16 = 0.125em
+//@border-radius-base: unit( 2px / @font-size-root--px, rem ); // 2/16 = 0.125em
 @border-color-sidebar: @background-color-secondary--modern;
 @border-color-sidebar: #f6f6f6;
-@border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em
+//@border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em // Rounding errors cause border to disappear on watchlist icon sometimes?
+@border-width-base: 1px;
 @box-shadow-color: #f0f0f0;
 @box-shadow-size-header: unit( 10px / @font-size-root--px, em ); // 0.625em
 @box-shadow-size-sidebar-toggle: unit( 4px / @font-size-root--px, em ); // 0.25em
@@ -68,10 +70,6 @@ body {
 	color: @color-base;
 	// Vertical scrollbar always visible.
 	overflow-y: scroll;
-
-	// Space for header.
-	// Using padding, not margin to avoid displacing the header.
-	.mixin-header-space( padding-top );
 }
 
 .mw-page-container {
@@ -79,11 +77,6 @@ body {
 	// are positioned in the padding-box frame of this element:
 	// `margin: auto` is used to limit the width of the page, including the absolute elements.
 	position: relative;
-}
-
-.mw-sidebar-container,
-.mw-article-toolbar {
-	.mixin-header-space( top );
 }
 
 .mixin-header-space( @property, @additional-space: 0 ) {
@@ -116,7 +109,7 @@ body {
 	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
 	// Vertical centering of header elements (IE>=11), requires flex.
 	// Support IE9 with: `inline-block` rule on child elements and `float: right` on Personal menu.
-	.mixin-clearfix(); // Close float flow.
+	//.mixin-clearfix(); // Close float flow.
 	z-index: @z-index-header;
 
 	// Not layout.
@@ -293,34 +286,54 @@ html:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
+/* Workspace: Sidebar + Content */
+.mw-workspace-container {
+	display: flex;
+	position: relative;
+	.align-items( flex-start ); // Otherwise sidebar height is 100%, rendering sticky useless.
+}
+
 /* Sidebar */
-.mw-sidebar-anchor {
-	position: absolute;
-	left: 0;
-	top: 0;
-	//bottom: 0; // Stick to bottom of header.
-	max-height: 0;
+.mw-sidebar-container,
+.mw-content-container {
+	.mixin-header-space( padding-top ); // Stick to bottom of header
+	.align-self( flex-start ); // Otherwise height is 100%, rendering sticky useless.
 }
 
 .mw-sidebar-container {
-	position: absolute; // Avoid .mw-sidebar-anchor gaining height and covering the content.
-	left: 0;
-	overflow-x: hidden;  // Hide the part that's sliding out when animated.
+	top: 0; // For fixed and sticky position.
+	flex-shrink: 0; // Shrink content instead.
+	z-index: @z-index-sidebar;
+	position: relative; // Fallback for fixed and sticky.
+	.box-sizing( border-box );
 	pointer-events: none; // Let clicks through when .mw-sidebar is hidden.
+
+	@media ( max-width: @max-width-header--narrow ) {
+		padding-bottom: 1em; // Space for horizontal scrollbar on narrow viewport.
+	}
 }
 
 .mw-sidebar {
-	position: relative;
-	z-index: @z-index-sidebar;
 	min-width: @min-width-sidebar;
 	max-width: @max-width-sidebar;
+	max-height: 100%;
 	padding-top: @padding-top-sidebar;
 	padding-bottom: @padding-bottom-sidebar;
 	padding-left: @padding-left-sidebar;
 	padding-right: @padding-right-sidebar;
-	border-radius: 0.5em;
+	//border-radius: 0.5em;
 	.box-sizing( border-box );
 	pointer-events: all; // Restore capturing clicks only in this element's area.
+	overflow: hidden auto; // Auto-hiding scrollbar.
+
+	@media ( max-width: @max-width-header--medium ) {
+		max-width: @max-width-sidebar--medium;
+	}
+
+	@media ( max-width: @max-width-sidebar-overlay ) {
+		// Override `@max-width-header--medium` media query.
+		max-width: @max-width-sidebar;
+	}
 
 	// Background-color for full-width layout.
 	body:not( .mw-page-container ) & {
@@ -333,8 +346,25 @@ html:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
+@media ( max-width: @max-width-sidebar-overlay ) {
+	// On narrow viewport show the sidebar over the content.
+	.mw-sidebar-container {
+		position: fixed;
+	}
+
+	.mw-sidebar {
+		padding-right: @padding-left-sidebar; // Symmetric.
+		padding-bottom: 2 * @padding-top-sidebar;
+		box-shadow: 0 0 4em 0.5em #222;
+	}
+}
+
 /* Sidebar state */
 #mw-sidebar-checkbox:not( :checked ) {
+	~ @{css-selector-sidebar-container} {
+		position: absolute; // Hidden sidebar does not occupy width.
+	}
+
 	~ @{css-selector-sidebar} {
 		// Turn off presentation so that screen readers get the same effect as visually hiding.
 		// Visibility and opacity can be animated. If animation is unnecessary, use `display: none`
@@ -342,55 +372,6 @@ html:not( .skin-vector-new-search ) .mw-search {
 		visibility: hidden;
 		opacity: 0;
 		.transform( translateX( -50% ) );
-	}
-}
-
-body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
-	~ @{css-selector-article-toolbar},
-	~ @{css-selector-content-container} {
-		// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
-		margin-left: @min-width-sidebar;
-	}
-
-	/*
-	~ #mw-sidebar-radio-toc:checked {
-		~ @{css-selector-sidebar} {
-			max-width: @max-width-sidebar-toc;
-		}
-
-		~ @{css-selector-article-toolbar},
-		~ @{css-selector-content-container} {
-			// Adjust the content and the toolbar on medium and wide viewport when the sidebar is open.
-			margin-left: @max-width-sidebar-toc;
-		}
-	}
-	*/
-}
-
-@media ( max-width: @max-width-sidebar-overlay ) {
-	// On narrow viewport show the sidebar over the content.
-	// Dupliciate class selector to override the `&.ns-special` rules with precedence.
-	#mw-sidebar-checkbox#mw-sidebar-checkbox:checked {
-		~ @{css-selector-article-toolbar},
-		~ @{css-selector-content-container} {
-			margin-left: 0;
-		}
-	}
-
-	.mw-sidebar-container {
-		overflow-x: visible;
-	}
-
-	.mw-sidebar {
-		padding-bottom: 2 * @padding-top-sidebar;
-		box-shadow: 1em 3em 5em -1.5em #888;
-		border-radius: 6 * @border-width-base;
-		// border: solid 0 @border-color-sidebar;
-		// border-right-width: 2 * @border-width-base;
-		// border-bottom-width: 2 * @border-width-base;
-		// Restore animation.
-		@duration: @transition-duration-base * 2 ease-out;
-		.transition( all @duration );
 	}
 }
 
