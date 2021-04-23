@@ -8,6 +8,9 @@
 
 // Modern layout variables
 @css-selector-sidebar: ~'.mw-header .mw-sidebar';
+@css-selector-sidebar-navigation: ~'.mw-header .mw-sidebar-navigation';
+@css-selector-sidebar-toc: ~'.mw-header .mw-sidebar-toc';
+@css-selector-sidebar-toggles-base: ~'.mw-header';
 @css-selector-article-toolbar: ~'.mw-workspace-container .mw-article-toolbar';
 @css-selector-content-container: ~'.mw-workspace-container .mw-content-container';
 // Note: there's one selector in 'skin.json' too, keep in sync:
@@ -15,7 +18,7 @@
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
 //@padding-horizontal-header: unit( 30px / @font-size-root--px, em ); // 30/16 = 1.875em
-@padding-horizontal-header: @padding-left-sidebar + @padding-left-portal; // 0.5em + 1.2em = 1.7em -> 27.2px
+@padding-horizontal-header: @padding-left-sidebar + @padding-left-portal; // 1.5em + 0em = 1.5em -> 24px
 @padding-top-header: 0.625em;
 @padding-bottom-header: 0.3125em;
 @height-header--inner: 3.375em; // Logo sizes per specification in T245190.
@@ -45,11 +48,13 @@
 
 // Colors
 @background-color-secondary--modern: #f8f9fa;
+@border-radius-base: unit( 2px / @font-size-root--px, rem ); // 2/16 = 0.125em
 @border-color-sidebar: @background-color-secondary--modern;
 @border-color-sidebar: #f6f6f6;
 @border-width-base: unit( 1px / @font-size-root--px, em ); // 1/16 = 0.0625em
 @box-shadow-color: #f0f0f0;
 @box-shadow-size-header: unit( 10px / @font-size-root--px, em ); // 0.625em
+@box-shadow-size-sidebar-toggle: unit( 4px / @font-size-root--px, em ); // 0.25em
 @is-using-placeholder: 0;
 
 html {
@@ -324,6 +329,10 @@ html:not( .skin-vector-new-search ) .mw-search {
 .mw-body-content {
 	position: relative;
 	z-index: @z-index-base;
+	
+	.toc {
+		display: none; // TOC moved to sidebar.
+	}
 }
 
 .mw-indicators {
@@ -344,6 +353,7 @@ html:not( .skin-vector-new-search ) .mw-search {
 	position: absolute; // Avoid .mw-sidebar-anchor gaining height and covering the content.
 	left: 0;
 	overflow-x: hidden;  // Hide the part that's sliding out when animated.
+	pointer-events: none; // Let clicks through when .mw-sidebar is hidden.
 }
 
 .mw-sidebar {
@@ -357,6 +367,7 @@ html:not( .skin-vector-new-search ) .mw-search {
 	padding-right: @padding-right-sidebar;
 	border-radius: 0.5em;
 	.box-sizing( border-box );
+	pointer-events: all; // Restore capturing clicks only in this element's area.
 
 	// Background-color for full-width layout.
 	body:not( .mw-page-container ) & {
