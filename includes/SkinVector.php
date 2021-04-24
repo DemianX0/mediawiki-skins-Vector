@@ -46,6 +46,7 @@ class SkinVector extends SkinTemplate {
 			'toc-screen-reader',
 			'navigation-heading',
 			'article-toolbar-screen-reader',
+			'vector-jumptocontent',
 			'vector-jumptonavigation',
 			'vector-jumptosearch',
 			'vector-action-toggle-sidebar',
