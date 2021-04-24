@@ -158,7 +158,7 @@ class SkinVector extends SkinTemplate {
 	 * @param $parserOutput object
 	 * @return array
 	 */
-	private function getTOCData( ParserOutput $parserOutput ) : array {
+	private function getTOCData( ParserOutput $parserOutput ) : ?array {
 		$tocdata = [];
 		$this->contentTOC = $parserOutput->getTOCHTML();
 		if ( $this->contentTOC ) {
@@ -200,7 +200,7 @@ class SkinVector extends SkinTemplate {
 			'anchor' => $anchor,
 			*/
 		}
-		return $tocdata;
+		return !empty( $tocdata['data-items'] ) ? $tocdata : null;
 	}
 
 	/**
