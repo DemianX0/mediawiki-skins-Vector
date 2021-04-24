@@ -162,7 +162,7 @@ class SkinVector extends SkinTemplate {
 		$tocdata = [];
 		$this->contentTOC = $parserOutput->getTOCHTML();
 		if ( $this->contentTOC ) {
-			$tocdata['html-body-content-toc'] = $this->wrapHTML( $this->getOutput()->getTitle(), $this->contentTOC );
+			$tocdata['html-body-content-toc'] = $this->wrapHTML( $this->getOutput()->getTitle(), $this->contentTOC, false );
 		}
 
 		//$maxTocLevel = MediaWikiServices::getInstance()->getMainConfig()->get( 'MaxTocLevel' ); // 999, pointless
