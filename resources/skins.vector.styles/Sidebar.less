@@ -136,3 +136,15 @@
 
 .mixin-sidebar-hider( navigation, @css-selector-sidebar-navigation );
 .mixin-sidebar-hider( toc, @css-selector-sidebar-toc );
+
+// Increase the space between links on mobile to make it easier to touch.
+@media ( min-resolution: 192dpi ), ( min-resolution: 2dppx ) {
+	.vector-menu-portal .vector-menu--list li,
+	.mw-sidebar .tocnumber,
+	.mw-sidebar .toctext,
+	.mw-sidebar ol li:before,
+	.mw-sidebar ul li:before {
+		padding-top: @padding-vertical-sidebar-item--touch;
+		padding-bottom: @padding-vertical-sidebar-item--touch;
+	}
+}
