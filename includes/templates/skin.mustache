@@ -36,8 +36,12 @@
 
 {{{raw-sidebar-init-script}}}
 
+{{>Header}}
+
 <div class="mw-workspace-container">
-<div id="mw-page-base" class="mw-header-placeholder noprint"></div>
+
+{{>ArticleToolbar}}
+
 <div class="mw-content-container">
 
 <div id="jump-to-nav"></div>
@@ -47,13 +51,6 @@
 {{>Content}}
 
 </div> {{! END mw-content-container }}
-</div> {{! END mw-workspace-container }}
-
-{{>Header}}
-
-<div class="mw-workspace-container">
-
-{{>ArticleToolbar}}
 
 <div class="mw-footer-container mw-content-container">
 	{{#data-footer}}{{>Footer}}{{/data-footer}}

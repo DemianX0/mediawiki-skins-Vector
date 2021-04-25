@@ -55,7 +55,6 @@
 @box-shadow-color: #f0f0f0;
 @box-shadow-size-header: unit( 10px / @font-size-root--px, em ); // 0.625em
 @box-shadow-size-sidebar-toggle: unit( 4px / @font-size-root--px, em ); // 0.25em
-@is-using-placeholder: 0;
 
 html {
 	.mixin-header-space( scroll-padding-block-start, 2em ); // Scroll to 2em below header.
@@ -69,12 +68,10 @@ body {
 	color: @color-base;
 	// Vertical scrollbar always visible.
 	overflow-y: scroll;
-}
 
-body when ( @is-using-placeholder = 0 ) {
-	// Space for header + article toolbar.
+	// Space for header.
 	// Using padding, not margin to avoid displacing the header.
-	.mixin-header-space( padding-top, @height-article-toolbar );
+	.mixin-header-space( padding-top );
 }
 
 .mw-page-container {
@@ -82,14 +79,6 @@ body when ( @is-using-placeholder = 0 ) {
 	// are positioned in the padding-box frame of this element:
 	// `margin: auto` is used to limit the width of the page, including the absolute elements.
 	position: relative;
-}
-
-/* Space for header above content */
-.mw-header-placeholder when not ( @is-using-placeholder = 0 ) {
-	// Space for header.
-	.mixin-header-space( height );
-	// Space for article toolbar.
-	margin-bottom: @height-article-toolbar;
 }
 
 .mw-sidebar-container,
@@ -119,7 +108,6 @@ body when ( @is-using-placeholder = 0 ) {
 
 /* Header layout */
 .mw-header {
-	position: absolute; // Kept for testing in DevTools.
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -404,14 +392,6 @@ body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
 		@duration: @transition-duration-base * 2 ease-out;
 		.transition( all @duration );
 	}
-}
-
-/* Article toolbar */
-.mw-article-toolbar {
-	position: absolute;
-	// top defined above with mixin-header-space()
-	left: 0;
-	right: 0;
 }
 
 /* Content */
