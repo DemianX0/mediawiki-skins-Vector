@@ -495,9 +495,9 @@ class VectorTemplate extends BaseTemplate {
 		foreach ( $urls as $key => $item ) {
 			// Add CSS class 'collapsible' to all links EXCEPT watchstar.
 			$itemOptions = $item['options'] ?? [];
-			if (
-				$key !== 'watch' && $key !== 'unwatch' &&
-				isset( $options['vector-collapsible'] ) && $options['vector-collapsible'] ) {
+			if ( $key === 'watch' || $key === 'unwatch' ) {
+				$itemOptions = self::TEXTWRAPPER_SCREENREADER + $itemOptions;
+			} elseif ( $options['vector-collapsible'] ?? null ) {
 				if ( !isset( $item['class'] ) ) {
 					$item['class'] = '';
 				}
