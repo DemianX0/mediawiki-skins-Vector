@@ -13,7 +13,7 @@ html {
 
 html,
 body {
-	font-family: @font-family-sans;
+	font-family: @font-family-content;
 }
 
 ul {
@@ -30,7 +30,7 @@ pre,
 /* Allow edit sections outside of mw-body-content (T160269) */
 .mw-editsection,
 .mw-editsection-like {
-	font-family: @font-family-sans;
+	font-family: @font-family-content;
 	margin-left: @margin-left-editsection;
 }
 
@@ -99,14 +99,14 @@ pre,
 	h4,
 	h5,
 	h6 {
-		font-family: @font-family-serif;
+		font-family: @font-family-heading;
 
-		// Fallback heading font for scripts which render poorly in `@font-family-serif`.
+		// Fallback heading font for scripts which render poorly in `@font-family-heading`.
 		// See T73240
 		&:lang( ja ), /* See T65817 */
 		&:lang( he ), /* See T65843 and T65844 */
 		&:lang( ko ) { /* See T65827 */
-			font-family: @font-family-sans--fallback;
+			font-family: @font-family-heading--fallback;
 		}
 
 		/* Burmese (Myanmar) language headlines would be cropped with set `line-height` */
@@ -165,7 +165,7 @@ pre,
 	}
 
 	.toc h2 {
-		font-family: @font-family-sans;
+		font-family: @font-family-content;
 		font-size: inherit; // 100%
 	}
 

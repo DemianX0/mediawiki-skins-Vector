@@ -6,6 +6,17 @@
 //
 // Detailed documentation of the font choices:
 // https://www.mediawiki.org/wiki/Wikimedia_User_Interface/Use_cases/Font_family_stack
+
+//
+// Body content uses the user setting in browser / the system default sans-serif font:
+// Arial on Windows, Roboto on Android.
+// FIXME: Use WikimediaUI Base's OS specific default sans-serif fonts.
+
+@font-family-sans: sans-serif;
+
+//
+// Font stack for serif fonts.
+//
 // Source of this font stack definition in WikimediaUI Base:
 // https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.less$202
 // See T73240 for a related discussion concerning the serif font stack.
@@ -20,14 +31,20 @@
 	serif;             // Platform default: 'Times New Roman' on Windows.
 
 //
-// Body content uses the user setting in browser / the system default sans-serif font:
-// Arial on Windows, Roboto on Android.
-// FIXME: Use WikimediaUI Base's OS specific default sans-serif fonts.
+// Monospace fix:  http://code.iamkate.com/html-and-css/fixing-browsers-broken-monospace-font-handling/
+// Task:  T176636  "Unify CSS font stack of monospace-styled elements across products"
 
-@font-family-sans: sans-serif;
+@font-family-monospace: monospace, monospace;
 
+//
+// Font variables used in the stylesheets
+//
+
+@font-family-content:           @font-family-sans;      // For page body.
+@font-family-heading:           @font-family-serif;     // For headings.
 // Fallback for headings, language: ja,he,ko. See T73240,T65817,T65843,T65844,T65827.
-@font-family-sans--fallback: sans-serif;
+@font-family-heading--fallback: sans-serif;
+@font-family-code:              @font-family-monospace; // For source code.
 
 //
 // == Page content ==
