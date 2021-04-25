@@ -479,6 +479,29 @@ html:not( .skin-vector-new-search ) .mw-search {
 	margin-top: 0;
 }
 
+/* Jump link */
+.mw-jump-link {
+	&:not( :focus ) {
+		// If not focused then hide the jump link, but read aloud with screen-reader.
+		.mixin-screen-reader-text();
+	}
+
+	&:focus {
+		// When focused show jump link in top-left corner of viewport.
+		position: fixed;
+		z-index: @z-index-header + 1;
+		top: 0;
+		left: 0;
+		margin: 0.7em 1em;
+		padding: 0.7em 2em;
+		border: 2px solid @outline-color-base--focus;
+		border-radius: 0.25em;
+		box-shadow: 0 0 0.2em 0 @outline-color-base--focus;
+		outline: none;
+		background-color: #fafad2;
+	}
+}
+
 /* Scale down wide images on narrow display */
 .mw-parser-output img {
 	max-width: 100%;
