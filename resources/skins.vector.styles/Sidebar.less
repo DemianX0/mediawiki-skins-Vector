@@ -4,7 +4,6 @@
 @import './layout.less';
 //@import 'legacy/Sidebar.less';
 
-@margin-horizontal-sidebar-button-icon: 12px;
 //@background-color-sidebar-toggle: #e8e8e8;
 //@background-color-sidebar-toggle: @background-color-secondary--modern;
 @background-color-sidebar-toggle--active: @background-color-secondary--modern;
@@ -12,16 +11,18 @@
 //@box-shadow-color-sidebar-toggle--active: @background-color-frameless--hover;
 
 #mw-sidebar-button {
-	//width: @size-sidebar-button;
-	//height: @size-sidebar-button;
-	padding: ( @size-sidebar-button - @size-sidebar-button-icon ) / 2; // 0.75em -> 12px
-	margin-left: -@margin-horizontal-sidebar-button-icon;
-	margin-right: @margin-horizontal-sidebar-button-icon; // Accidentally the same.
+	@padding--px: ( @size-sidebar-button--px - @size-sidebar-button-icon--px ) / 2; // (44-20)/2=12px
+	padding: unit( @padding--px / @font-size-header--px, em ); // 0.75em -> 12px
+	// Line up the icon with the sidebar content:
+	@margin-left--px: @padding-left-sidebar--px - @padding--px - @padding-horizontal-header--px + @margin-horizontal-portal--px; // 8-12-16+16 = -4px
+	margin-left: unit( @margin-left--px / @font-size-header--px, em ); // -0.25em
+	margin-right: unit( 6px / @font-size-header--px, em );
 
 	&:before {
-		width: @size-sidebar-button-icon; // 1.25em -> 20px
-		height: @size-sidebar-button-icon;
-		line-height: @size-sidebar-button-icon;
+		@size: unit( @size-sidebar-button-icon--px / @font-size-header--px, em ); // 1.25em -> 20px
+		width: @size;
+		height: @size;
+		line-height: @size;
 		//height: 100%;
 		// Center it horizontally.
 		//margin: 0 @margin-horizontal-sidebar-button-icon;
