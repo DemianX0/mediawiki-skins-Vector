@@ -141,7 +141,10 @@
 @font-size-portal-list-item: @font-size-nav-main-body;
 @padding-vertical-sidebar-item: 0.1em;
 @padding-vertical-sidebar-item--touch: 0.75em;
-@font-size-sidebar-toc: @font-size-nav-main-body;
+@font-size-sidebar--px: @font-size-nav-main-body--px; // 12px
+@font-size-sidebar: unit( @font-size-sidebar--px / @font-size-root--px, em ); // 12/16 = 0.75em
+@font-size-sidebar-heading--px: @font-size-sidebar--px + 2; // 14px
+@font-size-sidebar-heading: unit( @font-size-sidebar-heading--px / @font-size-sidebar--px, em ); // 14/12 = 1.16666667em, relative to @font-size-sidebar
 
 // Navigation: Personal tools
 @top-personal-tools: 6px;

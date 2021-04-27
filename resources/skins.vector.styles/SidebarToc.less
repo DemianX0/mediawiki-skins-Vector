@@ -12,12 +12,7 @@
 .mw-sidebar-toc {
 	.toc {
 		// Unset rules inherited from core.
-		// Use 'table' / 'inline-block' / 'width: fit-content' / flex layout on parent
-		// to take up minimal width. That will center toctitle relative to the actual width.
-		// 'fit-content' is not supported by IE, so use 'inline-block'.
-		// width: fit-content; // After IE is off the shelf.
-		display: inline-block;
-		font-size: @font-size-sidebar-toc;
+		font-size: inherit;
 		line-height: @line-height-nav;
 		padding: 0;
 		padding-top: unit( 8.8px / @font-size-root--px ,em ); // 4px + ~ul{padding-top} 4.8px -> 0.55em

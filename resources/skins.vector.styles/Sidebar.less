@@ -2,7 +2,6 @@
 @import 'mediawiki.mixins.less';
 @import 'mediawiki.mixins.flex-align.less';
 @import './layout.less';
-//@import 'legacy/Sidebar.less';
 
 //@background-color-sidebar-toggle: #e8e8e8;
 //@background-color-sidebar-toggle: @background-color-secondary--modern;
@@ -80,6 +79,8 @@
 
 /* Panel */
 .mw-sidebar {
+	font-size: @font-size-sidebar;
+
 	> * {
 		margin: 1em 0; // Expects margin collapsing. Alternative: 0.5em + flex layout.
 

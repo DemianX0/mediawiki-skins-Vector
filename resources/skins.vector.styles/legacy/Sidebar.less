@@ -14,3 +14,18 @@
 		}
 	}
 }
+
+// Order is significant: this must be included after MenuPortal.less
+.portal, /* FIXME: For ULS */
+.vector-menu-portal {
+	h3,
+	.vector-menu--heading {
+		font-size: @font-size-nav-main-heading;
+	}
+
+	.vector-menu--list {
+		li {
+			font-size: @font-size-portal-list-item;
+		}
+	}
+}
