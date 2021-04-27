@@ -114,11 +114,54 @@
 		display: inline-block;
 		content: 'ᐅ'; // '➢➽➼'
 		font-weight: normal;
-		transition: transform @transition-duration-base * 1.5 ease-in-out; // Chrome 36+
+		transition: transform @transition-duration-slide-in ease-in-out; // Chrome 36+
 
 		details[open] > & {
 			.transform( rotate( 90deg ) );
 		}
+	}
+}
+
+details > summary + * {
+	overflow: visible hidden;
+}
+
+/* Does not work in details element.
+details > summary + * > *:first-child {
+	transition: margin-top @transition-duration-slide-in ease-out;
+}
+
+details:not( [open] ) > summary + * > *:first-child {
+	margin-top: -100%;
+}
+*/
+
+// https://stackoverflow.com/a/38215801
+details[open] summary + * > :first-child {
+	animation: slide-down--margin-top @transition-duration-slide-in ease-out;
+}
+
+/*
+details[open] summary + * + * > *:first-child {
+	animation: slide-down--margin-top @transition-duration-slide-in ease-out;
+}
+
+@keyframes slide-down--transform {
+	0% {
+		transform: translateY( -100% );
+	}
+	100% {
+		transform: translateY( 0 );
+	}
+}
+*/
+
+@keyframes slide-down--margin-top {
+	0% {
+		margin-top: -100%;
+	}
+	100% {
+		margin-top: 0;
 	}
 }
 
