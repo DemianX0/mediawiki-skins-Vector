@@ -77,6 +77,21 @@
 	content: '';
 }
 
+/* Panel */
+.mw-sidebar {
+	> * {
+		margin: 1em 0; // Expects margin collapsing. Alternative: 0.5em + flex layout.
+
+		&:first-child {
+			margin-top: 0.5em;
+		}
+
+		> * {
+			padding: 0 1rem;
+		}
+	}
+}
+
 .mw-sidebar-toggles {
 	// Horizontal centering.
 	.flex-display();

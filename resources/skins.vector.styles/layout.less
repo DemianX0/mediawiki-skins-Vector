@@ -21,23 +21,26 @@
 // Header sizes defined in the description of T246170 and comment T246170#5957100
 //@padding-horizontal-header: unit( 30px / @font-size-root--px, em ); // 30/16 = 1.875em
 @padding-horizontal-header: @padding-left-sidebar + @padding-left-portal; // 1.5em + 0em = 1.5em -> 24px
-@padding-top-header: 0.625em;
-@padding-bottom-header: 0.3125em;
+@padding-top-header: unit( 5px / @font-size-root--px, em ); // 5/16 = 0.3125em
+@padding-bottom-header: unit( 5px / @font-size-root--px, em ); // 5/16 = 0.3125em
 @height-logo: unit( 50px / @font-size-root--px, em ); // Logo sizes: T245190. // 3.375em
-@height-header--wide: @height-header--inner + @padding-top-header + @padding-bottom-header; // 4.3125em
+@height-search-input: 2.2em; // Searchbox height, no padding, relative to @font-size-search-input--px.
+// Searchbox height, relative to root font-size.
+@height-searchbox: @height-search-input * @font-size-search-input--px / @font-size-root--px;
+@margin-horizontal-searchbox: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
+@margin-top-searchbox: unit( 5px / @font-size-root--px, em ); // 5/16 = 0.3125em
 // Space for personal menu row.
-@height-header-row: 2em;
-@height-header--medium: @height-header--inner + 2 * @padding-top-header + @height-header-row; // 6.625em
-// Space for SearchBox + personal menu row + menu items optionally wrapping.
-@height-header--narrow: @height-header--medium + @height-header-row + 0.5em; // 9.125em
-@height-header--micro: @height-header--narrow + @height-header-row; // 11.125em
+@height-header--wide: @height-logo + @padding-top-header + @padding-bottom-header; // 4em
+// Space for personal menu row + SearchBox.
+@height-header--medium: @height-header--wide + @height-searchbox + @margin-top-searchbox; // 6.1em
+// Space for personal menu row + SearchBox + menu items optionally wrapping.
+@height-header--narrow: @height-header--medium + @height-searchbox + @margin-top-searchbox; // 8.1999em
+@height-header--micro: @height-header--narrow + @height-searchbox; // 9.9875em
 @max-width-header--medium: unit( 960px / @font-size-root--px, em ); // <= 60em, 2 rows in header: logo + usermenu, search + uls.
 @max-width-header--narrow: unit( 560px / @font-size-root--px, em ); // <= 35em, 3 rows in header: logo, uls + usermenu, search.
 @max-width-header--micro: unit( 400px / @font-size-root--px, em ); // 4 rows in header: logo, usermenu, uls, search.
 //@max-width-sidebar-overlay: unit( 600px / @font-size-root--px, em );
 @max-width-sidebar-overlay: @max-width-header--narrow; // 35em -> 560px
-@margin-horizontal-search: unit( 40px / @font-size-root--px, em ); // 40/16 = 2.5em
-@margin-vertical-search: unit( 8px / @font-size-root--px, em ); // 8/16 = 0.5em
 
 // Font sizes
 @font-size-header--px: @font-size-root--px;
@@ -139,6 +142,7 @@ body {
 	top: 0;
 	left: 0;
 	right: 0;
+	.mixin-header-space( height );
 	.box-sizing( border-box );
 	padding: @padding-top-header @padding-horizontal-header @padding-bottom-header;
 	// Vertical centering of header elements (IE>=11), requires flex.
@@ -156,7 +160,6 @@ body {
 
 		@media ( max-width: @max-width-header--medium ) {
 			.flex-wrap();
-			padding-bottom: @padding-top-header;
 		}
 
 		@media ( max-width: @max-width-header--medium ) {
@@ -230,20 +233,21 @@ html:not( .skin-vector-new-search ) .mw-search {
 
 /* SearchBox in header */
 .skin-vector-new-search .mw-search {
-	padding: 0 @margin-horizontal-search;
+	padding: 0 @margin-horizontal-searchbox;
 	// margin-left: auto; // Horizontal centering on wide viewport.
 
 	// Take up as much space as possible and shrink if necessary.
 	.flex-size( 1, 1 );
 	min-width: unit( 200px / @font-size-root--px, em );  // Flex min size.
 	max-width: unit( 580px / @font-size-root--px, em );  // Flex max size.
+	//height: @height-searchbox;
 
 	@media ( max-width: @max-width-header--medium ) {
 		.flex-order( 2 );
 		min-width: unit( 100px / @font-size-root--px, em ); // Don't wrap into 3 rows at <725px.
 		padding: 0;
 		margin-left: 0;
-		margin-top: @margin-vertical-search;
+		margin-top: @margin-top-searchbox;
 	}
 
 	> form {
@@ -257,6 +261,7 @@ html:not( .skin-vector-new-search ) .mw-search {
 	// Unset UserAgent's font-family for consistent sizing with the rest of the header.
 	// UserAgents set a platform-specific font for <input> elements that might differ from the body font.
 	font-family: inherit;
+	height: @height-search-input;
 }
 
 /* Universal Language Selector */
@@ -264,12 +269,12 @@ html:not( .skin-vector-new-search ) .mw-search {
 	display: inline-block;
 
 	.skin-vector-new-search & {
-		margin-right: @margin-horizontal-search;
+		margin-right: @margin-horizontal-searchbox;
 
 		@media ( max-width: @max-width-header--medium ) {
 			.flex-order( 2 );
-			padding-left: @margin-horizontal-search;
-			margin-top: @margin-vertical-search;
+			padding-left: @margin-horizontal-searchbox;
+			margin-top: @margin-top-searchbox;
 			margin-right: 0;
 		}
 
@@ -295,12 +300,12 @@ html:not( .skin-vector-new-search ) .mw-search {
 		padding-left: 0;
 
 		@media ( max-width: @max-width-header--medium ) {
-			//padding-left: @margin-horizontal-search;
+			//padding-left: @margin-horizontal-searchbox;
 			padding-left: 1em;
 		}
 
 		@media ( max-width: @max-width-header--narrow ) {
-			margin-top: @margin-vertical-search;
+			margin-top: @margin-top-searchbox;
 		}
 
 		@media ( max-width: @max-width-header--micro ) {
@@ -418,7 +423,7 @@ html:not( .skin-vector-new-search ) .mw-search {
 
 	.mw-sidebar {
 		padding-right: @padding-left-sidebar; // Symmetric.
-		padding-bottom: 2 * @padding-top-sidebar;
+		padding-bottom: @padding-bottom-sidebar--overlay;
 		box-shadow: 0 0 4em 0.5em #222;
 	}
 }

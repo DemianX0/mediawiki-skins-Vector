@@ -113,9 +113,12 @@
 @max-width-sidebar: 13em;
 @max-width-sidebar--medium: 11em;
 @padding-top-sidebar: unit( 8px / @font-size-root--px, em ); // 0.5em
-@padding-bottom-sidebar: 2.5em; // 40px
-@padding-left-sidebar: 1.5em; // 24px
-@padding-right-sidebar: 1em; // 16px
+@padding-bottom-sidebar: unit( 32px / @font-size-root--px, em ); // 2em (+1em margin)
+@padding-bottom-sidebar--overlay: unit( 16px / @font-size-root--px, em ); // 1em
+@padding-left-sidebar--px: 8px;
+@padding-left-sidebar: unit( @padding-left-sidebar--px / @font-size-root--px, em ); // 0.5em
+@padding-right-sidebar: unit( 8px / @font-size-root--px, em ); // 0.5em
+@margin-horizontal-portal--rem: 1rem;
 @padding-left-portal: 0;
 @padding-right-portal: 0;
 
