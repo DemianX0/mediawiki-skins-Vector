@@ -50,7 +50,17 @@ class SkinVector extends SkinTemplate {
 	 * 		Failure to do that, will lead to fatal exception.
 	 */
 	public function __construct( $options = [] ) {
-		$options['responsive'] = true; // Add meta viewport tag for mobile viewing in readable (scaled) size
+		// Add meta viewport tag for mobile viewing in readable size at 1.0 scale.
+		$options['responsive'] = [
+			// Fixed and sticky elements on Chrome mobile are not properly fixed.
+			// Scrolling moves them off-screen, which could be used as a header-hiding feature,
+			// but the element is not even moved 100% off-screen, only partially,
+			// resulting in a confusing, partially-obscured header.
+			// Unfortunately disabling this awkward quirk comes at the price of disabling zoom out on mobile.
+			// https://stackoverflow.com/a/44680066
+			// 'minimum-scale=1' prevents fixed elements sliding off-screen on mobile.
+			'minimum-scale' => '1.0',
+		];
 		$options['templateDirectory'] = __DIR__ . '/templates';
 		parent::__construct( $options );
 	}
