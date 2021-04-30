@@ -99,6 +99,28 @@ body {
 	}
 }
 
+/*
+.mixin-header-space-subtract( @property, @all-space ) {
+	// Reserve space for the absolute positioned header and tabs.
+	@{property}: calc( @all-space ~'-' @height-header--wide );
+
+	&.skin-vector-new-search,
+	.skin-vector-new-search & {
+		@media ( max-width: @max-width-header--medium ) {
+			@{property}: calc( @all-space ~'-' @height-header--medium );
+		}
+
+		@media ( max-width: @max-width-header--narrow ) {
+			@{property}: calc( @all-space ~'-' @height-header--narrow );
+		}
+
+		@media ( max-width: @max-width-header--micro ) {
+			@{property}: calc( @all-space ~'-' @height-header--micro );
+		}
+	}
+}
+*/
+
 /* Header layout */
 .mw-header {
 	position: fixed;
@@ -343,6 +365,14 @@ html:not( .skin-vector-new-search ) .mw-search {
 		@background-color: #fcf5f0;
 		background-color: @background-color;
 		background-image: linear-gradient( to bottom, @background-color-base 0%, @background-color 10% 90%, @background-color-base 100% );
+	}
+}
+
+// Note: less-php miscompiles @support embedded within a CSS selector: loses the selector
+@supports ( position: sticky ) {
+	.mw-sidebar-container {
+		.position( sticky );
+		height: 100vh;
 	}
 }
 

@@ -10,7 +10,8 @@
 }}
 
 <div class="mw-sidebar-container">
-	<aside id="mw-sidebar" class="mw-sidebar">
+	<aside id="mw-sidebar" class="mw-sidebar" tabindex="-1">
+		{{! Scrollbar would add the element to the tab sequence. }}
 		<div class="mw-sidebar-toggles">
 			{{#data-sidebar-toggles}} {{> SidebarToggle}} {{/data-sidebar-toggles}}
 		</div>
