@@ -19,8 +19,9 @@
 // "#mw-sidebar-checkbox:not( :checked ) ~ .mw-header #mw-sidebar-button:before"
 
 // Header sizes defined in the description of T246170 and comment T246170#5957100
-//@padding-horizontal-header: unit( 30px / @font-size-root--px, em ); // 30/16 = 1.875em
-@padding-horizontal-header: @padding-left-sidebar + @padding-left-portal; // 1.5em + 0em = 1.5em -> 24px
+//@padding-horizontal-header: unit( 30px / @font-size-root--px, rem ); // 30/16 = 1.875em
+@padding-horizontal-header--px: 16px;
+@padding-horizontal-header: unit( @padding-horizontal-header--px / @font-size-root--px, rem );
 @padding-top-header: unit( 5px / @font-size-root--px, em ); // 5/16 = 0.3125em
 @padding-bottom-header: unit( 5px / @font-size-root--px, em ); // 5/16 = 0.3125em
 @height-logo: unit( 50px / @font-size-root--px, em ); // Logo sizes: T245190. // 3.375em

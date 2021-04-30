@@ -7,22 +7,22 @@
 // is present, the max-width design will appear. Without this class, max-width
 // design will not appear. In either case, the appearance should not be broken.
 .mw-page-container {
-	@max-width-page-container: unit( 1650px / @font-size-root--px, em ) + 2 * @padding-horizontal-page-container; // 103.125em + 2*1.875em = 106.875em -> 1710px
-	//@min-width-page-container: unit( 600px  / @font-size-root--px, em ); // 31.25em
+	@max-width-page-container: unit( 1650px / @font-size-root--px, rem ) + 2 * @padding-horizontal-content-container; // 103.125rem + 2*1.875rem = 106.875rem -> 1710px
+	//@min-width-page-container: unit( 600px / @font-size-root--px, rem ); // 31.25rem
 
 	// Workspace and content container
-	@max-width-workspace-container: unit( 1440px / @font-size-root--px, em ); // 90em -> 1440px
-	@min-width-content-centered: @max-width-workspace-container; // 90em -> 1440px
-	@max-width-content-container: unit( 960px  / @font-size-root--px, em ); // 60em -> 960px
-	@max-width-narrow-padding: unit( 600px / @font-size-root--px, em ); // 37.5em -> 600px
+	@max-width-workspace-container: unit( 1440px / @font-size-root--px, rem ); // 90rem -> 1440px
+	@min-width-content-centered: @max-width-content-container + 2 * ( @padding-horizontal-content-container + @max-width-sidebar ); // 90rem -> 1440px
+	@max-width-content-container: unit( 960px / @font-size-root--px, rem ); // 60rem -> 960px
+	@max-width-narrow-padding: unit( 600px / @font-size-root--px, rem ); // 37.5rem -> 600px
 
-	//@padding-horizontal-page-container: unit( 30px / @font-size-root--px, em ); // 1.875em -> 30px
-	@padding-horizontal-page-container: @padding-horizontal-header; // 1.7em -> 27.2px
+	//@padding-horizontal-content-container: unit( 30px / @font-size-root--px, rem ); // 1.875rem -> 30px
+	@padding-horizontal-content-container: @padding-horizontal-header; // 1rem -> 16px
 
 	// TODO: Remove @padding-content in variables.less when the max-width layout
 	// becomes the default layout since the value is different between legacy and
 	// latest.
-	@padding-content: 1.25em 0.5em 1.5em 0.5em;
+	@padding-content: 1.25rem 0.5rem 1.5rem 0.5rem;
 
 	// Style overrides for existing elements. Mostly overrides layout.less rules.
 	@background-color-page-container: @background-color-base;
@@ -97,7 +97,7 @@
 		flex-grow: 1; // Fill up the space otherwise special pages are very thin.
 		//margin-left: auto;
 		margin-right: auto;
-		@padding: @padding-horizontal-page-container;
+		@padding: @padding-horizontal-content-container;
 		padding-left: @padding;
 		padding-right: @padding;
 
