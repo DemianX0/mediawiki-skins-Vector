@@ -77,26 +77,6 @@ body when ( @is-using-placeholder = 0 ) {
 	.mixin-header-space( padding-top, @height-article-toolbar );
 }
 
-.mw-body,
-.parsoid-body {
-	direction: ltr;
-	padding: @padding-content;
-}
-
-.mw-body {
-	// Will be removed when we limit content width (T246420).
-	/* Border on top, left, and bottom side */
-	border: @border-width-base @border-style-base @border-color-content;
-	border-right-width: 0;
-	/* Merge the border with tabs' one (in their background image) */
-	margin-top: -@border-width-base;
-
-	.firstHeading {
-		/* Change the default from mediawiki.skinning CSS to let indicators float into heading area */
-		overflow: visible;
-	}
-}
-
 .mw-page-container {
 	// Absolute positioned elements (header + some extensions, gadgets)
 	// are positioned in the padding-box frame of this element:
@@ -325,21 +305,6 @@ html:not( .skin-vector-new-search ) .mw-search {
 	}
 }
 
-/* Content */
-.mw-body-content {
-	position: relative;
-	z-index: @z-index-base;
-	
-	.toc {
-		display: none; // TOC moved to sidebar.
-	}
-}
-
-.mw-indicators {
-	float: right;
-	z-index: @z-index-indicators;
-}
-
 /* Sidebar */
 .mw-sidebar-anchor {
 	position: absolute;
@@ -447,6 +412,41 @@ body:not( .mw-page-container ) #mw-sidebar-checkbox:checked {
 	// top defined above with mixin-header-space()
 	left: 0;
 	right: 0;
+}
+
+/* Content */
+.mw-body,
+.parsoid-body {
+	direction: ltr;
+	padding: @padding-content;
+}
+
+.mw-body {
+	// Will be removed when we limit content width (T246420).
+	/* Border on top, left, and bottom side */
+	border: @border-width-base @border-style-base @border-color-content;
+	border-right-width: 0;
+	/* Merge the border with tabs' one (in their background image) */
+	margin-top: -@border-width-base;
+
+	.firstHeading {
+		/* Change the default from mediawiki.skinning CSS to let indicators float into heading area */
+		overflow: visible;
+	}
+}
+
+.mw-body-content {
+	position: relative;
+	z-index: @z-index-base;
+	
+	.toc {
+		display: none; // TOC moved to sidebar.
+	}
+}
+
+.mw-indicators {
+	float: right;
+	z-index: @z-index-indicators;
 }
 
 /* Footer */
